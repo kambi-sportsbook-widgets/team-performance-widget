@@ -1,19 +1,54 @@
+main {
+   overflow-y: scroll;
+}
 
+.kw-team-wrapper {
+   overflow: hidden;
+   min-height: 110px;
+   font-weight: bold;
+   font-size: 125%;
+}
 
-kw-match-box {
-   max-width: 80px;
-   min-width: 30px;
+.kw-box-wrapper {
+   min-height: 60px;
+}
+
+.kw-match-box {
+   width: 100%;
+   max-width: 50px;
    height: 50px;
+   color: $color-text;
+   border-radius: 8px;
 }
 
-kw-match-box-win {
-   background-color: green;
+.kw-bar {
+   height: 20px;
+   border: solid 1px black;
 }
 
-kw-match-box-lose {
-   background-color: red;
+.kw-bar:first-child {
+   border-right: none;
+   border-radius-top-left: 8px;
+   border-radius-bottom-left: 8px;
 }
 
-kw-match-box-draw {
-   background-color: yellow;
+.kw-bar:second-child {
+   border-left: none;
+   border-radius-top-right: 8px;
+   border-radius-bottom-right: 8px;
+}
+
+.kw-match-win {
+   background: $color-win;
+   background: linear-gradient($color-win, darken($color-win, 20%));
+}
+
+.kw-match-lose {
+   background: $color-lose;
+   background: linear-gradient($color-lose, darken($color-lose, 20%));
+}
+
+.kw-match-draw {
+   background: $color-draw;
+   background: linear-gradient($color-draw, darken($color-draw, 20%));
 }

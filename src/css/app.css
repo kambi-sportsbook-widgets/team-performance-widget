@@ -774,14 +774,59 @@ Copyright (c) 2015 Daniel Eden
   animation-fill-mode: both;
 }
 
-header img {
-  display: block;
-  width: 35px;
+main {
+  overflow-y: scroll;
 }
 
-.vine iframe {
-  height: 100%;
-  min-height: 300px;
+.kw-team-wrapper {
+  overflow: hidden;
+  min-height: 110px;
+  font-weight: bold;
+  font-size: 125%;
+}
+
+.kw-box-wrapper {
+  min-height: 60px;
+}
+
+.kw-match-box {
+  width: 100%;
+  max-width: 50px;
+  height: 50px;
+  color: #ffffff;
+  border-radius: 8px;
+}
+
+.kw-bar {
+  height: 20px;
+  border: solid 1px black;
+}
+
+.kw-bar:first-child {
+  border-right: none;
+  border-radius-top-left: 8px;
+  border-radius-bottom-left: 8px;
+}
+
+.kw-bar:second-child {
+  border-left: none;
+  border-radius-top-right: 8px;
+  border-radius-bottom-right: 8px;
+}
+
+.kw-match-win {
+  background: #00cc33;
+  background: linear-gradient(#00cc33, #00661a);
+}
+
+.kw-match-lose {
+  background: #ec0000;
+  background: linear-gradient(#ec0000, #860000);
+}
+
+.kw-match-draw {
+  background: #cccc00;
+  background: linear-gradient(#cccc00, #666600);
 }
 
 

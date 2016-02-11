@@ -63,6 +63,7 @@
                               homeTeam: match.homeTeam,
                               awayTeam: match.awayTeam,
                               result: "lose",
+                              resultText: "L", //TODO internationalize this value
                            };
                            var result = match.result; //TODO can match.result be null? if so special handling is required
 
@@ -76,18 +77,23 @@
                               item.opponentName = match.homeTeam;
                            }
 
-                           if (result.homeScore === result.awayScore)
+                           if (result.homeScore === result.awayScore) {
                               item.result = "draw";
-                           else if (item.inHome && result.homeScore > result.awayScore)
+                              item.resultText = "D"; //TODO internationalize this value
+                           } else if (
+                              (item.inHome && result.homeScore > result.awayScore) ||
+                              (!item.inHome && result.awayScore > result.homeScore)
+                              ) {
                               item.result = "win";
-                           else if (!item.inHome && result.awayScore > result.homeScore)
-                              item.result = "win";
+                              item.resultText = "W";//TODO internationalize this value
+                           }
 
                            matchHistory.push(item)
                         }
                      });
                      teamsInfo.push({
                         name: team.name,
+                        performance: 0.8,
                         matchHistory: matchHistory,
                      });
                   });

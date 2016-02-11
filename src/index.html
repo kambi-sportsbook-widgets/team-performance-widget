@@ -53,17 +53,26 @@
    </header>
 
    <!--Main-->
-   <main class="vine l-flexbox l-vertical l-flexed l-pack-start l-pl-16 l-pb-16 l-pr-16">
-      <div class="l-flexbox l-vertical l-pb-12 l-pt-12 l-pl-16 l-pr-16"
-         ng-repeat="team in teams | limitTo : args.numberMatchesPerTeam">
-         <div class="l-flexbox l-vertical l-pack-start l-flex-3">
-            <div>{{team.name}}</div>
-            <div class="l-flexbox l-horizontal">
-               <div
-                  ng-class='l-flexbox kw-match-box kw-match-box-{{match.result}}'
-                  ng-repeat="match in team.matchHistory">
-                  a
-               </div>
+   <main class='vine l-flexbox l-vertical l-flexed l-pack-start l-pl-16 l-pb-16 l-pr-16'>
+      <div class='l-flexbox l-vertical l-mb-12 l-mt-12 l-pl-16 l-pr-16 kw-team-wrapper'
+         ng-repeat='team in teams | limitTo : args.numberMatchesPerTeam'>
+         <div>{{team.name}}</div>
+         <div class='l-flexbox l-horizontal l-pack-justify kw-box-wrapper'>
+            <div
+               class='l-flexbox l-m-6 l-pack-center l-align-center
+                kw-match-box kw-match-{{match.result}}'
+               ng-repeat='match in team.matchHistory'>
+               {{match.resultText}}
+            </div>
+         </div>
+         <div class='l-flexbox l-horizontal l-pack-center l-m-6'>
+            <div class='l-flexbox kw-bar kw-match-win'
+               ng-style='{"flex-grow": team.performance}'>
+            </div>
+            <div class='l-flexbox kw-bar'
+               ng-style='{"flex-grow": (1-team.performance)}'></div>
+            <div ng-style='{"flex-grow": 0 }'>
+               &nbsp&nbsp{{team.performance}}%
             </div>
          </div>
       </div>
