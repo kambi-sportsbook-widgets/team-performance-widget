@@ -1,0 +1,46 @@
+{
+   "name": "team-performance-widget",
+   "version": "0.1.0",
+   "description": "A widget to display team performance indicators from the last matches",
+   "main": "dist/index.html",
+   "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1",
+      "changelog": "changelog kambi-sportsbook-widgets/seed-project-widget all -m > CHANGELOG.md"
+   },
+   "repository": {
+      "type": "git",
+      "url": "git+ssh://git@github.com:kambi-sportsbook-widgets/vine-widget.git"
+   },
+   "devDependencies": {
+      "changelog": "latest",
+      "del": "^2.0.2",
+      "foreach": "^2.0.5",
+      "gulp": "^3.9.0",
+      "gulp-awspublish": "^3.0.1",
+      "gulp-concat": "^2.6.0",
+      "gulp-doxx": "0.0.5",
+      "gulp-file": "^0.2.0",
+      "gulp-filter": "^3.0.1",
+      "gulp-foreach": "^0.1.0",
+      "gulp-html-replace": "^1.5.4",
+      "gulp-install": "^0.6.0",
+      "gulp-jshint": "^1.11.2",
+      "gulp-cssnano": "^2.1.0",
+      "gulp-notify": "^2.2.0",
+      "gulp-rename": "^1.2.2",
+      "gulp-replace": "^0.5.4",
+      "gulp-ruby-sass": "^2.0.5",
+      "gulp-sourcemaps": "^1.6.0",
+      "gulp-strip-debug": "^1.0.2",
+      "gulp-uglify": "^1.4.2",
+      "json_merger": "^1.0.0",
+      "kambi-sportsbook-widget-core-translate": "git+ssh://git@github.com/kambi-sportsbook-widgets/widget-core-translate.git",
+      "kambi-sportsbook-widget-library": "git+ssh://git@github.com/kambi-sportsbook-widgets/widget-library.git",
+      "path": "^0.12.7"
+   },
+   "license": "ISC",
+   "bugs": {
+      "url": "https://github.com/kambi-sportsbook-widgets/vine-widget/issues"
+   },
+   "homepage": "https://github.com/kambi-sportsbook-widgets/vine-widget#readme"
+}
