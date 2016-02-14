@@ -774,19 +774,35 @@ Copyright (c) 2015 Daniel Eden
   animation-fill-mode: both;
 }
 
-main {
-  overflow-y: scroll;
+.kw-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  overflow: auto;
 }
 
 .kw-team-wrapper {
+  position: relative;
+  /*needed for the checkbox to use position absolute*/
   overflow: hidden;
-  min-height: 110px;
+  min-height: 120px;
   font-weight: bold;
   font-size: 125%;
+  border-bottom: solid 2px #fefefe;
+}
+
+.kw-team-wrapper:hover {
+  background-color: #dfdfdf;
 }
 
 .kw-box-wrapper {
   min-height: 60px;
+  -ms-flex-pack: distribute;
+  -webkit-justify-content: space-around;
+  -moz-justify-content: space-around;
+  justify-content: space-around;
 }
 
 .kw-match-box {
@@ -795,6 +811,7 @@ main {
   height: 50px;
   color: #ffffff;
   border-radius: 8px;
+  margin: 3px;
 }
 
 .kw-bar {
@@ -804,14 +821,14 @@ main {
 
 .kw-bar:first-child {
   border-right: none;
-  border-radius-top-left: 8px;
-  border-radius-bottom-left: 8px;
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
 }
 
-.kw-bar:second-child {
+.kw-bar:nth-child(2) {
   border-left: none;
-  border-radius-top-right: 8px;
-  border-radius-bottom-right: 8px;
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
 }
 
 .kw-match-win {
@@ -827,6 +844,64 @@ main {
 .kw-match-draw {
   background: #cccc00;
   background: linear-gradient(#cccc00, #666600);
+}
+
+.kw-accordion {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 1;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  cursor: pointer;
+}
+
+.kw-detail {
+  max-height: 0;
+  transition: max-height 0.5s ease-in-out;
+  overflow: hidden;
+}
+.kw-detail table {
+  width: 100%;
+}
+.kw-detail th {
+  font-weight: bold;
+  background-color: #dfdfdf;
+  text-align: center;
+}
+.kw-detail td {
+  text-align: center;
+}
+.kw-detail tr {
+  border-top: 1px solid #acacac;
+  border-bottom: 1px solid #acacac;
+}
+.kw-detail tbody tr:nth-child(odd) {
+  background-color: #f1f1f1;
+}
+.kw-detail tbody tr:nth-child(even) {
+  background-color: #fefefe;
+}
+
+.kw-accordion:checked ~ .kw-detail {
+  max-height: 500px;
+                   /*auto doesn't work here, see:
+http://stackoverflow.com/questions/3508605/how-can-i-transition-height-0-to-height-auto-using-css
+*/
+}
+
+i {
+  font-size: 150%;
+  transform: rotate(0);
+  transition: transform 0.5s ease-in-out;
+}
+
+.kw-accordion:checked ~ div i {
+  transform: rotate(180deg);
 }
 
 

@@ -87,6 +87,10 @@
          .pipe(gulp.dest('./src/css'));
    });
 
+   gulp.task('watch-scss', [], function(){
+      gulp.watch('./src/scss/**/*.scss', ['scss']);
+   });
+
    gulp.task('css', ['scss'], function () {
       return gulp.src('./src/css/**/*.css')
          .pipe(concat('app.css'))
