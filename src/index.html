@@ -2,69 +2,71 @@
 <html ng-app="teamPerformanceWidget">
 <head>
    <title>Team Performance Widget</title>
-   <meta charset="UTF-8">
-   <meta name="apple-mobile-web-app-title" content="Kambi">
-   <meta name="description" content="Team Performance Widget">
-   <meta name="HandheldFriendly" content="True">
-   <meta name="MobileOptimized" content="320">
-   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+   <meta charset='UTF-8'>
+   <meta name='apple-mobile-web-app-title' content='Kambi'>
+   <meta name='description' content='Team Performance Widget'>
+   <meta name='HandheldFriendly' content='True'>
+   <meta name='MobileOptimized' content='320'>
+   <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui'>
 
-   <meta name="fragment" content="!"/>
+   <meta name='fragment' content='!'/>
 
-   <meta name="mobile-web-app-capable" content="yes">
-   <meta name="apple-mobile-web-app-capable" content="yes">
-   <meta name="apple-mobile-web-app-status-bar-style" content="black">
-   <meta name="apple-mobile-web-app-title" content="">
+   <meta name='mobile-web-app-capable' content='yes'>
+   <meta name='apple-mobile-web-app-capable' content='yes'>
+   <meta name='apple-mobile-web-app-status-bar-style' content='black'>
+   <meta name='apple-mobile-web-app-title' content=''>
 
-   <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-   <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900"/>
+   <link rel='stylesheet' href='http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css'>
+   <link rel='stylesheet' type='text/css' href='//fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900'/>
    <!-- build:css -->
    <!-- This section will be replaced in the gulp build process -->
-   <link rel="stylesheet" type="text/css" href="css/app.css"/>
+   <link rel='stylesheet' type='text/css' href='css/app.css'/>
    <!-- endbuild -->
 
-   <script src="//code.jquery.com/jquery-2.2.0.min.js"></script>
-   <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
-   <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.js"></script>
-   <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular-animate.js"></script>
-   <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular-sanitize.js"></script>
+   <script src='//code.jquery.com/jquery-2.2.0.min.js'></script>
+   <script src='//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js'></script>
+   <script src='//ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.js'></script>
+   <script src='//ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular-animate.js'></script>
+   <script src='//ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular-sanitize.js'></script>
 
 
-   <script src="js/mockdata.js"></script> <!-- remove once we can get real data from the kambi API -->
+   <script src='js/mockdata.js'></script> <!-- remove once we can get real data from the kambi API -->
 
    <!-- build:js -->
    <!-- This section will be replaced in the gulp build process -->
-   <script src="js/app.js"></script>
-   <script src="js/controllers/appController.js"></script>
-   <script src="../node_modules/kambi-sportsbook-widget-library/src/js/controllers/widgetCoreController.js"></script>
-   <script src="../node_modules/kambi-sportsbook-widget-library/src/js/services/kambiWidgetService.js"></script>
-   <script src="../node_modules/kambi-sportsbook-widget-library/src/js/services/kambiAPIService.js"></script>
-   <script src="../node_modules/kambi-sportsbook-widget-library/src/js/services/coreUtilsService.js"></script>
-   <script src="../node_modules/kambi-sportsbook-widget-core-translate/dist/translate.js"></script>
+   <script src='js/app.js'></script>
+   <script src='js/controllers/appController.js'></script>
+   <script src='../node_modules/kambi-sportsbook-widget-library/src/js/controllers/widgetCoreController.js'></script>
+   <script src="../node_modules/kambi-sportsbook-widget-library/src/js/filters/startFrom.js"></script>
+   <script src='../node_modules/kambi-sportsbook-widget-library/src/js/services/kambiWidgetService.js'></script>
+   <script src='../node_modules/kambi-sportsbook-widget-library/src/js/services/kambiAPIService.js'></script>
+   <script src='../node_modules/kambi-sportsbook-widget-library/src/js/services/coreUtilsService.js'></script>
+   <script src="../node_modules/kambi-sportsbook-widget-library/src/js/directives/kambiPaginationDirective.js"></script>
+   <script src='../node_modules/kambi-sportsbook-widget-core-translate/dist/translate.js'></script>
    <!-- endbuild -->
-   <script src="https://c3-static.kambi.com/sb-mobileclient/widget-api/1.0.0.7/kambi-widget-api.js"></script>
+   <script src='https://c3-static.kambi.com/sb-mobileclient/widget-api/1.0.0.7/kambi-widget-api.js'></script>
 </head>
-<body class="kw-body" ng-controller="appController">
-<div class="l-flexbox l-vertical kw-wrapper" >
-   <div style='position:relative;'>
-      <header class="kw-header l-pl-16 l-flexbox l-horizontal">
+<body class='kw-body' ng-controller='appController'>
+<div class='l-flexbox l-vertical kw-wrapper'>
+   <div style='position:relative;' get-height>
+      <header class='kw-header l-pl-16 l-flexbox l-horizontal'>
          <div>{{args.title}}</div>
       </header>
       <main class='l-flexbox l-vertical l-flexed l-pack-start l-pb-16'>
          <div
-            class='l-flexbox l-vertical l-p-16 kw-team-wrapper'
-            ng-repeat='team in teams | limitTo : args.numberMatchesPerTeam'>
+            class='l-flexbox l-vertical kw-team-wrapper l-pt-12 l-pb-12'
+            ng-repeat='team in teams | startFrom: startFrom | limitTo : args.listLimit'>
 
-            <input class='kw-accordion' type='checkbox' checked/>
-            <div class='l-flexbox l-horizontal l-align-center'>
-               <div class='l-flex-1'>{{team.name}}</div>
-               <i class='ion-chevron-up'></i>
+            <input class='kw-accordion' type='checkbox' ng-model='team.detailed' ng-change='adjustHeight()'/>
+            <div class='l-flexbox l-horizontal l-p-6 l-pl-16 l-pr-16 l-align-center'>
+               <div class='l-flex-1 kw-title'>{{team.name}}</div>
+               <i class='ion-chevron-up kw-expand-icon'></i>
             </div>
 
 
             <!-- boxes all matches -->
-            <div class='l-flex-1'>All Games</div>
-            <div class='l-flexbox l-horizontal kw-box-wrapper'>
+            <div class='l-flex-1 l-p-6 l-pl-16 l-pr-16'>All Games</div>
+            <div class='l-flexbox l-horizontal l-p-6 l-pl-16 l-pr-16 kw-box-wrapper'>
                <div
                   title='{{match.tooltipText}}'
                   class='l-flexbox l-pack-center l-align-center
@@ -75,7 +77,7 @@
             </div>
 
             <!-- performance bar -->
-            <div class='l-flexbox l-horizontal l-pack-center l-mt-6 l-mb-6'>
+            <div class='l-flexbox l-horizontal l-pack-center l-p-6 l-pl-16 l-pr-16'>
                <div class='l-flexbox kw-bar kw-match-win'
                   ng-style='{"flex-grow": team.performance}'>
                </div>
@@ -87,10 +89,10 @@
             </div>
 
             <!-- hidden part of the team information -->
-            <div class='l-flexbox l-vertical l-pack-center l-mt-6 l-mb-6 kw-detail'>
+            <div class='l-flexbox l-vertical l-pack-center kw-detail'>
                <!-- boxes home matches -->
-               <div class='l-flex-1'>Home Games</div>
-               <div class='l-flexbox l-horizontal kw-box-wrapper'>
+               <div class='l-flex-1 l-p-6 l-pl-16 l-pr-16'>Home Games</div>
+               <div class='l-flexbox l-horizontal l-p-6 l-pl-16 l-pr-16 kw-box-wrapper'>
                   <div
                      title='{{match.tooltipText}}'
                      class='l-flexbox l-pack-center l-align-center
@@ -101,8 +103,8 @@
                </div>
 
                <!-- boxes away matches -->
-               <div class='l-flex-1'>Away Games</div>
-               <div class='l-flexbox l-horizontal kw-box-wrapper'>
+               <div class='l-flex-1 l-p-6 l-pl-16 l-pr-16'>Away Games</div>
+               <div class='l-flexbox l-horizontal l-p-6 l-pl-16 l-pr-16 kw-box-wrapper'>
                   <div
                      title='{{match.tooltipText}}'
                      class='l-flexbox l-pack-center l-align-center
@@ -112,25 +114,50 @@
                   </div>
                </div>
 
-               <table class='l-p-6'>
-                  <thead>
-                     <!-- TODO internationalize this -->
-                     <th>Date</th>
-                     <th>Home</th>
-                     <th>Score</th>
-                     <th>Away</th>
-                  </thead>
-                  <tbody>
-                     <tr ng-repeat='match in team.matchHistory'>
-                        <td>{{match.dateText}}</td>
-                        <td>{{match.homeTeam}}</td>
-                        <td>{{match.homeScore}} - {{match.awayScore}}</td>
-                        <td>{{match.awayTeam}}</td>
-                     </tr>
-                  </tbody>
+               <div class='l-flexbox l-vertical kw-table'>
+                  <div class='kw-table-header kw-border-bottom l-p-6 l-pl-16 l-pr-16 l-flexbox l-horizontal l-align-center'>
+                     <div data-item-attr='date' class='l-flex-4 text-truncate ng-binding ng-scope'>
+                        Date
+                     </div>
+                     <div data-item-attr='home' class='l-flex-5 text-truncate ng-binding ng-scope'>
+                        Home
+                     </div>
+                     <div data-item-attr='score' class='l-flex-2 text-truncate ng-binding ng-scope'>
+                        Score
+                     </div>
+                     <div data-item-attr='away' class='l-flex-5 text-truncate ng-binding ng-scope'>
+                        Away
+                     </div>
+                  </div>
+                  <div
+                     class='kw-table-item l-p-6 l-pl-16 l-pr-16 l-flexbox l-horizontal l-align-center ng-scope'
+                     ng-repeat='match in team.matchHistory'>
+
+                     <div data-item-attr='date' class='l-flex-4 ng-binding ng-scope'>
+                        {{match.dateText}}
+                     </div>
+                     <div data-item-attr='home' class='l-flex-5 ng-binding ng-scope'>
+                        {{match.homeTeam}}
+                     </div>
+                     <div data-item-attr='score' class='l-flex-2 ng-binding ng-scope'>
+                        {{match.homeScore}} - {{match.awayScore}}
+                     </div>
+                     <div data-item-attr='away' class='l-flex-5 ng-binding ng-scope'>
+                        {{match.awayTeam}}
+                     </div>
+                  </div>
+               </div>
             </div>
          </div>
       </main>
+      <footer class="kw-footer">
+         <kambi-pagination-directive class="kw-pagination l-flexbox l-pack-center l-align-center"
+                                     list="teams"
+                                     pages="pages"
+                                     start-from="startFrom"
+                                     list-limit="args.listLimit">
+         </kambi-pagination-directive>
+      </footer>
    </div>
 </div>
 </body>
