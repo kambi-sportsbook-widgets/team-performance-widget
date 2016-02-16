@@ -12,8 +12,7 @@
          awayTeam: match.awayTeam,
          homeScore: match.result.homeScore,
          awayScore: match.result.awayScore,
-         result: 'lose',
-         resultText: 'L', //TODO internationalize this value
+         result: 'lose'
       };
       var d = item.date;
       var day = d.getUTCDate() +'';
@@ -42,13 +41,11 @@
 
       if (result.homeScore === result.awayScore) {
          item.result = 'draw';
-         item.resultText = 'D'; //TODO internationalize this value
       } else if (
          (item.inHome && result.homeScore > result.awayScore) ||
          (!item.inHome && result.awayScore > result.homeScore)
          ) {
          item.result = 'win';
-         item.resultText = 'W';//TODO internationalize this value
       }
       item.tooltipText = 'vs ' + item.opponentName + ' - ' + item.teamScore + 'x' + item.opponentScore;
       return item;
@@ -152,15 +149,12 @@
             listLimit: 3, // Set the list limit value to be used for pagination
          };
 
-         // The current height of the widget
-         $scope.currentHeight = 450;
-
          $scope.Math = window.Math; //to be able to use Math functions in the template
 
          $scope.startFrom = 0;
          $scope.teams = [];
 
-         $scope.adjustHeight = function() {
+         $scope.adjustHeight = function(a,b,c,d,e) {
             //TODO maybe try to dinamically get these values?
             //might not be possible to get detailedViewHeight due to the accordion animation
             var headerHeight = 40;
@@ -184,7 +178,7 @@
                url: './mockdata.json'
             }).then(function(response) {
                var teams = response.data.tournaments[0].teams;
-               var teamsInfo = parseTeamsInfo(teams);
+               var teamsInfo = parseTeamsInfo(teams, $scope.args.numberMatchesPerTeam);
                $scope.teams = teamsInfo;
                $scope.setPages($scope.teams, $scope.args.listLimit);
                $scope.adjustHeight();

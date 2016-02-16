@@ -828,14 +828,6 @@ Copyright (c) 2015 Daniel Eden
   font-weight: bold;
 }
 
-.kw-box-wrapper {
-  min-height: 60px;
-  -ms-flex-pack: distribute;
-  -webkit-justify-content: space-around;
-  -moz-justify-content: space-around;
-  justify-content: space-around;
-}
-
 .kw-match-box {
   width: 100%;
   max-width: 50px;

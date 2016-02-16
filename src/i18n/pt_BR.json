@@ -1,3 +1,12 @@
 {
-   "TitleStr": "Título"
+   "win": "V",
+   "draw": "E",
+   "lose": "D",
+   "All Games": "Todos os Jogos",
+   "Home Games": "Jogos Dentro de Casa",
+   "Away Games": "Jogos Fora de Casa",
+   "Date": "Data",
+   "Home": "Casa",
+   "Away": "Fora",
+   "Score": "Pontuação"   
 }

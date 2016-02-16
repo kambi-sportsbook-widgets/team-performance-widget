@@ -65,14 +65,14 @@
 
 
             <!-- boxes all matches -->
-            <div class='l-flex-1 l-p-6 l-pl-16 l-pr-16'>All Games</div>
-            <div class='l-flexbox l-horizontal l-p-6 l-pl-16 l-pr-16 kw-box-wrapper'>
+            <div class='l-flex-1 l-p-6 l-pl-16 l-pr-16'>{{"All Games" | translate}}</div>
+            <div class='l-flexbox l-horizontal l-p-6 l-pl-16 l-pr-16'>
                <div
                   title='{{match.tooltipText}}'
                   class='l-flexbox l-pack-center l-align-center
                    kw-match-box kw-match-{{match.result}}'
                   ng-repeat='match in team.matchHistory'>
-                  {{match.resultText}}
+                  {{match.result | translate}}
                </div>
             </div>
 
@@ -91,42 +91,42 @@
             <!-- hidden part of the team information -->
             <div class='l-flexbox l-vertical l-pack-center kw-detail'>
                <!-- boxes home matches -->
-               <div class='l-flex-1 l-p-6 l-pl-16 l-pr-16'>Home Games</div>
-               <div class='l-flexbox l-horizontal l-p-6 l-pl-16 l-pr-16 kw-box-wrapper'>
+               <div class='l-flex-1 l-p-6 l-pl-16 l-pr-16'>{{"Home Games" | translate}}</div>
+               <div class='l-flexbox l-horizontal l-p-6 l-pl-16 l-pr-16'>
                   <div
                      title='{{match.tooltipText}}'
                      class='l-flexbox l-pack-center l-align-center
                       kw-match-box kw-match-{{match.result}}'
                      ng-repeat='match in team.matchHistoryHome'>
-                     {{match.resultText}}
+                     {{match.result | translate}}
                   </div>
                </div>
 
                <!-- boxes away matches -->
-               <div class='l-flex-1 l-p-6 l-pl-16 l-pr-16'>Away Games</div>
-               <div class='l-flexbox l-horizontal l-p-6 l-pl-16 l-pr-16 kw-box-wrapper'>
+               <div class='l-flex-1 l-p-6 l-pl-16 l-pr-16'>{{"Away Games" | translate}}</div>
+               <div class='l-flexbox l-horizontal l-p-6 l-pl-16 l-pr-16'>
                   <div
                      title='{{match.tooltipText}}'
                      class='l-flexbox l-pack-center l-align-center
                       kw-match-box kw-match-{{match.result}}'
                      ng-repeat='match in team.matchHistoryAway'>
-                     {{match.resultText}}
+                     {{match.result | translate}}
                   </div>
                </div>
 
                <div class='l-flexbox l-vertical kw-table'>
                   <div class='kw-table-header kw-border-bottom l-p-6 l-pl-16 l-pr-16 l-flexbox l-horizontal l-align-center'>
                      <div data-item-attr='date' class='l-flex-4 text-truncate ng-binding ng-scope'>
-                        Date
+                        {{"Date" | translate}}
                      </div>
                      <div data-item-attr='home' class='l-flex-5 text-truncate ng-binding ng-scope'>
-                        Home
+                        {{"Home" | translate}}
                      </div>
                      <div data-item-attr='score' class='l-flex-2 text-truncate ng-binding ng-scope'>
-                        Score
+                        {{"Score" | translate}}
                      </div>
                      <div data-item-attr='away' class='l-flex-5 text-truncate ng-binding ng-scope'>
-                        Away
+                        {{"Away" | translate}}
                      </div>
                   </div>
                   <div
@@ -155,7 +155,8 @@
                                      list="teams"
                                      pages="pages"
                                      start-from="startFrom"
-                                     list-limit="args.listLimit">
+                                     list-limit="args.listLimit"
+                                     ng-click="adjustHeight()">
          </kambi-pagination-directive>
       </footer>
    </div>

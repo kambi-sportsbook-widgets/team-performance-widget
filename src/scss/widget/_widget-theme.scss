@@ -27,11 +27,6 @@
    font-weight: bold;
 }
 
-.kw-box-wrapper {
-   min-height: 60px;
-   @include box-pack(space-around);
-}
-
 .kw-match-box {
    width: 100%;
    max-width: 50px;
