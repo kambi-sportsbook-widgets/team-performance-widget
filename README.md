@@ -1,22 +1,19 @@
 # vine-widget
 
-A widget to display a Vine post via the settings configuration
+A widget to display the performance indicators of teams
 
 ## Configuration example:
 
 __`client-widgets.js`__
 
 ```json
-
-...
 {
     "order": 1,
     "widgetId": "Seed widget",
     "args": {
-        "vine": {
-            "title": "FC Barcelona",
-            "href": "https://vine.co/v/iJ0OLlz3OlH"
-        }
+        "title": "Football - Team Performance Indicator",
+        "numberMatchesPerTeam": 6,
+        "listLimit": 3
     }
 },
 ...
@@ -26,6 +23,19 @@ __`client-widgets.js`__
 Please visit http://widgets.kambi.com/tool/ for more info
 
 ### The widget accepts the following parameter/s:
+
+ - title [String]
+
+ The title to show on the header of the widgets
+
+ - numberMatchesPerTeam [Number]
+
+ Maximum number of matches to show per team
+
+ - listLimit [Number]
+
+ Number of teams to show per page
+
 
 # Other tools
 
