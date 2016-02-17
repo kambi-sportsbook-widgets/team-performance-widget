@@ -154,7 +154,7 @@
          $scope.startFrom = 0;
          $scope.teams = [];
 
-         $scope.adjustHeight = function(a,b,c,d,e) {
+         $scope.adjustHeight = function() {
             //TODO maybe try to dinamically get these values?
             //might not be possible to get detailedViewHeight due to the accordion animation
             var headerHeight = 40;
