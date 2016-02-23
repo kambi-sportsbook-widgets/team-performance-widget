@@ -1,51 +1,149 @@
 <!doctype html>
-<html ng-app="vineWidget">
+<html ng-app="teamPerformanceWidget">
 <head>
-   <title>Vine Widget</title>
-   <meta charset="UTF-8">
-   <meta name="apple-mobile-web-app-title" content="Kambi">
-   <meta name="description" content="Vine Widget">
-   <meta name="HandheldFriendly" content="True">
-   <meta name="MobileOptimized" content="320">
-   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+   <title>Team Performance Widget</title>
+   <meta charset='UTF-8'>
+   <meta name='apple-mobile-web-app-title' content='Kambi'>
+   <meta name='description' content='Team Performance Widget'>
+   <meta name='HandheldFriendly' content='True'>
+   <meta name='MobileOptimized' content='320'>
+   <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui'>
 
-   <meta name="fragment" content="!"/>
+   <meta name='fragment' content='!'/>
 
-   <meta name="mobile-web-app-capable" content="yes">
-   <meta name="apple-mobile-web-app-capable" content="yes">
-   <meta name="apple-mobile-web-app-status-bar-style" content="black">
-   <meta name="apple-mobile-web-app-title" content="">
+   <meta name='mobile-web-app-capable' content='yes'>
+   <meta name='apple-mobile-web-app-capable' content='yes'>
+   <meta name='apple-mobile-web-app-status-bar-style' content='black'>
+   <meta name='apple-mobile-web-app-title' content=''>
 
-   <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-   <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900"/>
+   <link rel='stylesheet' href='http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css'>
+   <link rel='stylesheet' type='text/css' href='//fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900'/>
    <link rel="stylesheet" href="css/app.min.css">
 
-   <script src="//code.jquery.com/jquery-2.2.0.min.js"></script>
-   <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
-   <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
-   <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular-animate.js"></script>
-   <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular-sanitize.min.js"></script>
+   <script src='//code.jquery.com/jquery-2.2.0.min.js'></script>
+   <script src='//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js'></script>
+   <script src='//ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.js'></script>
+   <script src='//ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular-animate.js'></script>
+   <script src='//ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular-sanitize.js'></script>
+
+
    <script src="js/app.min.js"></script>
-   <script src="https://c3-static.kambi.com/sb-mobileclient/widget-api/1.0.0.7/kambi-widget-api.js"></script>
+   <script src='https://c3-static.kambi.com/sb-mobileclient/widget-api/1.0.0.7/kambi-widget-api.js'></script>
 </head>
-<body class="kw-body">
-<div class="kw-card l-flexbox l-vertical l-expander" ng-controller="appController">
+<body class='kw-body' ng-controller='appController'>
+<div class='l-flexbox l-vertical kw-wrapper'>
+   <div style='position:relative;' get-height>
+      <header class='kw-header l-pl-16 l-flexbox l-horizontal'>
+         <div>{{args.title}}</div>
+      </header>
+      <main class='l-flexbox l-vertical l-flexed l-pack-start l-pb-16'>
+         <div
+            class='l-flexbox l-vertical kw-team-wrapper l-pt-12 l-pb-12'
+            ng-repeat='team in teams | startFrom: startFrom | limitTo : args.listLimit'>
 
-   <!--Header-->
-   <header class="kw-header l-pl-16 l-flexbox l-horizontal">
-      <div>{{args.vine.title}}</div>
-      <div class="l-flexed"></div>
-      <div class="l-flexbox l-pack-center l-align-center l-pr-16">
-         <a target="_blank" href="https://vine.co">
-         <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB2aWV3Qm94PSIwIDAgMTI2LjIgNTAiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDEyNi4yIDUwOyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+PHN0eWxlIHR5cGU9InRleHQvY3NzIj4uc3Qwe2ZpbGw6IzAwQjM4OTt9PC9zdHlsZT48Zz48Zz48Zz48cGF0aCBjbGFzcz0ic3QwIiBkPSJNNTMuMywxNS42YzMsMCw1LTIuMiw1LTUuMWMwLTIuOS0yLTUuMS01LTUuMWMtMywwLTUsMi01LDUuMUM0OC4zLDEzLjUsNTAuMywxNS42LDUzLjMsMTUuNnoiLz48L2c+PC9nPjxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik0xMjUuMSw0MC44Yy0yLDEuNC00LjUsMi40LTguMSwyLjRjLTMuNCwwLTYuMi0xLjQtNy42LTQuNGM5LjQsMC41LDE2LjctMy4zLDE2LjctMTAuMmMwLTUuMi00LTkuMS0xMC4zLTkuMWMtOC40LDAtMTIuOSw1LjUtMTQuOCwxMy40Yy0wLjksNC4xLTIuNyw5LjgtNS44LDkuOGMtMi4zLDAtMi40LTIuOS0yLjQtNS4zYzAtMS45LDAtNS4yLDAtNy44YzAtNi43LTMtOS44LTguOS05LjhjLTUuMywwLTgsNC05LjQsNy4zaC0wLjJsLTAuMS02LjVjLTEuNywwLTYuMywwLTYuMywwbC0wLjIsMy4yYy0wLjcsNy4zLTMuMywxOS04LjEsMTljLTIuNSwwLTMuMS0zLjctMy4xLTYuN1YyMC4zaC02LjRjLTMuNywzLTguNSw0LjctMTEuOSw0LjZjLTcuMi0wLjEtMTAuNS00LjgtMTAuNS0xMi4yYzAtMy42LDEuOC01LjksMy44LTUuOWMxLjksMCwzLjQsMS43LDMuNCw1LjFjMCwyLTAuNSw0LjEtMC45LDUuNGMxLjIsMi4xLDIuOSwzLDYuNywyLjNjMS4yLTIuNSwxLjktNS41LDEuOS04LjRDNDIuOCw0LDM4LjYsMCwzMS42LDBjLTcuMSwwLTExLjQsNS43LTExLjQsMTNjMCw3LjIsMy41LDEzLDkuMSwxNS44Yy0yLjMsNC43LTUuNyw5LjYtOC44LDEyLjdDMTQuOSwzNC42LDEwLjIsMjQuOSw4LjEsNy4xSDBjMy4xLDI5LjEsMTQuNyw0MC4zLDE3LjcsNDIuMWMxLjcsMSwzLjIsMSw0LjcsMC4xYzIuNC0xLjQsMTAtMTAsMTQtMTguNmMzLjYsMCw5LTEuMiwxMi40LTMuOGwwLjEsOC44YzAsOS40LDMuNCwxNCw5LDE0YzQuNCwwLDguNi00LjMsMTAuMy05LjdoMC4xbDAsOC4zbDcuMywwVjQwYzAtOS4zLDIuNS0xMy42LDYuMy0xMy42YzIuMiwwLDMuNywxLjQsMy43LDUuMWMwLDIuMiwwLDUuMiwwLDcuNGMwLDYuMywyLjgsMTAuOSw3LjgsMTAuOWM0LjYsMCw3LjctNC4xLDkuMi04LjFjMyw1LjcsOC42LDguMSwxMy41LDguMWMzLjcsMCw2LjctMC45LDktMi4xVjQwLjh6IE0xMTUuMSwyNi4yYzIuMSwwLDMuNiwwLjYsMy43LDIuNGMwLjIsMi43LTIuNSw1LjMtMTAuMSw1LjVDMTA5LDI5LjYsMTExLjYsMjYuMiwxMTUuMSwyNi4yeiIvPjwvZz48L3N2Zz4=" alt=""></a>
-      </div>
-   </header>
+            <input class='kw-accordion' type='checkbox' ng-model='team.detailed' ng-change='adjustHeight()'/>
+            <div class='l-flexbox l-horizontal l-p-6 l-pl-16 l-pr-16 l-align-center'>
+               <div class='l-flex-1 kw-title'>{{team.name}}</div>
+               <i class='ion-chevron-up kw-expand-icon'></i>
+            </div>
 
-   <!--Main-->
-   <main class="l-flexbox l-vertical l-flexed l-pack-start l-pl-16 l-pb-16 l-pr-16">
-      <iframe ng-src="{{args.vine.href}}" width="600" height="600" frameborder="0"></iframe>
-   </main>
 
+            <!-- boxes all matches -->
+            <div class='l-flex-1 l-p-6 l-pl-16 l-pr-16'>{{"All Games" | translate}}</div>
+            <div class='l-flexbox l-horizontal l-p-6 l-pl-16 l-pr-16'>
+               <div
+                  title='{{match.tooltipText}}'
+                  class='l-flexbox l-pack-center l-align-center
+                   kw-match-box kw-match-{{match.result}}'
+                  ng-repeat='match in team.matchHistory'>
+                  {{match.result | translate}}
+               </div>
+            </div>
+
+            <!-- performance bar -->
+            <div class='l-flexbox l-horizontal l-pack-center l-p-6 l-pl-16 l-pr-16'>
+               <div class='l-flexbox kw-bar kw-match-win'
+                  ng-style='{"flex-grow": team.performance}'>
+               </div>
+               <div class='l-flexbox kw-bar'
+                  ng-style='{"flex-grow": (1-team.performance)}'></div>
+               <div ng-style='{"flex-grow": 0 }'>
+                  &nbsp&nbsp{{Math.round(team.performance*100)}}%
+               </div>
+            </div>
+
+            <!-- hidden part of the team information -->
+            <div class='l-flexbox l-vertical l-pack-center kw-detail'>
+               <!-- boxes home matches -->
+               <div class='l-flex-1 l-p-6 l-pl-16 l-pr-16'>{{"Home Games" | translate}}</div>
+               <div class='l-flexbox l-horizontal l-p-6 l-pl-16 l-pr-16'>
+                  <div
+                     title='{{match.tooltipText}}'
+                     class='l-flexbox l-pack-center l-align-center
+                      kw-match-box kw-match-{{match.result}}'
+                     ng-repeat='match in team.matchHistoryHome'>
+                     {{match.result | translate}}
+                  </div>
+               </div>
+
+               <!-- boxes away matches -->
+               <div class='l-flex-1 l-p-6 l-pl-16 l-pr-16'>{{"Away Games" | translate}}</div>
+               <div class='l-flexbox l-horizontal l-p-6 l-pl-16 l-pr-16'>
+                  <div
+                     title='{{match.tooltipText}}'
+                     class='l-flexbox l-pack-center l-align-center
+                      kw-match-box kw-match-{{match.result}}'
+                     ng-repeat='match in team.matchHistoryAway'>
+                     {{match.result | translate}}
+                  </div>
+               </div>
+
+               <div class='l-flexbox l-vertical kw-table'>
+                  <div class='kw-table-header kw-border-bottom l-p-6 l-pl-16 l-pr-16 l-flexbox l-horizontal l-align-center'>
+                     <div data-item-attr='date' class='l-flex-4 text-truncate ng-binding ng-scope'>
+                        {{"Date" | translate}}
+                     </div>
+                     <div data-item-attr='home' class='l-flex-5 text-truncate ng-binding ng-scope'>
+                        {{"Home" | translate}}
+                     </div>
+                     <div data-item-attr='score' class='l-flex-2 text-truncate ng-binding ng-scope'>
+                        {{"Score" | translate}}
+                     </div>
+                     <div data-item-attr='away' class='l-flex-5 text-truncate ng-binding ng-scope'>
+                        {{"Away" | translate}}
+                     </div>
+                  </div>
+                  <div
+                     class='kw-table-item l-p-6 l-pl-16 l-pr-16 l-flexbox l-horizontal l-align-center ng-scope'
+                     ng-repeat='match in team.matchHistory'>
+
+                     <div data-item-attr='date' class='l-flex-4 ng-binding ng-scope'>
+                        {{match.dateText}}
+                     </div>
+                     <div data-item-attr='home' class='l-flex-5 ng-binding ng-scope'>
+                        {{match.homeTeam}}
+                     </div>
+                     <div data-item-attr='score' class='l-flex-2 ng-binding ng-scope'>
+                        {{match.homeScore}} - {{match.awayScore}}
+                     </div>
+                     <div data-item-attr='away' class='l-flex-5 ng-binding ng-scope'>
+                        {{match.awayTeam}}
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </main>
+      <footer class="kw-footer">
+         <kambi-pagination-directive class="kw-pagination l-flexbox l-pack-center l-align-center"
+                                     list="teams"
+                                     pages="pages"
+                                     start-from="startFrom"
+                                     list-limit="args.listLimit"
+                                     ng-click="adjustHeight()">
+         </kambi-pagination-directive>
+      </footer>
+   </div>
 </div>
 </body>
 </html>

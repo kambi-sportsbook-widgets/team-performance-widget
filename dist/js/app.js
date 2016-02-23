@@ -12,66 +12,199 @@
       'use strict';
 
       return $app;
-   })(angular.module('vineWidget', arrDependencies));
+   })(angular.module('teamPerformanceWidget', arrDependencies));
 }).call(this);
 
+/* globals _ */
 (function () {
 
    'use strict';
 
-   (function ( $app ) {
-      return $app.controller('appController',
-         ['$scope', '$controller', '$http', '$sce', 'kambiAPIService', 'kambiWidgetService',
-            function ( $scope, $controller, $http, $sce, kambiAPIService, kambiWidgetService ) {
+   var parseMatchHistoryItem = function(match, teamName) {
+      var item = {
+         id: match.id,
+         date: match.date,
+         inHome: match.homeTeam === teamName,
+         homeTeam: match.homeTeam,
+         awayTeam: match.awayTeam,
+         homeScore: match.result.homeScore,
+         awayScore: match.result.awayScore,
+         result: 'lose'
+      };
+      var d = item.date;
+      var day = d.getUTCDate() +'';
+      if (day.length === 1) {
+         day = '0'+day;
+      }
 
-               angular.extend(this, $controller('widgetCoreController', {
-                  '$scope': $scope
-               }));
+      var month = (d.getUTCMonth()+1) +'';
+      if (month.length === 1) {
+         month = '0'+month;
+      }
 
-               // Default arguments, these will be overridden by the arguments from the widget api
-               $scope.defaultArgs = {
-                  'vine': {
-                     'title': 'FC Barcelona',
-                     'href': 'https://vine.co/v/iJ0OLlz3OlH'
-                  }
-               };
+      item.dateText = day + '/' + month + '/' + d.getUTCFullYear();
 
-               // The current height of the widget
-               $scope.currentHeight = 450;
+      var result = match.result; //TODO can match.result be null? if so special handling is required
 
-               // Inject Vine JS
-               var initVineJS = function () {
-                  var js = document.createElement('script');
-                  js.type = 'text/javascript';
-                  js.async = true;
-                  js.src = 'https://platform.vine.co/static/scripts/embed.js';
-                  var s = document.getElementsByTagName('script')[0];
-                  s.parentNode.insertBefore(js, s);
-               };
+      if (item.inHome) {
+         item.teamScore = result.homeScore;
+         item.opponentScore = result.awayScore;
+         item.opponentName = match.awayTeam;
+      } else {
+         item.teamScore = result.awayScore;
+         item.opponentScore = result.homeScore;
+         item.opponentName = match.homeTeam;
+      }
 
-               // Build Vine's URL
-               var buildVineURL = function() {
-                  $scope.args.vine.href = $sce.trustAsResourceUrl($scope.args.vine.href + '/embed/simple');
-               }
+      if (result.homeScore === result.awayScore) {
+         item.result = 'draw';
+      } else if (
+         (item.inHome && result.homeScore > result.awayScore) ||
+         (!item.inHome && result.awayScore > result.homeScore)
+         ) {
+         item.result = 'win';
+      }
+      item.tooltipText = 'vs ' + item.opponentName + ' - ' + item.teamScore + 'x' + item.opponentScore;
+      return item;
+   };
 
-               // Call the init method in the coreWidgetController so that we setup everything using our overridden values
-               // The init-method returns a promise that resolves when all of the configurations are set, for instance the $scope.args variables
-               // so we can call our methods that require parameters from the widget settings after the init method is called
-               $scope.init().then(function () {
+   // returns true if the item is not already present in the provided matchHistory and
+   // the matchHistory length is not bigger than args.numberMatchesPerTeam
+   var shouldBeAddedToHistory = function(matchHistory, item, numberMatchesPerTeam) {
+      if (matchHistory.length >= numberMatchesPerTeam) {
+         return false;
+      }
+      //just making sure that the match is not already in there
+      var isInHistory = _.find(matchHistory, function(e) {
+         return item.id === e.id;
+      });
+      if (isInHistory != null) {
+         return false;
+      }
+      return true;
+   };
 
-                  // Build Vine iframe's URL
-                  buildVineURL();
+   //calculates the performance of the team
+   var calculatePerformance = function(matchHistory) {
+      var sum = 0;
+      matchHistory.forEach(function(m) {
+         if (m.result === 'win') {
+            sum += 20;
+         } else if (m.result === 'draw') {
+            sum += 10;
+         }
+      });
+      //TODO check if this calculation is correct
+      return sum / (matchHistory.length * 20);
+   };
 
-                  // Init Vine script
-                  initVineJS();
+   // parses the data provided considering only the first numberMatchesPerTeam matches
+   var parseTeamsInfo = function(teams, numberMatchesPerTeam) {
+      var teamsInfo = [];
+      teams.forEach(function(team) {
+         var matchHistory= [];
+         var matchHistoryHome= [];
+         var matchHistoryAway= [];
 
-               });
+         //parsing date strings
+         team.matchHistory.forEach(function(match, index) {
+            //TODO check if parsing is done correctly
+            match.date = new Date(match.date);
+         });
 
-            }]);
-   })(angular.module('vineWidget'));
+         //sorting by date descending
+         team.matchHistory.sort(function(a, b) {
+            if (a.date.getTime() > b.date.getTime()) {
+               return 1;
+            } else {
+               return -1;
+            }
+         });
+
+         team.matchHistory.forEach(function(match, index) {
+            var item = parseMatchHistoryItem(match, team.name);
+
+            if (shouldBeAddedToHistory(matchHistory, item, numberMatchesPerTeam)) {
+               matchHistory.push(item);
+            }
+
+            if (item.inHome && shouldBeAddedToHistory(matchHistoryHome, item, numberMatchesPerTeam)) {
+               matchHistoryHome.push(item);
+            }
+
+            if ( !item.inHome && shouldBeAddedToHistory(matchHistoryAway, item, numberMatchesPerTeam)) {
+               matchHistoryAway.push(item);
+            }
+         });
+
+         teamsInfo.push({
+            name: team.name,
+            performance: calculatePerformance(matchHistory),
+            detailed: false, //controls if detailed information is visible
+            matchHistory: matchHistory,
+            matchHistoryHome: matchHistoryHome,
+            matchHistoryAway: matchHistoryAway,
+         });
+      });
+      return teamsInfo;
+   };
+
+   var $app = angular.module('teamPerformanceWidget');
+
+   $app.controller('appController',
+      ['$scope', '$controller', '$http', '$sce', 'kambiAPIService', 'kambiWidgetService',
+      function ( $scope, $controller, $http, $sce, kambiAPIService, kambiWidgetService ) {
+
+         angular.extend(this, $controller('widgetCoreController', {
+            '$scope': $scope
+         }));
+
+         // Default arguments, these will be overridden by the arguments from the widget api
+         $scope.defaultArgs = {
+            title: 'Football - Team Performance Indicator',
+            numberMatchesPerTeam: 6, // maximum number of matches to show per team
+            listLimit: 3, // Set the list limit value to be used for pagination
+         };
+
+         $scope.Math = window.Math; //to be able to use Math functions in the template
+
+         $scope.startFrom = 0;
+         $scope.teams = [];
+
+         $scope.adjustHeight = function() {
+            //TODO maybe try to dinamically get these values?
+            //might not be possible to get detailedViewHeight due to the accordion animation
+            var headerHeight = 40;
+            var footerHeight = 40;
+            var mainPadding = 16;
+            var compactViewHeight = 201;
+            var detailedViewHeight = compactViewHeight + 460;
+            var contentHeight = headerHeight + footerHeight + mainPadding + 1;
+            var teams = $scope.teams;
+            var i = $scope.startFrom;
+            while (i < $scope.startFrom + $scope.args.listLimit && i < teams.length) {
+               contentHeight += teams[i].detailed ? detailedViewHeight : compactViewHeight;
+               i++;
+            }
+            $scope.setWidgetHeight(contentHeight);
+         };
+
+         $scope.init().then(function () {
+            $http({
+               method: 'GET',
+               url: './mockdata.json'
+            }).then(function(response) {
+               var teams = response.data.tournaments[0].teams;
+               var teamsInfo = parseTeamsInfo(teams, $scope.args.numberMatchesPerTeam);
+               $scope.teams = teamsInfo;
+               $scope.setPages($scope.teams, $scope.args.listLimit);
+               $scope.adjustHeight();
+            });
+         });
+      }]);
 })($);
 
-!function(){"use strict";function e(t,n,r,a,i,o){t.apiConfigSet=!1,t.appArgsSet=!1,t.pageInfoSet=!1,t.oddsFormat="decimal",t.defaultHeight=350,t.currentHeight=350,t.apiVersion="v2",t.streamingAllowedForPlayer=!1,t.defaultArgs={},t.init=function(){var e=i.defer(),a=t.$on("CLIENT:CONFIG",function(n,i){null!=i.oddsFormat&&t.setOddsFormat(i.oddsFormat),i.version=t.apiVersion,r.setConfig(i),t.apiConfigSet=!0,t.apiConfigSet&&t.appArgsSet&&t.pageInfoSet&&e.resolve(),a()}),o=t.$on("WIDGET:ARGS",function(n,a){t.setArgs(a),null!=a&&a.hasOwnProperty("offering")&&r.setOffering(a.offering),t.appArgsSet=!0,t.apiConfigSet&&t.appArgsSet&&t.pageInfoSet&&e.resolve(),o()}),s=t.$on("PAGE:INFO",function(n,r){t.setPageInfo(r),t.pageInfoSet=!0,t.apiConfigSet&&t.appArgsSet&&t.pageInfoSet&&e.resolve(),s()});return n.setWidgetHeight(t.defaultHeight),n.requestWidgetHeight(),n.enableWidgetTransition(!0),n.requestClientConfig(),n.requestWidgetArgs(),n.requestPageInfo(),n.requestBetslipOutcomes(),n.requestOddsFormat(),e.promise},t.getConfigValue=function(e){return r.config.hasOwnProperty(e)?r.config[e]:null},t.navigateToLiveEvent=function(e){n.navigateToLiveEvent(e)},t.getWidgetHeight=function(){n.requestWidgetHeight()},t.setWidgetHeight=function(e){t.currentHeight=e,n.setWidgetHeight(e)},t.setWidgetEnableTransition=function(e){n.enableWidgetTransition(e)},t.removeWidget=function(){n.removeWidget()},t.addOutcomeToBetslip=function(e){n.addOutcomeToBetslip(e.id)},t.removeOutcomeFromBetslip=function(e){n.removeOutcomeFromBetslip(e.id)},t.requestBetslipOutcomes=function(){n.requestBetslipOutcomes()},t.requestWidgetArgs=function(){n.requestWidgetArgs()},t.requestPageInfo=function(){n.requestPageInfo()},t.requestOddsFormat=function(){n.requestOddsFormat()},t.setOddsFormat=function(e){t.oddsFormat=e},t.getFormattedOdds=function(e){switch(t.oddsFormat){case"fractional":return e.oddsFractional;case"american":return e.oddsAmerican;default:return e.odds/1e3}},t.multiplyOdds=function(e){for(var n=0,r=1,i=e.length;i>n;++n)r=r*e[n].odds/1e3;switch(t.oddsFormat){case"american":r=Math.round(100*r)/100,r=2>r?Math.round(-100/(r-1)):Math.round(100*(r-1));break;case"fractional":r=3>=r?a.roundDown(r,100):10>=r?a.roundDown(r,10):14>=r?a.roundHalf(r):Math.floor(r),r=a.convertToFraction(Number(r-1).toFixed(2)),r=r.n+"/"+r.d,r="";break;default:r=Math.round(100*r)/100}return r},t.findEvent=function(e,t){for(var n=0,r=e.length;r>n;++n)if(e[n].id===t)return e[n];return null},t.getOutcomeLabel=function(e,t){return r.getOutcomeLabel(e,t)},t.setArgs=function(e){var n=t.defaultArgs;for(var r in e)e.hasOwnProperty(r)&&n.hasOwnProperty(r)&&(n[r]=e[r]);t.args=n},t.setPageInfo=function(e){"filter"===e.pageType&&"/"!==e.pageParam.substr(-1)&&(e.pageParam+="/"),t.pageInfo=e},t.setPages=function(e,n,r){var a=r||e.length,i=Math.ceil(a/n),o=0;for(t.pages=[];i>o;++o)t.pages.push({startFrom:n*o,page:o+1})},t.updateBetOfferOutcomes=function(e,t){for(var n=0,r=e.outcomes.length,a=t.length;r>n;++n){var i=0,o=-1;for(e.outcomes[n].selected=!1;a>i;i++)e.outcomes[n].id===t[i].id&&(e.outcomes[n].odds=t[i].odds,o=n),-1!==o&&(e.outcomes[o].selected=!0)}};try{angular.module("widgetCore.translate"),angular.extend(e,o("translateController",{$scope:t}))}catch(s){}t.$on("WIDGET:HEIGHT",function(e,n){t.currentHeight=n}),t.$on("ODDS:FORMAT",function(e,n){t.setOddsFormat(n),t.$apply()})}!function(t){return t.controller("widgetCoreController",["$scope","kambiWidgetService","kambiAPIService","coreUtilsService","$q","$controller",e])}(angular.module("widgetCore",[]))}(),function(){"use strict";!function(e){return e.directive("kambiPaginationDirective",[function(){return{restrict:"E",scope:{list:"=list",listLimit:"=",pages:"=",startFrom:"=",activePage:"="},template:'<span ng-class="{disabled:activePage === 1}" ng-if="pages.length > 1" ng-click="pagePrev()" class="kw-page-link kw-pagination-arrow"><i class="ion-ios-arrow-left"></i></span><span ng-if="pages.length > 1" ng-repeat="page in getPagination()" ng-click="setActivePage(page)" ng-class="{active:page === activePage}" class="kw-page-link l-pack-center l-align-center">{{page}}</span><span ng-class="{disabled:activePage === pages.length}" ng-if="pages.length > 1" ng-click="pageNext()" class="kw-page-link kw-pagination-arrow"><i class="ion-ios-arrow-right"></i></span>',controller:["$scope",function(e){e.activePage=1,e.setPage=function(t){e.startFrom=t.startFrom,e.activePage=t.page},e.setActivePage=function(t){e.setPage(e.pages[t-1])},e.pagePrev=function(){e.activePage>1&&e.setPage(e.pages[e.activePage-2])},e.pageNext=function(){e.activePage<e.pages.length&&e.setPage(e.pages[e.activePage])},e.pageCount=function(){return Math.ceil(e.list.length/e.listLimit)},e.getPagination=function(){var t=[],n=5,r=e.activePage,a=e.pageCount(),i=1,o=a;a>n&&(i=Math.max(r-Math.floor(n/2),1),o=i+n-1,o>a&&(o=a,i=o-n+1));for(var s=i;o>=s;s++)t.push(s);return 0!==a&&r>a&&e.setActivePage(1),t}}]}}])}(angular.module("widgetCore"))}(),function(){!function(e){"use strict";e.filter("startFrom",function(){return function(e,t){return e?(t=+t,e.slice(t)):[]}})}(angular.module("widgetCore"))}(),function(){"use strict";!function(e){return e.service("coreUtilsService",[function(){var e={};return e.roundHalf=function(e){return Math.floor(2*e)/2},e.roundDown=function(e,t){return Math.floor(e*t)/t},e.convertToFraction=function(t){var n=t.toString().length-2,r=Math.pow(10,n),a=t*r,i=e.gcd(a,r);return a/=i,r/=i,{n:a,d:r}},e.gcd=function(t,n){return 1e-7>n?t:e.gcd(n,Math.floor(t%n))},e}])}(angular.module("widgetCore"))}(),function(){"use strict";!function(e){return e.service("kambiAPIService",["$http","$q","$rootScope",function(e,t,n){var r={};return r.configDefer=t.defer(),r.configSet=!1,r.offeringSet=!1,r.config={apiBaseUrl:null,apiUrl:null,channelId:null,currency:null,locale:null,market:null,offering:null,clientId:null,version:null},r.setConfig=function(e){for(var t in e)if(e.hasOwnProperty(t)&&r.config.hasOwnProperty(t))switch(r.config[t]=e[t],t){case"locale":n.$broadcast("LOCALE:CHANGE",e[t])}r.configSet=!0,r.configSet&&r.offeringSet&&r.configDefer.resolve()},r.setOffering=function(e){r.config.offering=e,r.offeringSet=!0,r.configSet&&r.offeringSet&&r.configDefer.resolve()},r.getGroupEvents=function(e){var t="/event/group/"+e+".json";return r.doRequest(t)},r.getEventsByFilterParameters=function(e,t,n,a,i,o){var s="/listView/";return s+=null!=e?r.parseFilterParameter(e):"all/",s+=null!=t?r.parseFilterParameter(t):"all/",s+=null!=n?r.parseFilterParameter(n):"all/",s+="all/",s+=null!=i?r.parseFilterParameter(e):"all/",r.doRequest(s,o,"v3")},r.parseFilterParameter=function(e){var t="";if(null!=e)if(angular.isArray(e)){for(var n=0,r=e.length;r>n;++n){if(angular.isArray(e[n])){var a=0,i=e[n].length;for(t+="[";i>a;++a)t+=e[n][a],i-1>a&&(t+=",");t+="]"}else t+=e[n];r-1>n&&(t+=",")}t+="/"}else angular.isstring(e)&&(t+=e);else t+="all/";return t},r.getEventsByFilter=function(e,t){var n="/listView/"+e;return r.doRequest(n,t,"v3")},r.getLiveEventsByFilter=function(e,t){var n="/listView/"+e;return r.doRequest(n,t,"v3").then(function(e){var t=e.data.events;for(var n in t){if(!t[n].liveData)break;if(t[n].betOffers[0]&&(t[n].mainBetOffer=t[n].betOffers[0]),t[n].liveData.statistics){if(t[n].liveData.statistics.setBasedStats){var r=t[n].liveData.statistics.setBasedStats;t[n].liveData.statistics.sets=r,delete t[n].liveData.statistics.setBasedStats}if(t[n].liveData.statistics.footballStats){var a=t[n].liveData.statistics.footballStats;t[n].liveData.statistics.football=a,delete t[n].liveData.statistics.footballStats}}delete t[n].betOffers}return t.splice(n),e.data.liveEvents=t,delete e.data.events,e})},r.getLiveEvents=function(){var e="/event/live/open.json";return r.doRequest(e)},r.getBetoffersByGroup=function(e,t,n,a,i){var o="/betoffer/main/group/"+e+".json";return r.doRequest(o,{include:"participants"})},r.getGroupById=function(e,t){var n="/group/"+e+".json";return r.doRequest(n,{depth:t})},r.doRequest=function(n,a,i){return r.configDefer.promise.then(function(){if(null==r.config.offering)return t.reject("The offering has not been set, please provide it in the widget arguments");var o=r.config.apiBaseUrl.replace("{apiVersion}",null!=i?i:r.config.version),s=o+r.config.offering+n,u=a||{},c={lang:u.locale||r.config.locale,market:u.market||r.config.market,client_id:u.clientId||r.config.clientId,include:u.include||null,callback:"JSON_CALLBACK"};return e.jsonp(s,{params:c,cache:!1})})},r.getOutcomeLabel=function(e,t){switch(e.type){case"OT_ONE":return t.homeName;case"OT_CROSS":return"Draw";case"OT_TWO":return t.awayName;default:return e.label}},r}])}(angular.module("widgetCore"))}(),function(){"use strict";!function(e){return e.service("kambiWidgetService",["$rootScope","$window","$q",function(e,t,n){var r,a,i={};return t.KambiWidget&&(a=n.defer(),r=a.promise,t.KambiWidget.apiReady=function(e){i.api=e,a.resolve(e)},t.KambiWidget.receiveResponse=function(e){i.handleResponse(e)}),i.handleResponse=function(t){switch(t.type){case i.api.WIDGET_HEIGHT:e.$broadcast("WIDGET:HEIGHT",t.data);break;case i.api.BETSLIP_OUTCOMES:e.$broadcast("OUTCOMES:UPDATE",t.data);break;case i.api.WIDGET_ARGS:e.$broadcast("WIDGET:ARGS",t.data);break;case i.api.PAGE_INFO:e.$broadcast("PAGE:INFO",t.data);break;case i.api.CLIENT_ODDS_FORMAT:e.$broadcast("ODDS:FORMAT",t.data);break;case i.api.CLIENT_CONFIG:e.$broadcast("CLIENT:CONFIG",t.data);break;case i.api.USER_LOGGED_IN:e.$broadcast("USER:LOGGED_IN",t.data)}},i.requestWidgetHeight=function(){var e=n.defer();return r.then(function(e){e.request(e.WIDGET_HEIGHT)}),e.promise},i.setWidgetHeight=function(e){var t=n.defer();return r.then(function(t){t.set(t.WIDGET_HEIGHT,e)}),t.promise},i.enableWidgetTransition=function(e){var t=n.defer();return r.then(function(t){e?t.set(t.WIDGET_ENABLE_TRANSITION):t.set(t.WIDGET_DISABLE_TRANSITION)}),t.promise},i.removeWidget=function(){var e=n.defer();return r.then(function(e){e.remove()}),e.promise},i.navigateToLiveEvent=function(e){var t=n.defer();return r.then(function(t){t.navigateClient("#event/live/"+e)}),t.promise},i.navigateToEvent=function(e){var t=n.defer();return r.then(function(t){t.navigateClient("#event/"+e)}),t.promise},i.navigateToGroup=function(e){var t=n.defer();return r.then(function(t){t.navigateClient("#group/"+e)}),t.promise},i.navigateToLiveEvents=function(){var e=n.defer();return r.then(function(e){e.navigateClient("#events/live")}),e.promise},i.addOutcomeToBetslip=function(e,t,a,i){var o=n.defer();return r.then(function(n){var r=[];angular.isArray(e)?r=e:r.push(e);var o={outcomes:r};null!=t&&(angular.isArray(t)?o.stakes=t:o.stakes=[t]),o.couponType=1===r.length?n.BETSLIP_OUTCOMES_ARGS.TYPE_SINGLE:n.BETSLIP_OUTCOMES_ARGS.TYPE_COMBINATION,o.updateMode="replace"!==a?n.BETSLIP_OUTCOMES_ARGS.UPDATE_APPEND:n.BETSLIP_OUTCOMES_ARGS.UPDATE_REPLACE,null!=i&&(o.source=i),n.set(n.BETSLIP_OUTCOMES,o)}),o.promise},i.removeOutcomeFromBetslip=function(e){var t=n.defer();return r.then(function(t){var n=[];angular.isArray(e)?n=e:n.push(e),t.set(t.BETSLIP_OUTCOMES_REMOVE,{outcomes:n})}),t.promise},i.requestBetslipOutcomes=function(){var e=n.defer();return r.then(function(e){e.request(e.BETSLIP_OUTCOMES)}),e.promise},i.requestPageInfo=function(){var e=n.defer();return r.then(function(e){e.request(e.PAGE_INFO)}),e.promise},i.requestWidgetArgs=function(){var e=n.defer();return r.then(function(e){e.request(e.WIDGET_ARGS)}),e.promise},i.requestClientConfig=function(){var e=n.defer();return r.then(function(e){e.request(e.CLIENT_CONFIG)}),e.promise},i.requestOddsFormat=function(){var e=n.defer();return r.then(function(e){e.request(e.CLIENT_ODDS_FORMAT)}),e.promise},i}])}(angular.module("widgetCore"))}();
+!function(){"use strict";function e(t,n,r,a,i,o){t.apiConfigSet=!1,t.appArgsSet=!1,t.pageInfoSet=!1,t.oddsFormat="decimal",t.defaultHeight=350,t.currentHeight=350,t.apiVersion="v2",t.streamingAllowedForPlayer=!1,t.defaultArgs={},t.init=function(){var e=i.defer(),a=t.$on("CLIENT:CONFIG",function(n,i){null!=i.oddsFormat&&t.setOddsFormat(i.oddsFormat),i.version=t.apiVersion,r.setConfig(i),t.apiConfigSet=!0,t.apiConfigSet&&t.appArgsSet&&t.pageInfoSet&&e.resolve(),a()}),o=t.$on("WIDGET:ARGS",function(n,a){t.setArgs(a),null!=a&&a.hasOwnProperty("offering")&&r.setOffering(a.offering),t.appArgsSet=!0,t.apiConfigSet&&t.appArgsSet&&t.pageInfoSet&&e.resolve(),o()}),s=t.$on("PAGE:INFO",function(n,r){t.setPageInfo(r),t.pageInfoSet=!0,t.apiConfigSet&&t.appArgsSet&&t.pageInfoSet&&e.resolve(),s()});return n.setWidgetHeight(t.defaultHeight),n.requestWidgetHeight(),n.enableWidgetTransition(!0),n.requestClientConfig(),n.requestWidgetArgs(),n.requestPageInfo(),n.requestBetslipOutcomes(),n.requestOddsFormat(),e.promise},t.getConfigValue=function(e){return r.config.hasOwnProperty(e)?r.config[e]:null},t.navigateToLiveEvent=function(e){n.navigateToLiveEvent(e)},t.getWidgetHeight=function(){n.requestWidgetHeight()},t.setWidgetHeight=function(e){t.currentHeight=e,n.setWidgetHeight(e)},t.setWidgetEnableTransition=function(e){n.enableWidgetTransition(e)},t.removeWidget=function(){n.removeWidget()},t.addOutcomeToBetslip=function(e){n.addOutcomeToBetslip(e.id)},t.removeOutcomeFromBetslip=function(e){n.removeOutcomeFromBetslip(e.id)},t.requestBetslipOutcomes=function(){n.requestBetslipOutcomes()},t.requestWidgetArgs=function(){n.requestWidgetArgs()},t.requestPageInfo=function(){n.requestPageInfo()},t.requestOddsFormat=function(){n.requestOddsFormat()},t.setOddsFormat=function(e){t.oddsFormat=e},t.getFormattedOdds=function(e){switch(t.oddsFormat){case"fractional":return e.oddsFractional;case"american":return e.oddsAmerican;default:return e.odds/1e3}},t.multiplyOdds=function(e){for(var n=0,r=1,i=e.length;i>n;++n)r=r*e[n].odds/1e3;switch(t.oddsFormat){case"american":r=Math.round(100*r)/100,r=2>r?Math.round(-100/(r-1)):Math.round(100*(r-1));break;case"fractional":r=3>=r?a.roundDown(r,100):10>=r?a.roundDown(r,10):14>=r?a.roundHalf(r):Math.floor(r),r=a.convertToFraction(Number(r-1).toFixed(2)),r=r.n+"/"+r.d,r="";break;default:r=Math.round(100*r)/100}return r},t.findEvent=function(e,t){for(var n=0,r=e.length;r>n;++n)if(e[n].id===t)return e[n];return null},t.getOutcomeLabel=function(e,t){return r.getOutcomeLabel(e,t)},t.setArgs=function(e){var n=t.defaultArgs;for(var r in e)e.hasOwnProperty(r)&&n.hasOwnProperty(r)&&(n[r]=e[r]);t.args=n},t.setPageInfo=function(e){"filter"===e.pageType&&"/"!==e.pageParam.substr(-1)&&(e.pageParam+="/"),t.pageInfo=e},t.setPages=function(e,n,r){var a=r||e.length,i=Math.ceil(a/n),o=0;for(t.pages=[];i>o;++o)t.pages.push({startFrom:n*o,page:o+1})},t.updateBetOfferOutcomes=function(e,t){for(var n=0,r=e.outcomes.length,a=t.length;r>n;++n){var i=0,o=-1;for(e.outcomes[n].selected=!1;a>i;i++)e.outcomes[n].id===t[i].id&&(e.outcomes[n].odds=t[i].odds,o=n),-1!==o&&(e.outcomes[o].selected=!0)}};try{angular.module("widgetCore.translate"),angular.extend(e,o("translateController",{$scope:t}))}catch(s){}t.$on("WIDGET:HEIGHT",function(e,n){t.currentHeight=n}),t.$on("ODDS:FORMAT",function(e,n){t.setOddsFormat(n),t.$apply()})}!function(t){return t.controller("widgetCoreController",["$scope","kambiWidgetService","kambiAPIService","coreUtilsService","$q","$controller",e])}(angular.module("widgetCore",[]))}(),function(){"use strict";!function(e){return e.directive("kambiPaginationDirective",[function(){return{restrict:"E",scope:{list:"=list",listLimit:"=",pages:"=",startFrom:"=",activePage:"="},template:'<span ng-class="{disabled:activePage === 1}" ng-if="pages.length > 1" ng-click="pagePrev()" class="kw-page-link kw-pagination-arrow"><i class="ion-ios-arrow-left"></i></span><span ng-if="pages.length > 1" ng-repeat="page in getPagination()" ng-click="setActivePage(page)" ng-class="{active:page === activePage}" class="kw-page-link l-pack-center l-align-center">{{page}}</span><span ng-class="{disabled:activePage === pages.length}" ng-if="pages.length > 1" ng-click="pageNext()" class="kw-page-link kw-pagination-arrow"><i class="ion-ios-arrow-right"></i></span>',controller:["$scope",function(e){e.activePage=1,e.setPage=function(t){e.startFrom=t.startFrom,e.activePage=t.page},e.setActivePage=function(t){e.setPage(e.pages[t-1])},e.pagePrev=function(){e.activePage>1&&e.setPage(e.pages[e.activePage-2])},e.pageNext=function(){e.activePage<e.pages.length&&e.setPage(e.pages[e.activePage])},e.pageCount=function(){return Math.ceil(e.list.length/e.listLimit)},e.getPagination=function(){var t=[],n=5,r=e.activePage,a=e.pageCount(),i=1,o=a;a>n&&(i=Math.max(r-Math.floor(n/2),1),o=i+n-1,o>a&&(o=a,i=o-n+1));for(var s=i;o>=s;s++)t.push(s);return 0!==a&&r>a&&e.setActivePage(1),t}}]}}])}(angular.module("widgetCore"))}(),function(){!function(e){"use strict";e.filter("startFrom",function(){return function(e,t){return e?(t=+t,e.slice(t)):[]}})}(angular.module("widgetCore"))}(),function(){"use strict";!function(e){return e.service("coreUtilsService",[function(){var e={};return e.roundHalf=function(e){return Math.floor(2*e)/2},e.roundDown=function(e,t){return Math.floor(e*t)/t},e.convertToFraction=function(t){var n=t.toString().length-2,r=Math.pow(10,n),a=t*r,i=e.gcd(a,r);return a/=i,r/=i,{n:a,d:r}},e.gcd=function(t,n){return 1e-7>n?t:e.gcd(n,Math.floor(t%n))},e}])}(angular.module("widgetCore"))}(),function(){"use strict";!function(e){return e.service("kambiAPIService",["$http","$q","$rootScope",function(e,t,n){var r={};return r.configDefer=t.defer(),r.configSet=!1,r.offeringSet=!1,r.config={apiBaseUrl:null,apiUrl:null,channelId:null,currency:null,locale:null,market:null,offering:null,clientId:null,version:null},r.setConfig=function(e){for(var t in e)if(e.hasOwnProperty(t)&&r.config.hasOwnProperty(t))switch(r.config[t]=e[t],t){case"locale":n.$broadcast("LOCALE:CHANGE",e[t])}r.configSet=!0,r.configSet&&r.offeringSet&&r.configDefer.resolve()},r.setOffering=function(e){r.config.offering=e,r.offeringSet=!0,r.configSet&&r.offeringSet&&r.configDefer.resolve()},r.getGroupEvents=function(e){var t="/event/group/"+e+".json";return r.doRequest(t)},r.getEventsByFilterParameters=function(e,t,n,a,i,o){var s="/listView/";return s+=null!=e?r.parseFilterParameter(e):"all/",s+=null!=t?r.parseFilterParameter(t):"all/",s+=null!=n?r.parseFilterParameter(n):"all/",s+="all/",s+=null!=i?r.parseFilterParameter(e):"all/",r.doRequest(s,o,"v3")},r.parseFilterParameter=function(e){var t="";if(null!=e)if(angular.isArray(e)){for(var n=0,r=e.length;r>n;++n){if(angular.isArray(e[n])){var a=0,i=e[n].length;for(t+="[";i>a;++a)t+=e[n][a],i-1>a&&(t+=",");t+="]"}else t+=e[n];r-1>n&&(t+=",")}t+="/"}else angular.isstring(e)&&(t+=e);else t+="all/";return t},r.getEventsByFilter=function(e,t){var n="/listView/"+e;return r.doRequest(n,t,"v3")},r.getLiveEventsByFilter=function(e,t){var n="/listView/"+e;return r.doRequest(n,t,"v3").then(function(e){var t=e.data.events;for(var n in t){if(!t[n].liveData)break;if(t[n].betOffers[0]&&(t[n].mainBetOffer=t[n].betOffers[0]),t[n].liveData.statistics){if(t[n].liveData.statistics.setBasedStats){var r=t[n].liveData.statistics.setBasedStats;t[n].liveData.statistics.sets=r,delete t[n].liveData.statistics.setBasedStats}if(t[n].liveData.statistics.footballStats){var a=t[n].liveData.statistics.footballStats;t[n].liveData.statistics.football=a,delete t[n].liveData.statistics.footballStats}}delete t[n].betOffers}return t.splice(n),e.data.liveEvents=t,delete e.data.events,e})},r.getLiveEvents=function(){var e="/event/live/open.json";return r.doRequest(e)},r.getBetoffersByGroup=function(e,t,n,a,i){var o="/betoffer/main/group/"+e+".json";return r.doRequest(o,{include:"participants"})},r.getGroupById=function(e,t){var n="/group/"+e+".json";return r.doRequest(n,{depth:t})},r.doRequest=function(n,a,i){return r.configDefer.promise.then(function(){if(null==r.config.offering)return t.reject("The offering has not been set, please provide it in the widget arguments");var o=r.config.apiBaseUrl.replace("{apiVersion}",null!=i?i:r.config.version),s=o+r.config.offering+n,u=a||{},c={lang:u.locale||r.config.locale,market:u.market||r.config.market,client_id:u.clientId||r.config.clientId,include:u.include||null,callback:"JSON_CALLBACK"};return e.jsonp(s,{params:c,cache:!1})})},r.getOutcomeLabel=function(e,t){switch(e.type){case"OT_ONE":return t.homeName;case"OT_CROSS":return"Draw";case"OT_TWO":return t.awayName;default:return e.label}},r}])}(angular.module("widgetCore"))}(),function(){"use strict";!function(e){return e.service("kambiStatisticsService",["kambiAPIService","$http",function(e,t){var n={};return n.getStatistics=function(n,r){r=r.match(/[^?]*/)[0],r=r.slice(0,-1);var a="https://e3-api.kambi.com/statistics/api/";return t({method:"GET",url:a+e.config.offering+"/"+n+"/"+r+".json",cache:!1})},n}])}(angular.module("widgetCore"))}(),function(){"use strict";!function(e){return e.service("kambiWidgetService",["$rootScope","$window","$q",function(e,t,n){var r,a,i={};return t.KambiWidget&&(a=n.defer(),r=a.promise,t.KambiWidget.apiReady=function(e){i.api=e,a.resolve(e)},t.KambiWidget.receiveResponse=function(e){i.handleResponse(e)}),i.handleResponse=function(t){switch(t.type){case i.api.WIDGET_HEIGHT:e.$broadcast("WIDGET:HEIGHT",t.data);break;case i.api.BETSLIP_OUTCOMES:e.$broadcast("OUTCOMES:UPDATE",t.data);break;case i.api.WIDGET_ARGS:e.$broadcast("WIDGET:ARGS",t.data);break;case i.api.PAGE_INFO:e.$broadcast("PAGE:INFO",t.data);break;case i.api.CLIENT_ODDS_FORMAT:e.$broadcast("ODDS:FORMAT",t.data);break;case i.api.CLIENT_CONFIG:e.$broadcast("CLIENT:CONFIG",t.data);break;case i.api.USER_LOGGED_IN:e.$broadcast("USER:LOGGED_IN",t.data)}},i.requestWidgetHeight=function(){var e=n.defer();return r.then(function(e){e.request(e.WIDGET_HEIGHT)}),e.promise},i.setWidgetHeight=function(e){var t=n.defer();return r.then(function(t){t.set(t.WIDGET_HEIGHT,e)}),t.promise},i.enableWidgetTransition=function(e){var t=n.defer();return r.then(function(t){e?t.set(t.WIDGET_ENABLE_TRANSITION):t.set(t.WIDGET_DISABLE_TRANSITION)}),t.promise},i.removeWidget=function(){var e=n.defer();return r.then(function(e){e.remove()}),e.promise},i.navigateToLiveEvent=function(e){var t=n.defer();return r.then(function(t){t.navigateClient("#event/live/"+e)}),t.promise},i.navigateToEvent=function(e){var t=n.defer();return r.then(function(t){t.navigateClient("#event/"+e)}),t.promise},i.navigateToGroup=function(e){var t=n.defer();return r.then(function(t){t.navigateClient("#group/"+e)}),t.promise},i.navigateToLiveEvents=function(){var e=n.defer();return r.then(function(e){e.navigateClient("#events/live")}),e.promise},i.addOutcomeToBetslip=function(e,t,a,i){var o=n.defer();return r.then(function(n){var r=[];angular.isArray(e)?r=e:r.push(e);var o={outcomes:r};null!=t&&(angular.isArray(t)?o.stakes=t:o.stakes=[t]),o.couponType=1===r.length?n.BETSLIP_OUTCOMES_ARGS.TYPE_SINGLE:n.BETSLIP_OUTCOMES_ARGS.TYPE_COMBINATION,o.updateMode="replace"!==a?n.BETSLIP_OUTCOMES_ARGS.UPDATE_APPEND:n.BETSLIP_OUTCOMES_ARGS.UPDATE_REPLACE,null!=i&&(o.source=i),n.set(n.BETSLIP_OUTCOMES,o)}),o.promise},i.removeOutcomeFromBetslip=function(e){var t=n.defer();return r.then(function(t){var n=[];angular.isArray(e)?n=e:n.push(e),t.set(t.BETSLIP_OUTCOMES_REMOVE,{outcomes:n})}),t.promise},i.requestBetslipOutcomes=function(){var e=n.defer();return r.then(function(e){e.request(e.BETSLIP_OUTCOMES)}),e.promise},i.requestPageInfo=function(){var e=n.defer();return r.then(function(e){e.request(e.PAGE_INFO)}),e.promise},i.requestWidgetArgs=function(){var e=n.defer();return r.then(function(e){e.request(e.WIDGET_ARGS)}),e.promise},i.requestClientConfig=function(){var e=n.defer();return r.then(function(e){e.request(e.CLIENT_CONFIG)}),e.promise},i.requestOddsFormat=function(){var e=n.defer();return r.then(function(e){e.request(e.CLIENT_ODDS_FORMAT)}),e.promise},i}])}(angular.module("widgetCore"))}();
 (function () {
 
    'use strict';
