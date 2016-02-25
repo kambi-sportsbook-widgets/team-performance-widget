@@ -28,21 +28,24 @@
    <script src='//ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.js'></script>
    <script src='//ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular-animate.js'></script>
    <script src='//ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular-sanitize.js'></script>
-
-
    <!-- build:js -->
    <!-- This section will be replaced in the gulp build process -->
-   <script src='js/app.js'></script>
-   <script src='js/controllers/appController.js'></script>
-   <script src='../node_modules/kambi-sportsbook-widget-library/src/js/controllers/widgetCoreController.js'></script>
-   <script src="../node_modules/kambi-sportsbook-widget-library/src/js/filters/startFrom.js"></script>
-   <script src='../node_modules/kambi-sportsbook-widget-library/src/js/services/kambiWidgetService.js'></script>
-   <script src='../node_modules/kambi-sportsbook-widget-library/src/js/services/kambiAPIService.js'></script>
-   <script src='../node_modules/kambi-sportsbook-widget-library/src/js/services/coreUtilsService.js'></script>
-   <script src="../node_modules/kambi-sportsbook-widget-library/src/js/directives/kambiPaginationDirective.js"></script>
-   <script src='../node_modules/kambi-sportsbook-widget-core-translate/dist/translate.js'></script>
+   <script src="js/app.js"></script>
+   <script src="js/controllers/appController.js"></script>
    <!-- endbuild -->
-   <script src='https://c3-static.kambi.com/sb-mobileclient/widget-api/1.0.0.7/kambi-widget-api.js'></script>
+   <!-- build:corelib -->
+   <!-- This section will be replaced in the gulp build process -->
+   <script src="../node_modules/kambi-sportsbook-widget-library/src/js/controllers/widgetCoreController.js"></script>
+   <script src="../node_modules/kambi-sportsbook-widget-library/src/js/filters/startFrom.js"></script>
+   <script src="../node_modules/kambi-sportsbook-widget-library/src/js/services/kambiWidgetService.js"></script>
+   <script src="../node_modules/kambi-sportsbook-widget-library/src/js/services/kambiAPIService.js"></script>
+   <script src="../node_modules/kambi-sportsbook-widget-library/src/js/services/coreUtilsService.js"></script>
+   <!-- endbuild -->
+   <!-- build:translate -->
+   <!-- This section will be replaced in the gulp build process -->
+   <script src="../node_modules/kambi-sportsbook-widget-core-translate/dist/translate.js"></script>
+   <!-- endbuild -->
+   <script src="https://c3-static.kambi.com/sb-mobileclient/widget-api/1.0.0.7/kambi-widget-api.js"></script>
 </head>
 <body class='kw-body' ng-controller='appController'>
 <div class='l-flexbox l-vertical kw-wrapper'>
@@ -77,10 +80,10 @@
             <!-- performance bar -->
             <div class='l-flexbox l-horizontal l-pack-center l-p-6 l-pl-16 l-pr-16'>
                <div class='l-flexbox kw-bar kw-match-win'
-                  ng-style='{"flex-grow": team.performance}'>
+                    ng-style='{"flex-grow": team.performance}'>
                </div>
                <div class='l-flexbox kw-bar'
-                  ng-style='{"flex-grow": (1-team.performance)}'></div>
+                    ng-style='{"flex-grow": (1-team.performance)}'></div>
                <div ng-style='{"flex-grow": 0 }'>
                   &nbsp&nbsp{{Math.round(team.performance*100)}}%
                </div>

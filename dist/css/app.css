@@ -924,7 +924,7 @@ http://stackoverflow.com/questions/3508605/how-can-i-transition-height-0-to-heig
 
 i.kw-expand-icon {
   font-size: 150%;
-  transform: rotate(0);
+  transform: rotate(90deg);
   -moz-transition: -moz-transform 0.3s ease-out;
   -o-transition: -o-transform 0.3s ease-out;
   -webkit-transition: -webkit-transform 0.3s ease-out;

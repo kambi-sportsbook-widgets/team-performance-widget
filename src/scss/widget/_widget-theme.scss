@@ -121,7 +121,7 @@
 
 i.kw-expand-icon {
    font-size: 150%;
-   transform: rotate(0);
+   transform: rotate(90deg);
    @include transition(transform 0.3s ease-out);
 }
 
