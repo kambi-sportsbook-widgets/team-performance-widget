@@ -8,7 +8,7 @@
       'ngAnimate'
    ];
 
-   (function ( $app ) {
+   (function ($app) {
       'use strict';
 
       return $app;
