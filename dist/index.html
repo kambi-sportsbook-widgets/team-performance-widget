@@ -46,17 +46,7 @@
             </div>
 
 
-            <!-- boxes all matches -->
-            <div class='l-flex-1 l-p-6 l-pl-16 l-pr-16'>{{"All Games" | translate}}</div>
-            <div class='l-flexbox l-horizontal l-p-6 l-pl-16 l-pr-16'>
-               <div
-                  title='{{match.tooltipText}}'
-                  class='l-flexbox l-pack-center l-align-center
-                   kw-match-box kw-match-{{match.result}}'
-                  ng-repeat='match in team.matchHistory'>
-                  {{match.result | translate}}
-               </div>
-            </div>
+            <match-boxes-directive matches='matchHistoryHome' />
 
             <!-- performance bar -->
             <div class='l-flexbox l-horizontal l-pack-center l-p-6 l-pl-16 l-pr-16'>
@@ -72,27 +62,31 @@
 
             <!-- hidden part of the team information -->
             <div class='l-flexbox l-vertical l-pack-center kw-detail'>
-               <!-- boxes home matches -->
-               <div class='l-flex-1 l-p-6 l-pl-16 l-pr-16'>{{"Home Games" | translate}}</div>
-               <div class='l-flexbox l-horizontal l-p-6 l-pl-16 l-pr-16'>
-                  <div
-                     title='{{match.tooltipText}}'
-                     class='l-flexbox l-pack-center l-align-center
-                      kw-match-box kw-match-{{match.result}}'
-                     ng-repeat='match in team.matchHistoryHome'>
-                     {{match.result | translate}}
-                  </div>
-               </div>
 
-               <!-- boxes away matches -->
-               <div class='l-flex-1 l-p-6 l-pl-16 l-pr-16'>{{"Away Games" | translate}}</div>
-               <div class='l-flexbox l-horizontal l-p-6 l-pl-16 l-pr-16'>
-                  <div
-                     title='{{match.tooltipText}}'
-                     class='l-flexbox l-pack-center l-align-center
-                      kw-match-box kw-match-{{match.result}}'
-                     ng-repeat='match in team.matchHistoryAway'>
-                     {{match.result | translate}}
+               <div ng-if='args.showHomeAwayMatches'>
+                  <!-- boxes home matches -->
+                  <div class='l-flex-1 l-p-6 l-pl-16 l-pr-16'>{{"Home Games" | translate}}</div>
+                  <div class='l-flexbox l-horizontal l-p-6 l-pl-16 l-pr-16'>
+                     <div
+                        title='{{match.tooltipText}}'
+                        class='l-flexbox l-pack-center l-vertical l-align-center
+                         kw-match-box '
+                        ng-repeat='match in team.matchHistoryHome'>
+                        <span class='l-flexbox'>{{match.result | translate}}</span>
+                        <div class='l-flexbox kw-match-{{match.result}}'></div>
+                     </div>
+                  </div>
+
+                                 <!-- boxes away matches -->
+                  <div class='l-flex-1 l-p-6 l-pl-16 l-pr-16'>{{"Away Games" | translate}}</div>
+                  <div class='l-flexbox l-horizontal l-p-6 l-pl-16 l-pr-16'>
+                     <div
+                        title='{{match.tooltipText}}'
+                        class='l-flexbox l-pack-center l-align-center
+                         kw-match-box kw-match-{{match.result}}'
+                        ng-repeat='match in team.matchHistoryAway'>
+                        {{match.result | translate}}
+                     </div>
                   </div>
                </div>
 

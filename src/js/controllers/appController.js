@@ -159,17 +159,25 @@
             // might not be possible to get detailedViewHeight due to the accordion animation
             var headerHeight = 40;
             var footerHeight = 40;
-            var mainPadding = 16;
-            var compactViewHeight = 201;
-            var detailedViewHeight = compactViewHeight + 460;
-            var contentHeight = headerHeight + footerHeight + mainPadding + 1;
+            var compactViewTeamInfoHeight = 120;
+            var detailedViewTeamInfoHeight = 36 + 42 + 24;
+            var tableLineHeight = 45;
+            var teamWrapperPadding = 16;
+
+            var contentHeight = headerHeight + footerHeight;
+
             var teams = $scope.teams;
             var i = $scope.startFrom;
             while (i < $scope.startFrom + $scope.args.listLimit && i < teams.length) {
-               contentHeight += teams[i].detailed ? detailedViewHeight : compactViewHeight;
+               if (teams[i].detailed) {
+                  contentHeight += detailedViewTeamInfoHeight + teams[i].matchHistory.length * tableLineHeight;
+               } else {
+                  contentHeight += compactViewTeamInfoHeight;
+               }
                i++;
             }
-            $scope.setWidgetHeight(contentHeight);
+
+            $scope.setWidgetHeight(contentHeight + 1);
          };
 
          $scope.init().then(function () {

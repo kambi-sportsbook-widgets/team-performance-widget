@@ -163,7 +163,8 @@
          $scope.defaultArgs = {
             title: 'Football - Team Performance Indicator',
             numberMatchesPerTeam: 6, // Maximum number of matches to show per team
-            listLimit: 3 // Set the list limit value to be used for pagination
+            listLimit: 3, // Set the list limit value to be used for pagination
+            showHomeAwayMatches: true
          };
 
          $scope.Math = window.Math; // To be able to use Math functions in the template
@@ -178,7 +179,7 @@
             var footerHeight = 40;
             var mainPadding = 16;
             var compactViewHeight = 201;
-            var detailedViewHeight = compactViewHeight + 460;
+            var detailedViewHeight = compactViewHeight + $scope.args.showHomeAwayMatches ? 460 : 200;
             var contentHeight = headerHeight + footerHeight + mainPadding + 1;
             var teams = $scope.teams;
             var i = $scope.startFrom;
@@ -186,6 +187,7 @@
                contentHeight += teams[i].detailed ? detailedViewHeight : compactViewHeight;
                i++;
             }
+
             $scope.setWidgetHeight(contentHeight);
          };
 
@@ -203,3 +205,41 @@
          });
       }]);
 })($);
+
+(function () {
+
+   'use strict';
+
+   /**
+    * @ngdoc directive
+    * @name teamPerformanceWidget.directive:matchBoxesDirective
+    * @description
+    * Directive for the boxes containing match history
+    * @restrict A
+    * @scope    *
+    * @author daniel.hoffmann@globalmouth.com
+    */
+   (function ($app) {
+      return $app.directive('matchBoxesDirective', ['$window', function ($window) {
+         return {
+            restrict: 'A',
+            replace: true,
+            template: `
+            <div class='l-flex-1 l-p-6 l-pl-16 l-pr-16'>{{\"Home Games\" | translate}}</div>
+            <div class='l-flexbox l-horizontal l-p-6 l-pl-16 l-pr-16'>
+               <div
+                  class='l-flexbox l-pack-center l-vertical l-align-center
+                   kw-match-box '
+                  ng-repeat='match in matches'>
+                  <span class='l-flexbox'>{{match.result | translate}}</span>
+                  <div class='l-flexbox kw-match-{{match.result}}'></div>
+               </div>
+            </div>
+            `,
+            link: function (scope, elem, attrs) {
+            }
+         };
+      }]);
+   })(angular.module('teamPerformanceWidget'));
+
+}).call(this);

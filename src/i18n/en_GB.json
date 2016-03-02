@@ -2,11 +2,6 @@
    "win": "W",
    "draw": "D",
    "lose": "L",
-   "All Games": "All Games",
    "Home Games": "Home Games",
-   "Away Games": "Away Games",
-   "Date": "Date",
-   "Home": "Home",
-   "Away": "Away",
-   "Score": "Score"
+   "Away Games": "Away Games"
 }
