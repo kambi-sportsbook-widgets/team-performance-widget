@@ -159,7 +159,7 @@
             // might not be possible to get detailedViewHeight due to the accordion animation
             var headerHeight = 40;
             var footerHeight = 40;
-            var compactViewTeamInfoHeight = 120;
+            var compactViewTeamInfoHeight = 85;
             var detailedViewTeamInfoHeight = 36 + 42 + 24;
             var tableLineHeight = 45;
             var teamWrapperPadding = 16;

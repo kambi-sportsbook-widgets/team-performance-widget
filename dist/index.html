@@ -30,25 +30,27 @@
 </head>
 <body class='kw-body' ng-controller='appController'>
 <div class='l-flexbox l-vertical kw-wrapper'>
-   <div style='position:relative;' get-height>
+   <div style='position:relative;height:100%'>
       <header class='kw-header l-pl-16 l-flexbox l-horizontal'>
          <div>{{args.title}}</div>
       </header>
-      <main class='l-flexbox l-vertical l-flexed l-pack-start l-pb-16'>
+      <main class='l-flexbox l-vertical l-flexed l-pack-start'>
          <div
-            class='l-flexbox l-vertical kw-team-wrapper l-pt-12 l-pb-12'
+            class='l-flexbox l-vertical kw-team-wrapper'
             ng-repeat='team in teams | startFrom: startFrom | limitTo : args.listLimit'>
 
-            <input class='kw-accordion' type='checkbox' ng-model='team.detailed' ng-change='adjustHeight()'/>
+            <input class='kw-accordion' type='checkbox' ng-model='team.detailed' ng-change='adjustHeight()' />
+
             <div class='l-flexbox l-horizontal l-p-6 l-pl-16 l-pr-16 l-align-center'>
                <div class='l-flex-1 kw-title'>{{team.name}}</div>
-               <i class='ion-chevron-up kw-expand-icon'></i>
             </div>
 
+            <div class='l-flexbox l-horizontal'>
+               <match-boxes-directive class='l-flexbox l-flex-1' matches='team.matchHistory'></match-boxes-directive>
+               <i class='l-flexbox ion-chevron-down kw-expand-icon l-m-6'></i>
+            </div>
 
-            <match-boxes-directive matches='matchHistoryHome' />
-
-            <!-- performance bar -->
+            <!-- performance bar
             <div class='l-flexbox l-horizontal l-pack-center l-p-6 l-pl-16 l-pr-16'>
                <div class='l-flexbox kw-bar kw-match-win'
                     ng-style='{"flex-grow": team.performance}'>
@@ -59,59 +61,29 @@
                   &nbsp&nbsp{{Math.round(team.performance*100)}}%
                </div>
             </div>
+            -->
 
             <!-- hidden part of the team information -->
             <div class='l-flexbox l-vertical l-pack-center kw-detail'>
-
-               <div ng-if='args.showHomeAwayMatches'>
-                  <!-- boxes home matches -->
-                  <div class='l-flex-1 l-p-6 l-pl-16 l-pr-16'>{{"Home Games" | translate}}</div>
-                  <div class='l-flexbox l-horizontal l-p-6 l-pl-16 l-pr-16'>
-                     <div
-                        title='{{match.tooltipText}}'
-                        class='l-flexbox l-pack-center l-vertical l-align-center
-                         kw-match-box '
-                        ng-repeat='match in team.matchHistoryHome'>
-                        <span class='l-flexbox'>{{match.result | translate}}</span>
-                        <div class='l-flexbox kw-match-{{match.result}}'></div>
-                     </div>
+               <!-- Home and away boxes
+               <div>
+                  <div class='l-flexbox l-vertical'>
+                     <div class='l-flex-1 l-p-6 l-pl-16 l-pr-16'>{{"Home Games" | translate}}</div>
+                     <match-boxes-directive matches='team.matchHistoryHome'></match-boxes-directive>
                   </div>
 
-                                 <!-- boxes away matches -->
-                  <div class='l-flex-1 l-p-6 l-pl-16 l-pr-16'>{{"Away Games" | translate}}</div>
-                  <div class='l-flexbox l-horizontal l-p-6 l-pl-16 l-pr-16'>
-                     <div
-                        title='{{match.tooltipText}}'
-                        class='l-flexbox l-pack-center l-align-center
-                         kw-match-box kw-match-{{match.result}}'
-                        ng-repeat='match in team.matchHistoryAway'>
-                        {{match.result | translate}}
-                     </div>
+                  <div class='l-flexbox l-vertical'>
+                     <div class='l-flex-1 l-p-6 l-pl-16 l-pr-16'>{{"Away Games" | translate}}</div>
+                     <match-boxes-directive matches='team.matchHistoryAway'></match-boxes-directive>
                   </div>
                </div>
+               -->
 
                <div class='l-flexbox l-vertical kw-table'>
-                  <div class='kw-table-header kw-border-bottom l-p-6 l-pl-16 l-pr-16 l-flexbox l-horizontal l-align-center'>
-                     <div data-item-attr='date' class='l-flex-4 text-truncate ng-binding ng-scope'>
-                        {{"Date" | translate}}
-                     </div>
-                     <div data-item-attr='home' class='l-flex-5 text-truncate ng-binding ng-scope'>
-                        {{"Home" | translate}}
-                     </div>
-                     <div data-item-attr='score' class='l-flex-2 text-truncate ng-binding ng-scope'>
-                        {{"Score" | translate}}
-                     </div>
-                     <div data-item-attr='away' class='l-flex-5 text-truncate ng-binding ng-scope'>
-                        {{"Away" | translate}}
-                     </div>
-                  </div>
                   <div
                      class='kw-table-item l-p-6 l-pl-16 l-pr-16 l-flexbox l-horizontal l-align-center ng-scope'
                      ng-repeat='match in team.matchHistory'>
 
-                     <div data-item-attr='date' class='l-flex-4 ng-binding ng-scope'>
-                        {{match.dateText}}
-                     </div>
                      <div data-item-attr='home' class='l-flex-5 ng-binding ng-scope'>
                         {{match.homeTeam}}
                      </div>

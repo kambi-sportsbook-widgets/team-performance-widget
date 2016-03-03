@@ -816,7 +816,7 @@ Copyright (c) 2015 Daniel Eden
   position: relative;
   /*needed for the checkbox to use position absolute*/
   overflow: hidden;
-  min-height: 120px;
+  min-height: 85px;
   border-bottom: 1px solid #999;
 }
 .kw-team-wrapper:hover {
@@ -831,13 +831,13 @@ Copyright (c) 2015 Daniel Eden
 .kw-match-box {
   width: 100%;
   max-width: 50px;
-  height: 25px;
+  height: 30px;
   margin-left: 3px;
   margin-right: 3px;
 }
 .kw-match-box span {
-  line-height: 14px;
-  font-size: 12px;
+  line-height: 16px;
+  font-size: 16px;
 }
 .kw-match-box div {
   width: 100%;
@@ -846,25 +846,6 @@ Copyright (c) 2015 Daniel Eden
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
   border-radius: 3px;
-}
-
-.kw-bar {
-  height: 20px;
-  border: solid 1px black;
-}
-
-.kw-bar:first-child {
-  border-right: none;
-  border-top-left-radius: 8px;
-  border-bottom-left-radius: 8px;
-  background-color: #15BC00;
-}
-
-.kw-bar:nth-child(2) {
-  border-left: none;
-  border-top-right-radius: 8px;
-  border-bottom-right-radius: 8px;
-  background-color: #EAEAEA;
 }
 
 .kw-match-win {
@@ -879,16 +860,10 @@ Copyright (c) 2015 Daniel Eden
   background-color: #D4D4D4;
 }
 
-.kw-table-header {
-  color: #999;
-  border-bottom: 1px solid #EAEAEA;
-  font-size: 12px;
-  min-height: 35px;
-}
-
 .kw-table-item {
-  border-bottom: 1px solid #EAEAEA;
-  height: 35px;
+  border-bottom: 1px solid #999;
+  height: 45px;
+  font-size: 125%;
 }
 .kw-table-item:hover {
   background-color: #f0f0f0;
@@ -896,12 +871,27 @@ Copyright (c) 2015 Daniel Eden
 .kw-table-item:last-child {
   border-bottom: 0;
 }
+.kw-table-item:first-child {
+  border-top: 1px solid #999;
+}
+.kw-table-item div:first-child {
+  text-align: left;
+}
+.kw-table-item div:nth-child(2) {
+  text-align: center;
+}
+.kw-table-item div:last-child {
+  text-align: right;
+}
 
 .kw-accordion {
   position: absolute;
   top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 100%;
   width: 100%;
-  height: 70px;
   z-index: 1;
   opacity: 0;
   margin: 0;
@@ -915,26 +905,39 @@ Copyright (c) 2015 Daniel Eden
   -o-transition: height 0.3s ease-out;
   -webkit-transition: height 0.3s ease-out;
   transition: height 0.3s ease-out;
+  background-color: #f0f0f0;
 }
 
 .kw-accordion:checked ~ .kw-detail {
-  height: 460px;
+  height: 270px;
                /*auto doesn't work here, see:
 http://stackoverflow.com/questions/3508605/how-can-i-transition-height-0-to-height-auto-using-css
 */
 }
 
 i.kw-expand-icon {
-  font-size: 150%;
-  transform: rotate(90deg);
+  font-size: 200%;
+  -moz-transform: rotate(-90deg);
+  -ms-transform: rotate(-90deg);
+  -webkit-transform: rotate(-90deg);
+  transform: rotate(-90deg);
   -moz-transition: -moz-transform 0.3s ease-out;
   -o-transition: -o-transform 0.3s ease-out;
   -webkit-transition: -webkit-transform 0.3s ease-out;
   transition: transform 0.3s ease-out;
+  -webkit-align-self: flex-end;
+  -moz-align-self: flex-end;
+  -ms-flex-item-align: end;
+  align-self: flex-end;
+  margin: 6px;
+  margin-right: 12px;
 }
 
 .kw-accordion:checked ~ div i.kw-expand-icon {
-  transform: rotate(180deg);
+  -moz-transform: rotate(0deg);
+  -ms-transform: rotate(0deg);
+  -webkit-transform: rotate(0deg);
+  transform: rotate(0deg);
 }
 
 

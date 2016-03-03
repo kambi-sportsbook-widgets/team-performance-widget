@@ -57,7 +57,7 @@
       </header>
       <main class='l-flexbox l-vertical l-flexed l-pack-start'>
          <div
-            class='l-flexbox l-vertical kw-team-wrapper l-pt-12 l-pb-12'
+            class='l-flexbox l-vertical kw-team-wrapper'
             ng-repeat='team in teams | startFrom: startFrom | limitTo : args.listLimit'>
 
             <input class='kw-accordion' type='checkbox' ng-model='team.detailed' ng-change='adjustHeight()' />

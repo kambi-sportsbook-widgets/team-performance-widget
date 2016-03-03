@@ -14,7 +14,7 @@
 .kw-team-wrapper {
    position: relative; /*needed for the checkbox to use position absolute*/
    overflow: hidden;
-   min-height: 120px;
+   min-height: 85px;
    border-bottom: 1px solid $color-4-2-card-supportive-text;
 
    &:hover {
@@ -141,7 +141,7 @@
 
 i.kw-expand-icon {
    font-size: 200%;
-   @include transform(rotate(0deg));
+   @include transform(rotate(-90deg));
    @include transition(transform 0.3s ease-out);
    @include align-self(flex-end);
    margin: 6px;
@@ -149,5 +149,5 @@ i.kw-expand-icon {
 }
 
 .kw-accordion:checked ~ div i.kw-expand-icon {
-   @include transform(rotate(180deg));
+   @include transform(rotate(0deg));
 }

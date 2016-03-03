@@ -163,8 +163,7 @@
          $scope.defaultArgs = {
             title: 'Football - Team Performance Indicator',
             numberMatchesPerTeam: 6, // Maximum number of matches to show per team
-            listLimit: 3, // Set the list limit value to be used for pagination
-            showHomeAwayMatches: true
+            listLimit: 3 // Set the list limit value to be used for pagination
          };
 
          $scope.Math = window.Math; // To be able to use Math functions in the template
@@ -177,18 +176,25 @@
             // might not be possible to get detailedViewHeight due to the accordion animation
             var headerHeight = 40;
             var footerHeight = 40;
-            var mainPadding = 16;
-            var compactViewHeight = 201;
-            var detailedViewHeight = compactViewHeight + $scope.args.showHomeAwayMatches ? 460 : 200;
-            var contentHeight = headerHeight + footerHeight + mainPadding + 1;
+            var compactViewTeamInfoHeight = 85;
+            var detailedViewTeamInfoHeight = 36 + 42 + 24;
+            var tableLineHeight = 45;
+            var teamWrapperPadding = 16;
+
+            var contentHeight = headerHeight + footerHeight;
+
             var teams = $scope.teams;
             var i = $scope.startFrom;
             while (i < $scope.startFrom + $scope.args.listLimit && i < teams.length) {
-               contentHeight += teams[i].detailed ? detailedViewHeight : compactViewHeight;
+               if (teams[i].detailed) {
+                  contentHeight += detailedViewTeamInfoHeight + teams[i].matchHistory.length * tableLineHeight;
+               } else {
+                  contentHeight += compactViewTeamInfoHeight;
+               }
                i++;
             }
 
-            $scope.setWidgetHeight(contentHeight);
+            $scope.setWidgetHeight(contentHeight + 1);
          };
 
          $scope.init().then(function () {
@@ -222,22 +228,21 @@
    (function ($app) {
       return $app.directive('matchBoxesDirective', ['$window', function ($window) {
          return {
-            restrict: 'A',
+            restrict: 'E',
             replace: true,
-            template: `
-            <div class='l-flex-1 l-p-6 l-pl-16 l-pr-16'>{{\"Home Games\" | translate}}</div>
-            <div class='l-flexbox l-horizontal l-p-6 l-pl-16 l-pr-16'>
-               <div
-                  class='l-flexbox l-pack-center l-vertical l-align-center
-                   kw-match-box '
-                  ng-repeat='match in matches'>
-                  <span class='l-flexbox'>{{match.result | translate}}</span>
-                  <div class='l-flexbox kw-match-{{match.result}}'></div>
-               </div>
-            </div>
-            `,
-            link: function (scope, elem, attrs) {
-            }
+            scope: {
+               matches: '=matches',
+               text: '=text'
+            },
+            template: '<div class=\'l-flexbox l-horizontal l-p-6 \'> ' +
+               '<div \ ' +
+                  'class=\'l-flexbox l-pack-center l-vertical l-align-center ' +
+                  ' kw-match-box\' ' +
+                  'ng-repeat=\'match in matches\'> ' +
+                  '<span class=\'l-flexbox\'>{{match.result | translate}}</span> ' +
+                  '<div class=\'l-flexbox kw-match-{{match.result}}\'></div> ' +
+               '</div> ' +
+            '</div> '
          };
       }]);
    })(angular.module('teamPerformanceWidget'));
