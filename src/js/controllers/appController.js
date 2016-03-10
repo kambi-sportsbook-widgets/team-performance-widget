@@ -158,19 +158,16 @@
             // TODO maybe try to dinamically get these values?
             // might not be possible to get detailedViewHeight due to the accordion animation
             var headerHeight = 40;
-            var footerHeight = 40;
             var compactViewTeamInfoHeight = 85;
-            var detailedViewTeamInfoHeight = 36 + 42;
             var tableLineHeight = 45;
-            var teamWrapperPadding = 16;
 
-            var contentHeight = headerHeight + footerHeight;
+            var contentHeight = headerHeight;
 
             var teams = $scope.teams;
             var i = $scope.startFrom;
             while (i < $scope.startFrom + $scope.args.listLimit && i < teams.length) {
                if (teams[i].detailed) {
-                  contentHeight += detailedViewTeamInfoHeight + teams[i].matchHistory.length * tableLineHeight;
+                  contentHeight += compactViewTeamInfoHeight + teams[i].matchHistory.length * tableLineHeight;
                } else {
                   contentHeight += compactViewTeamInfoHeight;
                }

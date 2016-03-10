@@ -41,7 +41,6 @@
    <script src="../node_modules/kambi-sportsbook-widget-library/src/js/services/kambiWidgetService.js"></script>
    <script src="../node_modules/kambi-sportsbook-widget-library/src/js/services/kambiAPIService.js"></script>
    <script src="../node_modules/kambi-sportsbook-widget-library/src/js/services/coreUtilsService.js"></script>
-   <script src="../node_modules/kambi-sportsbook-widget-library/src/js/directives/kambiPaginationDirective.js"></script>
    <!-- endbuild -->
    <!-- build:translate -->
    <!-- This section will be replaced in the gulp build process -->
@@ -66,9 +65,9 @@
                <div class='l-flex-1 kw-title'>{{team.name}}</div>
             </div>
 
-            <div class='l-flexbox l-horizontal'>
+            <div class='l-flexbox l-horizontal l-mb-6'>
                <match-boxes-directive class='l-flexbox l-flex-1' matches='team.matchHistory'></match-boxes-directive>
-               <i class='l-flexbox ion-chevron-down kw-expand-icon l-m-6'></i>
+               <i class='l-flexbox ion-chevron-down kw-expand-icon'></i>
             </div>
 
             <!-- performance bar
@@ -119,15 +118,6 @@
             </div>
          </div>
       </main>
-      <footer class="kw-footer">
-         <kambi-pagination-directive class="kw-pagination l-flexbox l-pack-center l-align-center"
-                                     list="teams"
-                                     pages="pages"
-                                     start-from="startFrom"
-                                     list-limit="args.listLimit"
-                                     ng-click="adjustHeight()">
-         </kambi-pagination-directive>
-      </footer>
    </div>
 </div>
 </body>
