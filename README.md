@@ -1,4 +1,4 @@
-# vine-widget
+# team-performance-widget
 
 A widget to display the performance indicators of teams
 
