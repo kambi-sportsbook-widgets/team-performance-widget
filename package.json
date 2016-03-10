@@ -1,6 +1,6 @@
 {
    "name": "team-performance-widget",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "description": "A widget to display team performance indicators from the last matches",
    "main": "dist/index.html",
    "scripts": {
