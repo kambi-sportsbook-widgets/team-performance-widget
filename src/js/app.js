@@ -4,8 +4,7 @@
 
    arrDependencies = [
       'widgetCore',
-      'widgetCore.translate',
-      'ngAnimate'
+      'widgetCore.translate'
    ];
 
    (function ($app) {

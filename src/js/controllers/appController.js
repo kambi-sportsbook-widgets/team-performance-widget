@@ -58,10 +58,11 @@
          return false;
       }
       // Just making sure that the match is not already in there
-      var isInHistory = _.find(matchHistory, function (e) {
+      var isInHistory = matchHistory.filter(function (e) {
          return item.id === e.id;
-      });
-      if (isInHistory != null) {
+      }).length > 0;
+
+      if (isInHistory) {
          return false;
       }
       return true;
@@ -190,4 +191,4 @@
             });
          });
       }]);
-})($);
+})();

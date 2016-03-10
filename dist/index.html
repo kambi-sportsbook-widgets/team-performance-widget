@@ -18,15 +18,16 @@
 
    <link rel='stylesheet' href='http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css'>
    <link rel='stylesheet' type='text/css' href='//fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900'/>
+
    <link rel="stylesheet" href="css/app.min.css">
 
-   <script src='//code.jquery.com/jquery-2.2.0.min.js'></script>
-   <script src='//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js'></script>
    <script src='//ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.js'></script>
-   <script src='//ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular-animate.js'></script>
    <script src='//ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular-sanitize.js'></script>
+
    <script src="js/app.min.js"></script>
-   <script src="//kambi-cdn.globalmouth.com/lib/dist/js/app.min.js"></script>   
+
+   <script src="//kambi-cdn.globalmouth.com/lib/dist/js/app.min.js"></script>
+
    <script src="//kambi-cdn.globalmouth.com/translate/dist/translate.min.js"></script>
 
    <script src="https://c3-static.kambi.com/sb-mobileclient/widget-api/1.0.0.8/kambi-widget-api.js"></script>
@@ -49,39 +50,19 @@
             </div>
 
             <div class='l-flexbox l-horizontal l-mb-6'>
-               <match-boxes-directive class='l-flexbox l-flex-1' matches='team.matchHistory'></match-boxes-directive>
+               <div class='l-flexbox l-flex-1 l-horizontal l-p-6'>
+                  <div
+                     class='l-flexbox l-pack-center l-vertical l-align-center kw-match-box'
+                     ng-repeat='match in team.matchHistory'>
+                     <span class='l-flexbox\'>{{match.result | translate}}</span>
+                     <div class='l-flexbox kw-match-{{match.result}}'></div>
+                  </div>
+               </div>
                <i class='l-flexbox ion-chevron-down kw-expand-icon'></i>
             </div>
 
-            <!-- performance bar
-            <div class='l-flexbox l-horizontal l-pack-center l-p-6 l-pl-16 l-pr-16'>
-               <div class='l-flexbox kw-bar kw-match-win'
-                    ng-style='{"flex-grow": team.performance}'>
-               </div>
-               <div class='l-flexbox kw-bar'
-                    ng-style='{"flex-grow": (1-team.performance)}'></div>
-               <div ng-style='{"flex-grow": 0 }'>
-                  &nbsp&nbsp{{Math.round(team.performance*100)}}%
-               </div>
-            </div>
-            -->
-
             <!-- hidden part of the team information -->
             <div class='l-flexbox l-vertical l-pack-center kw-detail'>
-               <!-- Home and away boxes
-               <div>
-                  <div class='l-flexbox l-vertical'>
-                     <div class='l-flex-1 l-p-6 l-pl-16 l-pr-16'>{{"Home Games" | translate}}</div>
-                     <match-boxes-directive matches='team.matchHistoryHome'></match-boxes-directive>
-                  </div>
-
-                  <div class='l-flexbox l-vertical'>
-                     <div class='l-flex-1 l-p-6 l-pl-16 l-pr-16'>{{"Away Games" | translate}}</div>
-                     <match-boxes-directive matches='team.matchHistoryAway'></match-boxes-directive>
-                  </div>
-               </div>
-               -->
-
                <div class='l-flexbox l-vertical kw-table'>
                   <div
                      class='kw-table-item l-p-6 l-pl-16 l-pr-16 l-flexbox l-horizontal l-align-center ng-scope'
