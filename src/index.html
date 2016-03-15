@@ -1,5 +1,5 @@
 <!doctype html>
-<html ng-app="teamPerformanceWidget">
+<html>
 <head>
    <title>Team Performance Widget</title>
    <meta charset='UTF-8'>
@@ -16,36 +16,29 @@
    <meta name='apple-mobile-web-app-status-bar-style' content='black'>
    <meta name='apple-mobile-web-app-title' content=''>
 
-   <link rel='stylesheet' href='http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css'>
-   <link rel='stylesheet' type='text/css' href='//fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900'/>
+
+   <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Roboto:300,400,500"/>
+   <link rel="stylesheet" type="text/css" href="//kambi-cdn.globalmouth.com/lib/dist/css/app-base-all.min.css"/>
+   <link rel="stylesheet" type="text/css" href="//kambi-cdn.globalmouth.com/lib/dist/css/widgets.css"/>
+   <link rel="stylesheet" type="text/css" href="//kambi-cdn.globalmouth.com/lib/dist/css/app-icons.css"/>
 
    <!-- build:css -->
    <!-- This section will be replaced in the gulp build process -->
    <link rel='stylesheet' type='text/css' href='css/app.css'/>
    <!-- endbuild -->
 
-   <script src='//ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.js'></script>
-   <script src='//ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular-sanitize.js'></script>
-
-   <!-- build:js -->
-   <!-- This section will be replaced in the gulp build process -->
-   <script src="js/app.js"></script>
-   <script src="js/controllers/appController.js"></script>
-   <script src="js/directives/matchBoxesDirective.js"></script>
-   <!-- endbuild -->
+   <script src='//cdnjs.cloudflare.com/ajax/libs/rivets/0.8.1/rivets.bundled.min.js'></script>
+   <script src='//cdnjs.cloudflare.com/ajax/libs/rivets/0.8.1/rivets.js'></script>
+   <script src='//cdnjs.cloudflare.com/ajax/libs/stapes/0.8.1/stapes.min.js'></script>
 
    <!-- build:corelib -->
    <!-- This section will be replaced in the gulp build process -->
-   <script src="../node_modules/kambi-sportsbook-widget-library/src/js/controllers/widgetCoreController.js"></script>
-   <script src="../node_modules/kambi-sportsbook-widget-library/src/js/filters/startFrom.js"></script>
-   <script src="../node_modules/kambi-sportsbook-widget-library/src/js/services/kambiWidgetService.js"></script>
-   <script src="../node_modules/kambi-sportsbook-widget-library/src/js/services/kambiAPIService.js"></script>
-   <script src="../node_modules/kambi-sportsbook-widget-library/src/js/services/coreUtilsService.js"></script>
+   <!-- TODO -->
    <!-- endbuild -->
 
    <!-- build:translate -->
    <!-- This section will be replaced in the gulp build process -->
-   <script src="../node_modules/kambi-sportsbook-widget-core-translate/dist/translate.js"></script>
+   <!-- TODO -->
    <!-- endbuild -->
 
    <!-- build:kambi-widget-api -->
@@ -53,30 +46,30 @@
    <script src="https://c3-static.kambi.com/sb-mobileclient/widget-api/1.0.0.8/kambi-widget-api.js"></script>
    <!-- endbuild -->
 </head>
-<body class='kw-body' ng-controller='appController'>
+<body class='kw-body'>
 <div class='l-flexbox l-vertical kw-wrapper'>
-   <div style='position:relative;height:100%'>
+   <div id='main' style='position:relative;height:100%'>
       <header class='kw-header l-pl-16 l-flexbox l-horizontal'>
-         <div>{{args.title}}</div>
+         <div>{args.title}</div>
       </header>
       <main class='l-flexbox l-vertical l-flexed l-pack-start'>
          <div
             class='l-flexbox l-vertical kw-team-wrapper'
-            ng-repeat='team in teams | startFrom: startFrom | limitTo : args.listLimit'>
+            rv-each-team='teams'>
 
             <input class='kw-accordion' type='checkbox' ng-model='team.detailed' ng-change='adjustHeight()' />
 
             <div class='l-flexbox l-horizontal l-p-6 l-pl-16 l-pr-16 l-align-center'>
-               <div class='l-flex-1 kw-title'>{{team.name}}</div>
+               <div class='l-flex-1 kw-title'>{team.name}</div>
             </div>
 
             <div class='l-flexbox l-horizontal l-mb-6'>
                <div class='l-flexbox l-flex-1 l-horizontal l-p-6'>
                   <div
                      class='l-flexbox l-pack-center l-vertical l-align-center kw-match-box'
-                     ng-repeat='match in team.matchHistory'>
-                     <span class='l-flexbox\'>{{match.result | translate}}</span>
-                     <div class='l-flexbox kw-match-{{match.result}}'></div>
+                     rv-each-match='team.matchHistory'>
+                     <span class='l-flexbox'>{match.result | translate}</span>
+                     <div class='l-flexbox' rv-box-css-class='match.result'></div>
                   </div>
                </div>
                <i class='l-flexbox ion-chevron-down kw-expand-icon'></i>
@@ -86,24 +79,31 @@
             <div class='l-flexbox l-vertical l-pack-center kw-detail'>
                <div class='l-flexbox l-vertical kw-table'>
                   <div
-                     class='kw-table-item l-p-6 l-pl-16 l-pr-16 l-flexbox l-horizontal l-align-center ng-scope'
-                     ng-repeat='match in team.matchHistory'>
+                     class='kw-table-item l-p-6 l-pl-16 l-pr-16 l-flexbox l-horizontal l-align-center'
+                     rv-each-match='team.matchHistory'>
 
-                     <div data-item-attr='home' class='l-flex-5 ng-binding ng-scope'>
-                        {{match.homeTeam}}
+                     <div data-item-attr='home' class='l-flex-5'>
+                        {match.homeTeam}
                      </div>
-                     <div data-item-attr='score' class='l-flex-2 ng-binding ng-scope'>
-                        {{match.homeScore}} - {{match.awayScore}}
+                     <div data-item-attr='score' class='l-flex-2'>
+                        {match.homeScore} - {match.awayScore}
                      </div>
-                     <div data-item-attr='away' class='l-flex-5 ng-binding ng-scope'>
-                        {{match.awayTeam}}
+                     <div data-item-attr='away' class='l-flex-5'>
+                        {match.awayTeam}
                      </div>
                   </div>
                </div>
             </div>
          </div>
+
       </main>
    </div>
 </div>
+
+<!-- build:js -->
+<!-- This section will be replaced in the gulp build process -->
+<script src="js/app.js"></script>
+<!-- endbuild -->
+
 </body>
 </html>
