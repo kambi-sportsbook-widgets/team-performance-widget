@@ -56,8 +56,8 @@
       return item;
    };
 
-// Returns true if the item is not already present in the provided matchHistory and
-// the matchHistory length is not bigger than args.numberMatchesPerTeam
+   // Returns true if the item is not already present in the provided matchHistory and
+   // the matchHistory length is not bigger than args.numberMatchesPerTeam
    var shouldBeAddedToHistory = function ( matchHistory, item, numberMatchesPerTeam ) {
       if ( matchHistory.length >= numberMatchesPerTeam ) {
          return false;
@@ -73,7 +73,7 @@
       return true;
    };
 
-// Calculates the performance of the team
+   // Calculates the performance of the team
    var calculatePerformance = function ( matchHistory ) {
       var sum = 0;
       matchHistory.forEach(function ( m ) {
@@ -87,7 +87,7 @@
       return sum / (matchHistory.length * 20);
    };
 
-// Parses the data provided considering only the first numberMatchesPerTeam matches
+   // Parses the data provided considering only the first numberMatchesPerTeam matches
    var parseTeamsInfo = function ( teams, numberMatchesPerTeam ) {
       var teamsInfo = [];
       teams.forEach(function ( team ) {
@@ -142,9 +142,8 @@
       constructor: function ( name ) {
          this.scope = {};
 
-         CoreLibrary.init().on('ready', function ( apiData ) {
-            this.model = CoreLibrary.getData('someType', apiData.filter);
-            this.model.on('change', function ( data ) {
+         CoreLibrary.init().then(function ( apiData ) {
+            CoreLibrary.getData('someType', apiData.filter).then(function ( data ) {
                this.scope.args = Object.assign({
                   title: 'Football - Team Performance Indicator',
                   numberMatchesPerTeam: 6, // Maximum number of matches to show per team
