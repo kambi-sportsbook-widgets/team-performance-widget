@@ -63,6 +63,7 @@
       "addToHomeScreen": true,
       "Stapes": true,
       "rivets": true,
+      "fetch": true,
       "CoreLibrary": true
    }
 }
