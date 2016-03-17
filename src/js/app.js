@@ -1,12 +1,5 @@
 (function () {
    'use strict';
-   rivets.formatters.translate = function ( value ) {
-      return value;
-   };
-
-   /**
-    * Widget code
-    */
 
    var parseMatchHistoryItem = function ( match, teamName ) {
       var item = {
