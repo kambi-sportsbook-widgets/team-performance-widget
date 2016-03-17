@@ -1,4 +1,4 @@
-var CoreLibrary = (function () {
+window.CoreLibrary = (function () {
 
    'use strict';
 
@@ -15,6 +15,15 @@ var CoreLibrary = (function () {
    function parseJSON ( response ) {
       return response.json();
    }
+
+   var i18n = {};
+
+   rivets.formatters.translate = function ( value ) {
+      if (i18n[value] != null) {
+         return i18n[value];
+      }
+      return value;
+   };
 
    return {
       widgetModule: null,
@@ -40,7 +49,9 @@ var CoreLibrary = (function () {
                         console.debug('Loaded mock setup data');
                         console.debug(mockSetupData);
                         this.applySetupData(mockSetupData, setDefaultHeight);
-                        resolve(this.config);
+                        this.fetchTranslations(this.config.clientConfig.locale).then(function () {
+                           resolve(this.config);
+                        }.bind(this));
                      }.bind(this))
                      .catch(function ( error ) {
                         console.debug('Request failed');
@@ -53,7 +64,9 @@ var CoreLibrary = (function () {
                      console.debug('API Ready');
                      this.requestSetup(function ( setupData ) {
                         this.applySetupData(setupData, setDefaultHeight);
-                        resolve(this.config.arguments);
+                        this.fetchTranslations(this.config.arguments.clientConfig.locale).then(function () {
+                           resolve(this.config.arguments);
+                        }.bind(this));
                      }.bind(this));
                   }.bind(this);
                   window.KambiWidget.receiveResponse = function ( dataObject ) {
@@ -65,6 +78,35 @@ var CoreLibrary = (function () {
                reject();
             }
          }.bind(this));
+      },
+
+      fetchTranslations: function ( locale ) {
+         if (locale == null) {
+            locale = 'en_GB';
+         }
+         var self = this;
+         var promise = new Promise (function ( resolve, reject ) {
+            self.getData('i18n/' + locale + '.json')
+               .then(function ( response ) {
+                  i18n = response;
+                  resolve();
+               })
+               .catch(function ( error ) {
+                  if (locale !== 'en_GB') {
+                     console.debug('Could not load translations for ' + locale + ' falling back to en_GB');
+                     self.fetchTranslations('en_GB').then(resolve).catch(function ( error ) {
+                        console.debug('Could not load translations for en_GB');
+                        console.trace(error);
+                        resolve();
+                     });
+                  } else {
+                     console.debug('Could not load translations for en_GB');
+                     console.trace(error);
+                     resolve();
+                  }
+               });
+         });
+         return promise;
       },
 
       applySetupData: function ( setupData, setDefaultHeight ) {

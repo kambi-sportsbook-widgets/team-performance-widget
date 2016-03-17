@@ -110,7 +110,7 @@
    margin: 0;
    cursor: pointer;
 
-   height: 70px; //allows easier inspecting
+   //height: 70px; //allows easier inspecting
 }
 
 .kw-detail {
@@ -137,5 +137,4 @@ i.kw-expand-icon {
 
 .kw-accordion:checked ~ div i.kw-expand-icon {
    @include transform(rotate(180deg));
-
 }

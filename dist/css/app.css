@@ -71,10 +71,6 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   animation-fill-mode: both;
 }
 
-.kw-header {
-  height: 40px;
-}
-
 .kw-wrapper {
   position: absolute;
   top: 0;
@@ -159,7 +155,6 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   opacity: 0;
   margin: 0;
   cursor: pointer;
-  height: 70px;
 }
 
 .kw-detail {
@@ -180,7 +175,7 @@ http://stackoverflow.com/questions/3508605/how-can-i-transition-height-0-to-heig
 }
 
 i.kw-expand-icon {
-  font-size: 20px;
+  font-size: 25px;
   -moz-transform: rotate(0deg);
   -ms-transform: rotate(0deg);
   -webkit-transform: rotate(0deg);
