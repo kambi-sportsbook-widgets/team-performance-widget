@@ -135,16 +135,26 @@
       constructor: function ( name ) {
          this.scope = {};
 
-         CoreLibrary.init().then(function ( config ) {
-            this.scope.args = Object.assign({
-               title: 'Football - Team Performance Indicator',
-               numberMatchesPerTeam: 6, // Maximum number of matches to show per team
-               listLimit: 3 // Set the list limit value to be used for pagination)
-            }, config.arguments);
-            CoreLibrary.getData('mockdata.json').then(function ( data ) {
-               this.scope.teams = parseTeamsInfo(data.tournaments[0].teams, this.scope.numberMatchesPerTeam);
-            }.bind(this));
-         }.bind(this));
+         CoreLibrary.init()
+            .then(function ( widgetArgs ) {
+               this.scope.args = Object.assign({
+                  title: 'Football - Team Performance Indicator',
+                  numberMatchesPerTeam: 6 // Maximum number of matches to show per team
+               }, widgetArgs );
+
+               CoreLibrary.getData('mockdata.json').then(function ( data ) {
+                  this.scope.teams = parseTeamsInfo(data.tournaments[0].teams, this.scope.numberMatchesPerTeam);
+                  this.scope.teams.forEach(function (team) {
+                     sightglass(team, 'detailed', this.adjustHeight.bind(this));
+                  }.bind(this));
+                  this.adjustHeight();
+               }.bind(this));
+
+            }.bind(this))
+            .catch(function ( error ) {
+               void 0;
+               void 0;
+            });
 
          this.view = rivets.bind(document.getElementById('main'), this.scope);
          this.view.binders['box-css-class'] = this.boxCssClass;
@@ -152,6 +162,26 @@
 
       boxCssClass: function ( el, value ) {
          el.classList.add('kw-match-' + value);
+      },
+
+      adjustHeight: function () {
+         // TODO maybe try to dinamically get these values?
+         // might not be possible to get detailedViewHeight due to the accordion animation
+         var headerHeight = 40;
+         var compactViewTeamInfoHeight = 85;
+         var tableLineHeight = 45;
+
+         var contentHeight = headerHeight;
+
+         this.scope.teams.forEach(function (team) {
+            if (team.detailed) {
+               contentHeight += compactViewTeamInfoHeight + team.matchHistory.length * tableLineHeight;
+            } else {
+               contentHeight += compactViewTeamInfoHeight;
+            }
+         });
+
+         CoreLibrary.widgetModule.setWidgetHeight(contentHeight + 1);
       }
    });
 
@@ -180,11 +210,14 @@ window.CoreLibrary = (function () {
    var i18n = {};
 
    rivets.formatters.translate = function ( value ) {
-      if (i18n[value] != null) {
+      if ( i18n[value] != null ) {
          return i18n[value];
       }
       return value;
    };
+
+   sightglass.adapters = rivets.adapters;
+   sightglass.root = '.';
 
    return {
       widgetModule: null,
@@ -210,8 +243,8 @@ window.CoreLibrary = (function () {
                         void 0;
                         void 0;
                         this.applySetupData(mockSetupData, setDefaultHeight);
-                        this.fetchTranslations(this.config.clientConfig.locale).then(function () {
-                           resolve(this.config);
+                        this.fetchTranslations(mockSetupData.clientConfig.locale).then(function () {
+                           resolve(mockSetupData['arguments']);
                         }.bind(this));
                      }.bind(this))
                      .catch(function ( error ) {
@@ -223,13 +256,22 @@ window.CoreLibrary = (function () {
                   window.KambiWidget.apiReady = function ( api ) {
                      this.widgetModule.api = api;
                      void 0;
+                     void 0;
                      this.requestSetup(function ( setupData ) {
                         this.applySetupData(setupData, setDefaultHeight);
-                        this.fetchTranslations(this.config.arguments.clientConfig.locale).then(function () {
-                           resolve(this.config.arguments);
+
+                        // TODO: Move this to widgets so we don't request them when not needed
+                        // Request the outcomes from the betslip so we can update our widget, this will also sets up a subscription for future betslip updates
+                        this.widgetModule.requestBetslipOutcomes();
+                        // Request the odds format that is set in the sportsbook, this also sets up a subscription for future odds format changes
+                        this.widgetModule.requestOddsFormat();
+                        this.fetchTranslations(setupData.clientConfig.locale).then(function () {
+                           resolve(setupData['arguments']);
                         }.bind(this));
                      }.bind(this));
+
                   }.bind(this);
+
                   window.KambiWidget.receiveResponse = function ( dataObject ) {
                      this.widgetModule.handleResponse(dataObject);
                   }.bind(this);
@@ -242,18 +284,18 @@ window.CoreLibrary = (function () {
       },
 
       fetchTranslations: function ( locale ) {
-         if (locale == null) {
+         if ( locale == null ) {
             locale = 'en_GB';
          }
          var self = this;
-         var promise = new Promise (function ( resolve, reject ) {
+         return new Promise(function ( resolve, reject ) {
             self.getData('i18n/' + locale + '.json')
                .then(function ( response ) {
                   i18n = response;
                   resolve();
                })
                .catch(function ( error ) {
-                  if (locale !== 'en_GB') {
+                  if ( locale !== 'en_GB' ) {
                      void 0;
                      self.fetchTranslations('en_GB').then(resolve).catch(function ( error ) {
                         void 0;
@@ -267,7 +309,6 @@ window.CoreLibrary = (function () {
                   }
                });
          });
-         return promise;
       },
 
       applySetupData: function ( setupData, setDefaultHeight ) {
@@ -285,8 +326,8 @@ window.CoreLibrary = (function () {
          this.setPageInfo(setupData.pageInfo);
 
          // Set the offering in the API service
-         if ( setupData.arguments != null && setupData.arguments.hasOwnProperty('offering') ) {
-            this.offeringModule.setOffering(setupData.arguments.offering);
+         if ( setupData['arguments'] != null && setupData['arguments'].hasOwnProperty('offering') ) {
+            this.offeringModule.setOffering(setupData['arguments'].offering);
          } else {
             void 0;
          }
@@ -326,7 +367,11 @@ window.CoreLibrary = (function () {
       getData: function ( url ) {
          return fetch(url)
             .then(checkStatus)
-            .then(parseJSON);
+            .then(parseJSON)
+            .catch(function ( error ) {
+               void 0;
+               void 0;
+            });
       }
    };
 
@@ -365,6 +410,39 @@ CoreLibrary.offeringModule = (function () {
       },
       setOffering: function ( offering ) {
          this.config.offering = offering;
+      },
+      getGroupEvents: function ( groupId ) {
+         var requesPath = '/event/group/' + groupId + '.json';
+         return this.doRequest(requesPath);
+      },
+      getEventsByFilter: function ( filter, params ) {
+         // Todo: Update this method once documentation is available
+         var requestPath = '/listView/' + filter;
+         return this.doRequest(requestPath, params, 'v3');
+      },
+      getLiveEvents: function () {
+         var requestPath = '/event/live/open.json';
+         return this.doRequest(requestPath);
+      },
+      doRequest: function ( requestPath, params, version ) {
+         if ( this.config.offering == null ) {
+            void 0;
+         } else {
+            var apiUrl = this.config.apiBaseUrl.replace('{apiVersion}', (version != null ? version : this.config.version));
+            var requestUrl = apiUrl + this.config.offering + requestPath;
+            var overrideParams = params || {};
+            var requestParams = {
+               lang: overrideParams.locale || this.config.locale,
+               market: overrideParams.market || this.config.market,
+               client_id: overrideParams.clientId || this.config.clientId,
+               include: overrideParams.include || null
+            };
+            requestUrl += '?' + Object.keys(requestParams).map(function ( k ) {
+                  return encodeURIComponent(k) + '=' + encodeURIComponent(requestParams[k]);
+               }).join('&');
+
+            return CoreLibrary.getData(requestUrl);
+         }
       }
    };
 })();
@@ -449,6 +527,133 @@ CoreLibrary.widgetModule = (function () {
       },
       requestSetup: function ( callback ) {
          this.api.requestSetup(callback);
+      },
+
+      requestWidgetHeight: function () {
+         this.api.request(this.api.WIDGET_HEIGHT);
+      },
+
+      setWidgetHeight: function ( height ) {
+         this.api.set(this.api.WIDGET_HEIGHT, height);
+      },
+
+      enableWidgetTransition: function ( enableTransition ) {
+         if ( enableTransition ) {
+            this.api.set(this.api.WIDGET_ENABLE_TRANSITION);
+         } else {
+            this.api.set(this.api.WIDGET_DISABLE_TRANSITION);
+         }
+      },
+
+      removeWidget: function () {
+         this.api.remove();
+      },
+
+      navigateToLiveEvent: function ( eventId ) {
+         this.navigateClient('event/live/' + eventId);
+      },
+
+      navigateToEvent: function ( eventId ) {
+         this.navigateClient('event/' + eventId);
+      },
+
+      navigateToFilter: function ( filterParams ) {
+         this.navigateClient(filterParams);
+      },
+
+      navigateToLiveEvents: function () {
+         this.navigateClient(['in-play']);
+      },
+
+      addOutcomeToBetslip: function ( outcomes, stakes, updateMode, source ) {
+         var arrOutcomes = [];
+         // Check if the outcomes parameter is an array and add it, otherwise add the the single value as an array
+         if ( outcomes.isArray() ) {
+            arrOutcomes = outcomes;
+         } else {
+            arrOutcomes.push(outcomes);
+         }
+
+         // Setup the data object to be sent to the widget API
+         var data = {
+            outcomes: arrOutcomes
+         };
+
+         // Check if we got any stakes passed to use, add them to the data object if so
+         if ( stakes != null ) {
+            if ( stakes.isArray() ) {
+               data.stakes = stakes;
+            } else {
+               data.stakes = [stakes];
+            }
+         }
+
+         // Set the coupon type, defaults to TYPE_SINGLE
+         data.couponType = arrOutcomes.length === 1 ? this.api.BETSLIP_OUTCOMES_ARGS.TYPE_SINGLE : this.api.BETSLIP_OUTCOMES_ARGS.TYPE_COMBINATION;
+
+         // Set the update mode, defaults to UPDATE_APPEND
+         data.updateMode = updateMode !== 'replace' ? this.api.BETSLIP_OUTCOMES_ARGS.UPDATE_APPEND : this.api.BETSLIP_OUTCOMES_ARGS.UPDATE_REPLACE;
+         if ( source != null ) {
+            data.source = source;
+         }
+
+         // Send the data to the widget this.api
+         this.api.set(this.api.BETSLIP_OUTCOMES, data);
+      },
+
+      removeOutcomeFromBetslip: function ( outcomes ) {
+         var arrOutcomes = [];
+         if ( outcomes.isArray() ) {
+            arrOutcomes = outcomes;
+         } else {
+            arrOutcomes.push(outcomes);
+         }
+         this.api.set(this.api.BETSLIP_OUTCOMES_REMOVE, { outcomes: arrOutcomes });
+      },
+
+      requestBetslipOutcomes: function () {
+         this.api.request(this.api.BETSLIP_OUTCOMES);
+      },
+
+      requestPageInfo: function () {
+         this.api.request(api.PAGE_INFO);
+      },
+
+      requestWidgetArgs: function () {
+         this.api.request(api.WIDGET_ARGS);
+      },
+
+      requestClientConfig: function () {
+         this.api.request(api.CLIENT_CONFIG);
+      },
+
+      requestOddsFormat: function () {
+         this.api.request(this.api.CLIENT_ODDS_FORMAT);
+      },
+
+      requestOddsAsAmerican: function ( odds ) {
+         return new Promise(function ( resolve, reject ) {
+            this.api.requestOddsAsAmerican(odds, function ( americanOdds ) {
+               resolve(americanOdds);
+            });
+         }.bind(this));
+      },
+
+      requestOddsAsFractional: function ( odds ) {
+         return new Promise(function(resolve, reject) {
+            this.api.requestOddsAsFractional(odds, function ( fractionalOdds ) {
+               resolve(fractionalOdds);
+            });
+         });
+      },
+
+      navigateClient: function ( destination ) {
+         if ( typeof destination === 'string' ) {
+            this.api.navigateClient('#' + this.config.routeRoot + destination);
+         } else if ( destination.isArray() ) {
+            var filter = this.api.createFilterUrl(destination, this.config.routeRoot);
+            this.api.navigateClient(filter);
+         }
       }
    };
 })();

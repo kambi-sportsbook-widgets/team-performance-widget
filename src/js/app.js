@@ -139,12 +139,17 @@
             .then(function ( widgetArgs ) {
                this.scope.args = Object.assign({
                   title: 'Football - Team Performance Indicator',
-                  numberMatchesPerTeam: 6, // Maximum number of matches to show per team
-                  listLimit: 3 // Set the list limit value to be used for pagination)
+                  numberMatchesPerTeam: 6 // Maximum number of matches to show per team
                }, widgetArgs );
+
                CoreLibrary.getData('mockdata.json').then(function ( data ) {
                   this.scope.teams = parseTeamsInfo(data.tournaments[0].teams, this.scope.numberMatchesPerTeam);
+                  this.scope.teams.forEach(function (team) {
+                     sightglass(team, 'detailed', this.adjustHeight.bind(this));
+                  }.bind(this));
+                  this.adjustHeight();
                }.bind(this));
+
             }.bind(this))
             .catch(function ( error ) {
                console.debug('init error');
@@ -157,6 +162,26 @@
 
       boxCssClass: function ( el, value ) {
          el.classList.add('kw-match-' + value);
+      },
+
+      adjustHeight: function () {
+         // TODO maybe try to dinamically get these values?
+         // might not be possible to get detailedViewHeight due to the accordion animation
+         var headerHeight = 40;
+         var compactViewTeamInfoHeight = 85;
+         var tableLineHeight = 45;
+
+         var contentHeight = headerHeight;
+
+         this.scope.teams.forEach(function (team) {
+            if (team.detailed) {
+               contentHeight += compactViewTeamInfoHeight + team.matchHistory.length * tableLineHeight;
+            } else {
+               contentHeight += compactViewTeamInfoHeight;
+            }
+         });
+
+         CoreLibrary.widgetModule.setWidgetHeight(contentHeight + 1);
       }
    });
 

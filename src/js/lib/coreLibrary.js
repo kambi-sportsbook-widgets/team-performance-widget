@@ -25,6 +25,9 @@ window.CoreLibrary = (function () {
       return value;
    };
 
+   sightglass.adapters = rivets.adapters;
+   sightglass.root = '.';
+
    return {
       widgetModule: null,
       offeringModule: null,

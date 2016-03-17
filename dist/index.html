@@ -47,7 +47,7 @@
             class='l-flexbox l-vertical kw-team-wrapper'
             rv-each-team='teams'>
 
-            <input class='kw-accordion' type='checkbox' ng-model='team.detailed' ng-change='adjustHeight()' />
+            <input class='kw-accordion' type='checkbox' rv-checked='team.detailed' />
 
             <div class='l-flexbox l-horizontal l-p-6 l-pl-16 l-pr-16 l-align-center'>
                <div class='l-flex-1 kw-title'>{team.name}</div>
