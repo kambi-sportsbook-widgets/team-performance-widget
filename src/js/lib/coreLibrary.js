@@ -19,7 +19,7 @@ window.CoreLibrary = (function () {
    var i18n = {};
 
    rivets.formatters.translate = function ( value ) {
-      if (i18n[value] != null) {
+      if ( i18n[value] != null ) {
          return i18n[value];
       }
       return value;
@@ -49,8 +49,8 @@ window.CoreLibrary = (function () {
                         console.debug('Loaded mock setup data');
                         console.debug(mockSetupData);
                         this.applySetupData(mockSetupData, setDefaultHeight);
-                        this.fetchTranslations(this.config.clientConfig.locale).then(function () {
-                           resolve(this.config);
+                        this.fetchTranslations(mockSetupData.clientConfig.locale).then(function () {
+                           resolve(mockSetupData['arguments']);
                         }.bind(this));
                      }.bind(this))
                      .catch(function ( error ) {
@@ -61,17 +61,19 @@ window.CoreLibrary = (function () {
                } else {
                   window.KambiWidget.apiReady = function ( api ) {
                      this.widgetModule.api = api;
+                     console.debug(api);
                      console.debug('API Ready');
                      this.requestSetup(function ( setupData ) {
                         this.applySetupData(setupData, setDefaultHeight);
 
+                        // TODO: Move this to widgets so we don't request them when not needed
                         // Request the outcomes from the betslip so we can update our widget, this will also sets up a subscription for future betslip updates
                         this.widgetModule.requestBetslipOutcomes();
                         // Request the odds format that is set in the sportsbook, this also sets up a subscription for future odds format changes
                         this.widgetModule.requestOddsFormat();
 
-                        this.fetchTranslations(this.config.arguments.clientConfig.locale).then(function () {
-                           resolve(this.config.arguments);
+                        this.fetchTranslations(setupData.clientConfig.locale).then(function () {
+                           resolve(setupData['arguments']);
                         }.bind(this));
                      }.bind(this));
                   }.bind(this);
@@ -87,18 +89,18 @@ window.CoreLibrary = (function () {
       },
 
       fetchTranslations: function ( locale ) {
-         if (locale == null) {
+         if ( locale == null ) {
             locale = 'en_GB';
          }
          var self = this;
-         var promise = new Promise (function ( resolve, reject ) {
+         return new Promise(function ( resolve, reject ) {
             self.getData('i18n/' + locale + '.json')
                .then(function ( response ) {
                   i18n = response;
                   resolve();
                })
                .catch(function ( error ) {
-                  if (locale !== 'en_GB') {
+                  if ( locale !== 'en_GB' ) {
                      console.debug('Could not load translations for ' + locale + ' falling back to en_GB');
                      self.fetchTranslations('en_GB').then(resolve).catch(function ( error ) {
                         console.debug('Could not load translations for en_GB');
@@ -112,7 +114,6 @@ window.CoreLibrary = (function () {
                   }
                });
          });
-         return promise;
       },
 
       applySetupData: function ( setupData, setDefaultHeight ) {
@@ -171,7 +172,11 @@ window.CoreLibrary = (function () {
       getData: function ( url ) {
          return fetch(url)
             .then(checkStatus)
-            .then(parseJSON);
+            .then(parseJSON)
+            .catch(function ( error ) {
+               console.debug('Error fetching data');
+               console.trace(error);
+            });
       }
    };
 

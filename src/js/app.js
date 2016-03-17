@@ -136,12 +136,12 @@
          this.scope = {};
 
          CoreLibrary.init()
-            .then(function ( config ) {
+            .then(function ( widgetArgs ) {
                this.scope.args = Object.assign({
                   title: 'Football - Team Performance Indicator',
                   numberMatchesPerTeam: 6, // Maximum number of matches to show per team
                   listLimit: 3 // Set the list limit value to be used for pagination)
-               }, config.arguments);
+               }, widgetArgs );
                CoreLibrary.getData('mockdata.json').then(function ( data ) {
                   this.scope.teams = parseTeamsInfo(data.tournaments[0].teams, this.scope.numberMatchesPerTeam);
                }.bind(this));
