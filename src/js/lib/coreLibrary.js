@@ -53,7 +53,13 @@ var CoreLibrary = (function () {
                      console.debug('API Ready');
                      this.requestSetup(function ( setupData ) {
                         this.applySetupData(setupData, setDefaultHeight);
-                        resolve(this.config.arguments);
+
+                        // Request the outcomes from the betslip so we can update our widget, this will also sets up a subscription for future betslip updates
+                        this.widgetModule.requestBetslipOutcomes();
+                        // Request the odds format that is set in the sportsbook, this also sets up a subscription for future odds format changes
+                        this.widgetModule.requestOddsFormat();
+
+                        resolve(this.config['arguments']);
                      }.bind(this));
                   }.bind(this);
                   window.KambiWidget.receiveResponse = function ( dataObject ) {
@@ -82,8 +88,8 @@ var CoreLibrary = (function () {
          this.setPageInfo(setupData.pageInfo);
 
          // Set the offering in the API service
-         if ( setupData.arguments != null && setupData.arguments.hasOwnProperty('offering') ) {
-            this.offeringModule.setOffering(setupData.arguments.offering);
+         if ( setupData['arguments'] != null && setupData['arguments'].hasOwnProperty('offering') ) {
+            this.offeringModule.setOffering(setupData['arguments'].offering);
          } else {
             console.warn('No offering has been set, API requests will not work. Make sure the offering is set in the widget args in your configuration');
          }
