@@ -135,13 +135,13 @@
       constructor: function ( name ) {
          this.scope = {};
 
-         CoreLibrary.init().then(function ( apiData ) {
-            CoreLibrary.getData('someType', apiData.filter).then(function ( data ) {
-               this.scope.args = Object.assign({
-                  title: 'Football - Team Performance Indicator',
-                  numberMatchesPerTeam: 6, // Maximum number of matches to show per team
-                  listLimit: 3 // Set the list limit value to be used for pagination)
-               }, data.args);
+         CoreLibrary.init().then(function ( config ) {
+            this.scope.args = Object.assign({
+               title: 'Football - Team Performance Indicator',
+               numberMatchesPerTeam: 6, // Maximum number of matches to show per team
+               listLimit: 3 // Set the list limit value to be used for pagination)
+            }, config.arguments);
+            CoreLibrary.getData('mockdata.json').then(function ( data ) {
                this.scope.teams = parseTeamsInfo(data.tournaments[0].teams, this.scope.numberMatchesPerTeam);
             }.bind(this));
          }.bind(this));
