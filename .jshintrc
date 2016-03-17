@@ -1,5 +1,5 @@
 {
-   "predef": [ "rivets", "Stapes" ],
+   "predef": [ "rivets", "Stapes", "Promise", "CoreLibrary", "fetch" ],
    "bitwise": true,
    "camelcase": false,
    "curly": true,
@@ -60,10 +60,6 @@
       "MobileDetect": true,
       "FastClick": true,
       "FB": true,
-      "addToHomeScreen": true,
-      "Stapes": true,
-      "rivets": true,
-      "fetch": true,
-      "CoreLibrary": true
+      "addToHomeScreen": true
    }
 }
