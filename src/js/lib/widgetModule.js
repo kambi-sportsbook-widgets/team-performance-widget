@@ -57,7 +57,6 @@ CoreLibrary.widgetModule = (function () {
             default:
                // Unhandled response
                console.info('Unhandled response type: ' + response.type);
-               console.debug(this.api);
                console.info(response);
                break;
          }

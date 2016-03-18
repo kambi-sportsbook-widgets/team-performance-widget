@@ -140,11 +140,13 @@
                this.scope.args = Object.assign({
                   title: 'Football - Team Performance Indicator',
                   numberMatchesPerTeam: 6 // Maximum number of matches to show per team
-               }, widgetArgs );
+               }, widgetArgs);
+
+               CoreLibrary.widgetModule.enableWidgetTransition(true);
 
                CoreLibrary.getData('mockdata.json').then(function ( data ) {
                   this.scope.teams = parseTeamsInfo(data.tournaments[0].teams, this.scope.numberMatchesPerTeam);
-                  this.scope.teams.forEach(function (team) {
+                  this.scope.teams.forEach(function ( team ) {
                      sightglass(team, 'detailed', this.adjustHeight.bind(this));
                   }.bind(this));
                   this.adjustHeight();
@@ -173,8 +175,8 @@
 
          var contentHeight = headerHeight;
 
-         this.scope.teams.forEach(function (team) {
-            if (team.detailed) {
+         this.scope.teams.forEach(function ( team ) {
+            if ( team.detailed ) {
                contentHeight += compactViewTeamInfoHeight + team.matchHistory.length * tableLineHeight;
             } else {
                contentHeight += compactViewTeamInfoHeight;
