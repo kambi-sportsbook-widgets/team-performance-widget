@@ -16,15 +16,6 @@ window.CoreLibrary = (function () {
       return response.json();
    }
 
-   var i18n = {};
-
-   rivets.formatters.translate = function ( value ) {
-      if ( i18n[value] != null ) {
-         return i18n[value];
-      }
-      return value;
-   };
-
    sightglass.adapters = rivets.adapters;
    sightglass.root = '.';
 
@@ -52,9 +43,13 @@ window.CoreLibrary = (function () {
                         console.debug('Loaded mock setup data');
                         console.debug(mockSetupData);
                         this.applySetupData(mockSetupData, setDefaultHeight);
-                        this.fetchTranslations(mockSetupData.clientConfig.locale).then(function () {
+                        if (this.translationModule != null) {
+                           this.translationModule.fetchTranslations(mockSetupData.clientConfig.locale).then(function () {
+                              resolve(mockSetupData['arguments']);
+                           }.bind(this));
+                        } else {
                            resolve(mockSetupData['arguments']);
-                        }.bind(this));
+                        }
                      }.bind(this))
                      .catch(function ( error ) {
                         console.debug('Request failed');
@@ -75,9 +70,13 @@ window.CoreLibrary = (function () {
                         // Request the odds format that is set in the sportsbook, this also sets up a subscription for future odds format changes
                         this.widgetModule.requestOddsFormat();
 
-                        this.fetchTranslations(setupData.clientConfig.locale).then(function () {
+                        if (this.translationModule != null) {
+                           this.translationModule.fetchTranslations(setupData.clientConfig.locale).then(function () {
+                              resolve(setupData['arguments']);
+                           }.bind(this));
+                        } else {
                            resolve(setupData['arguments']);
-                        }.bind(this));
+                        }
                      }.bind(this));
                   }.bind(this);
                   window.KambiWidget.receiveResponse = function ( dataObject ) {
@@ -89,34 +88,6 @@ window.CoreLibrary = (function () {
                reject();
             }
          }.bind(this));
-      },
-
-      fetchTranslations: function ( locale ) {
-         if ( locale == null ) {
-            locale = 'en_GB';
-         }
-         var self = this;
-         return new Promise(function ( resolve, reject ) {
-            self.getData('i18n/' + locale + '.json')
-               .then(function ( response ) {
-                  i18n = response;
-                  resolve();
-               })
-               .catch(function ( error ) {
-                  if ( locale !== 'en_GB' ) {
-                     console.debug('Could not load translations for ' + locale + ' falling back to en_GB');
-                     self.fetchTranslations('en_GB').then(resolve).catch(function ( error ) {
-                        console.debug('Could not load translations for en_GB');
-                        console.trace(error);
-                        resolve();
-                     });
-                  } else {
-                     console.debug('Could not load translations for en_GB');
-                     console.trace(error);
-                     resolve();
-                  }
-               });
-         });
       },
 
       applySetupData: function ( setupData, setDefaultHeight ) {

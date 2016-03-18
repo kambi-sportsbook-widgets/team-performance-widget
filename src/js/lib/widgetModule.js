@@ -2,7 +2,12 @@ CoreLibrary.widgetModule = (function () {
    'use strict';
 
    return {
-      api: null,
+      api: { // placeholders for when not running inside iframe
+         requestSetup: function () {},
+         request: function () {},
+         set: function () {},
+         remove: function () {}
+      },
       config: {
          routeRoot: '',
          auth: false,
@@ -152,15 +157,15 @@ CoreLibrary.widgetModule = (function () {
       },
 
       requestPageInfo: function () {
-         this.api.request(api.PAGE_INFO);
+         this.api.request(this.api.PAGE_INFO);
       },
 
       requestWidgetArgs: function () {
-         this.api.request(api.WIDGET_ARGS);
+         this.api.request(this.api.WIDGET_ARGS);
       },
 
       requestClientConfig: function () {
-         this.api.request(api.CLIENT_CONFIG);
+         this.api.request(this.api.CLIENT_CONFIG);
       },
 
       requestOddsFormat: function () {
@@ -176,7 +181,7 @@ CoreLibrary.widgetModule = (function () {
       },
 
       requestOddsAsFractional: function ( odds ) {
-         return new Promise(function(resolve, reject) {
+         return new Promise(function ( resolve, reject ) {
             this.api.requestOddsAsFractional(odds, function ( fractionalOdds ) {
                resolve(fractionalOdds);
             });
