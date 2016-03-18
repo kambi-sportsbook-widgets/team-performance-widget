@@ -22,7 +22,10 @@
    <link rel="stylesheet" type="text/css" href="//kambi-cdn.globalmouth.com/lib/dist/css/widgets.css"/>
    <link rel="stylesheet" type="text/css" href="//kambi-cdn.globalmouth.com/lib/dist/css/app-icons.css"/>
 
-   <link rel="stylesheet" href="css/app.min.css">
+   <!-- build:css -->
+   <!-- This section will be replaced in the gulp build process -->
+   <link rel='stylesheet' type='text/css' href='css/app.css'/>
+   <!-- endbuild -->
 
    <script src='//cdnjs.cloudflare.com/ajax/libs/rivets/0.8.1/rivets.bundled.min.js'></script>
    <script src='//cdnjs.cloudflare.com/ajax/libs/stapes/0.8.1/stapes.min.js'></script>
@@ -30,11 +33,20 @@
    <script src='//cdnjs.cloudflare.com/ajax/libs/fetch/0.11.0/fetch.min.js'></script>
 
 
-   <script src="//kambi-cdn.globalmouth.com/lib/dist/js/app.min.js"></script>
+   <!-- build:corelib -->
+   <!-- This section will be replaced in the gulp build process -->
+   <!-- TODO -->
+   <!-- endbuild -->
 
-   <script src="//kambi-cdn.globalmouth.com/translate/dist/translate.min.js"></script>
+   <!-- build:translate -->
+   <!-- This section will be replaced in the gulp build process -->
+   <!-- TODO -->
+   <!-- endbuild -->
 
+   <!-- build:kambi-widget-api -->
+   <!-- This section will be replaced in the gulp build process -->
    <script src="https://c3-static.kambi.com/sb-mobileclient/widget-api/1.0.0.8/kambi-widget-api.js"></script>
+   <!-- endbuild -->
 </head>
 <body class='kw-body'>
 <div class='l-flexbox l-vertical kw-wrapper'>
@@ -90,7 +102,14 @@
    </div>
 </div>
 
-<script src="js/app.min.js"></script>
+<!-- build:js -->
+<!-- This section will be replaced in the gulp build process -->
+<script src="js/lib/coreLibrary.js"></script>
+<script src="js/lib/widgetModule.js"></script>
+<script src="js/lib/offeringModule.js"></script>
+<script src="js/lib/statisticsModule.js"></script>
+<script src="js/app.js"></script>
+<!-- endbuild -->
 
 </body>
 </html>

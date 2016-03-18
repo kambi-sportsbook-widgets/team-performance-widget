@@ -12,7 +12,7 @@ window.CoreLibrary.translationModule = (function () {
          return new Promise(function ( resolve, reject ) {
             self.getData('i18n/' + locale + '.json')
                .then(function ( response ) {
-                  i18n = response;
+                  translationModule.i18nStrings = response;
                   resolve();
                })
                .catch(function ( error ) {

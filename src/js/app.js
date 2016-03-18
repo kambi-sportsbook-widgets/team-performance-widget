@@ -137,10 +137,14 @@
 
          CoreLibrary.init()
             .then(function ( widgetArgs ) {
-               this.scope.args = Object.assign({
+               this.scope.args = { // default args
                   title: 'Football - Team Performance Indicator',
                   numberMatchesPerTeam: 6 // Maximum number of matches to show per team
-               }, widgetArgs);
+               };
+
+               Object.keys(widgetArgs).forEach(function ( key ) {
+                  this.scope.args[key] = widgetArgs[key];
+               }.bind(this));
 
                CoreLibrary.widgetModule.enableWidgetTransition(true);
 
