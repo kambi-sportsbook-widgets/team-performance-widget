@@ -1,7 +1,9 @@
 window.CoreLibrary = (function () {
 
    'use strict';
-
+   /**
+    * Checks the HTTP status of a response
+    */
    function checkStatus ( response ) {
       if ( response.status >= 200 && response.status < 300 ) {
          return response;
@@ -12,6 +14,9 @@ window.CoreLibrary = (function () {
       }
    }
 
+   /**
+    * Parses the response as json
+    */
    function parseJSON ( response ) {
       return response.json();
    }
@@ -36,12 +41,15 @@ window.CoreLibrary = (function () {
                // For development purposes we might want to load a widget on it's own so we check if we are in an iframe, if not then load some fake data
                if ( window.self === window.top ) {
                   console.warn(window.location.host + window.location.pathname + ' is being loaded as stand-alone');
+                  // Load the mock config data
                   fetch('mockSetupData.json')
                      .then(checkStatus)
                      .then(parseJSON)
                      .then(function ( mockSetupData ) {
+                        // Output some debug info that could be helpful
                         console.debug('Loaded mock setup data');
                         console.debug(mockSetupData);
+                        // Apply the mock config data to the core
                         this.applySetupData(mockSetupData, setDefaultHeight);
                         if (this.translationModule != null) {
                            this.translationModule.fetchTranslations(mockSetupData.clientConfig.locale).then(function () {
@@ -59,9 +67,9 @@ window.CoreLibrary = (function () {
                } else {
                   window.KambiWidget.apiReady = function ( api ) {
                      this.widgetModule.api = api;
-                     console.debug(api);
-                     console.debug('API Ready');
+                     // Request the setup info from the widget api
                      this.requestSetup(function ( setupData ) {
+                        // Apply the config data to the core
                         this.applySetupData(setupData, setDefaultHeight);
 
                         // TODO: Move this to widgets so we don't request them when not needed
@@ -79,6 +87,7 @@ window.CoreLibrary = (function () {
                         }
                      }.bind(this));
                   }.bind(this);
+                  // Setup the response handler for the widget api
                   window.KambiWidget.receiveResponse = function ( dataObject ) {
                      this.widgetModule.handleResponse(dataObject);
                   }.bind(this);
@@ -91,6 +100,7 @@ window.CoreLibrary = (function () {
       },
 
       applySetupData: function ( setupData, setDefaultHeight ) {
+         // Set the odds format
          if ( setupData.clientConfig.oddsFormat != null ) {
             this.setOddsFormat(setupData.clientConfig.oddsFormat);
          }

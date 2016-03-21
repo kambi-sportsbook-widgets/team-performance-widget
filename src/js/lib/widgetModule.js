@@ -1,6 +1,8 @@
 CoreLibrary.widgetModule = (function () {
    'use strict';
 
+   var Module = Stapes.subclass();
+
    return {
       api: { // placeholders for when not running inside iframe
          requestSetup: function () {},
@@ -8,6 +10,7 @@ CoreLibrary.widgetModule = (function () {
          set: function () {},
          remove: function () {}
       },
+      events: new Module(),
       config: {
          routeRoot: '',
          auth: false,
@@ -31,33 +34,33 @@ CoreLibrary.widgetModule = (function () {
          switch ( response.type ) {
             case this.api.WIDGET_HEIGHT:
                // We've received a height response
-               console.debug('WIDGET:HEIGHT', response.data);
+               this.events.emit('WIDGET:HEIGHT', response.data);
                break;
             case this.api.BETSLIP_OUTCOMES:
                // We've received a response with the outcomes currently in the betslip
-               console.debug('OUTCOMES:UPDATE', response.data);
+               this.events.emit('OUTCOMES:UPDATE', response.data);
                break;
             case this.api.WIDGET_ARGS:
                // We've received a response with the arguments set in the
-               console.debug('WIDGET:ARGS', response.data);
+               this.events.emit('WIDGET:ARGS', response.data);
                break;
             case this.api.PAGE_INFO:
                // Received page info response
-               console.debug('PAGE:INFO', response.data);
+               this.events.emit('PAGE:INFO', response.data);
                break;
             case this.api.CLIENT_ODDS_FORMAT:
                // Received odds format response
-               console.debug('ODDS:FORMAT', response.data);
+               this.events.emit('ODDS:FORMAT', response.data);
                break;
             case this.api.CLIENT_CONFIG:
-               console.debug('CLIENT:CONFIG', response.data);
+               this.events.emit('CLIENT:CONFIG', response.data);
                break;
             case this.api.USER_LOGGED_IN:
                console.debug('User logged in', response.data);
-               console.debug('USER:LOGGED_IN', response.data);
+               this.events.emit('USER:LOGGED_IN', response.data);
                break;
             case 'Setup':
-               console.debug('Setup response', response.data);
+               this.events.emit('Setup response', response.data);
                break;
             default:
                // Unhandled response
