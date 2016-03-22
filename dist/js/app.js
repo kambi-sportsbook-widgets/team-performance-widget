@@ -137,14 +137,20 @@
 
          CoreLibrary.init()
             .then(function ( widgetArgs ) {
-               this.scope.args = Object.assign({
+               this.scope.args = { // default args
                   title: 'Football - Team Performance Indicator',
                   numberMatchesPerTeam: 6 // Maximum number of matches to show per team
-               }, widgetArgs );
+               };
+
+               Object.keys(widgetArgs).forEach(function ( key ) {
+                  this.scope.args[key] = widgetArgs[key];
+               }.bind(this));
+
+               CoreLibrary.widgetModule.enableWidgetTransition(true);
 
                CoreLibrary.getData('mockdata.json').then(function ( data ) {
                   this.scope.teams = parseTeamsInfo(data.tournaments[0].teams, this.scope.numberMatchesPerTeam);
-                  this.scope.teams.forEach(function (team) {
+                  this.scope.teams.forEach(function ( team ) {
                      sightglass(team, 'detailed', this.adjustHeight.bind(this));
                   }.bind(this));
                   this.adjustHeight();
@@ -173,8 +179,8 @@
 
          var contentHeight = headerHeight;
 
-         this.scope.teams.forEach(function (team) {
-            if (team.detailed) {
+         this.scope.teams.forEach(function ( team ) {
+            if ( team.detailed ) {
                contentHeight += compactViewTeamInfoHeight + team.matchHistory.length * tableLineHeight;
             } else {
                contentHeight += compactViewTeamInfoHeight;
@@ -192,7 +198,9 @@
 window.CoreLibrary = (function () {
 
    'use strict';
-
+   /**
+    * Checks the HTTP status of a response
+    */
    function checkStatus ( response ) {
       if ( response.status >= 200 && response.status < 300 ) {
          return response;
@@ -203,18 +211,12 @@ window.CoreLibrary = (function () {
       }
    }
 
+   /**
+    * Parses the response as json
+    */
    function parseJSON ( response ) {
       return response.json();
    }
-
-   var i18n = {};
-
-   rivets.formatters.translate = function ( value ) {
-      if ( i18n[value] != null ) {
-         return i18n[value];
-      }
-      return value;
-   };
 
    sightglass.adapters = rivets.adapters;
    sightglass.root = '.';
@@ -236,16 +238,23 @@ window.CoreLibrary = (function () {
                // For development purposes we might want to load a widget on it's own so we check if we are in an iframe, if not then load some fake data
                if ( window.self === window.top ) {
                   void 0;
+                  // Load the mock config data
                   fetch('mockSetupData.json')
                      .then(checkStatus)
                      .then(parseJSON)
                      .then(function ( mockSetupData ) {
+                        // Output some debug info that could be helpful
                         void 0;
                         void 0;
+                        // Apply the mock config data to the core
                         this.applySetupData(mockSetupData, setDefaultHeight);
-                        this.fetchTranslations(mockSetupData.clientConfig.locale).then(function () {
+                        if (this.translationModule != null) {
+                           this.translationModule.fetchTranslations(mockSetupData.clientConfig.locale).then(function () {
+                              resolve(mockSetupData['arguments']);
+                           }.bind(this));
+                        } else {
                            resolve(mockSetupData['arguments']);
-                        }.bind(this));
+                        }
                      }.bind(this))
                      .catch(function ( error ) {
                         void 0;
@@ -255,9 +264,9 @@ window.CoreLibrary = (function () {
                } else {
                   window.KambiWidget.apiReady = function ( api ) {
                      this.widgetModule.api = api;
-                     void 0;
-                     void 0;
+                     // Request the setup info from the widget api
                      this.requestSetup(function ( setupData ) {
+                        // Apply the config data to the core
                         this.applySetupData(setupData, setDefaultHeight);
 
                         // TODO: Move this to widgets so we don't request them when not needed
@@ -265,13 +274,17 @@ window.CoreLibrary = (function () {
                         this.widgetModule.requestBetslipOutcomes();
                         // Request the odds format that is set in the sportsbook, this also sets up a subscription for future odds format changes
                         this.widgetModule.requestOddsFormat();
-                        this.fetchTranslations(setupData.clientConfig.locale).then(function () {
+
+                        if (this.translationModule != null) {
+                           this.translationModule.fetchTranslations(setupData.clientConfig.locale).then(function () {
+                              resolve(setupData['arguments']);
+                           }.bind(this));
+                        } else {
                            resolve(setupData['arguments']);
-                        }.bind(this));
+                        }
                      }.bind(this));
-
                   }.bind(this);
-
+                  // Setup the response handler for the widget api
                   window.KambiWidget.receiveResponse = function ( dataObject ) {
                      this.widgetModule.handleResponse(dataObject);
                   }.bind(this);
@@ -283,35 +296,8 @@ window.CoreLibrary = (function () {
          }.bind(this));
       },
 
-      fetchTranslations: function ( locale ) {
-         if ( locale == null ) {
-            locale = 'en_GB';
-         }
-         var self = this;
-         return new Promise(function ( resolve, reject ) {
-            self.getData('i18n/' + locale + '.json')
-               .then(function ( response ) {
-                  i18n = response;
-                  resolve();
-               })
-               .catch(function ( error ) {
-                  if ( locale !== 'en_GB' ) {
-                     void 0;
-                     self.fetchTranslations('en_GB').then(resolve).catch(function ( error ) {
-                        void 0;
-                        void 0;
-                        resolve();
-                     });
-                  } else {
-                     void 0;
-                     void 0;
-                     resolve();
-                  }
-               });
-         });
-      },
-
       applySetupData: function ( setupData, setDefaultHeight ) {
+         // Set the odds format
          if ( setupData.clientConfig.oddsFormat != null ) {
             this.setOddsFormat(setupData.clientConfig.oddsFormat);
          }
@@ -461,11 +447,60 @@ CoreLibrary.statisticsModule = (function () {
       }
    };
 })();
+window.CoreLibrary.translationModule = (function () {
+   'use strict';
+
+   var translationModule = {
+      i18nStrings: {},
+
+      fetchTranslations: function ( locale ) {
+         if ( locale == null ) {
+            locale = 'en_GB';
+         }
+         var self = this;
+         return new Promise(function ( resolve, reject ) {
+            self.getData('i18n/' + locale + '.json')
+               .then(function ( response ) {
+                  translationModule.i18nStrings = response;
+                  resolve();
+               })
+               .catch(function ( error ) {
+                  if ( locale !== 'en_GB' ) {
+                     void 0;
+                     self.fetchTranslations('en_GB').then(resolve);
+                  } else {
+                     void 0;
+                     void 0;
+                     resolve();
+                  }
+               });
+         });
+      }
+   };
+
+   rivets.formatters.translate = function ( value ) {
+      if ( translationModule.i18nStrings[value] != null ) {
+         return translationModule.i18nStrings[value];
+      }
+      return value;
+   };
+
+   return translationModule;
+})();
+
 CoreLibrary.widgetModule = (function () {
    'use strict';
 
+   var Module = Stapes.subclass();
+
    return {
-      api: null,
+      api: { // placeholders for when not running inside iframe
+         requestSetup: function () {},
+         request: function () {},
+         set: function () {},
+         remove: function () {}
+      },
+      events: new Module(),
       config: {
          routeRoot: '',
          auth: false,
@@ -489,37 +524,36 @@ CoreLibrary.widgetModule = (function () {
          switch ( response.type ) {
             case this.api.WIDGET_HEIGHT:
                // We've received a height response
-               void 0;
+               this.events.emit('WIDGET:HEIGHT', response.data);
                break;
             case this.api.BETSLIP_OUTCOMES:
                // We've received a response with the outcomes currently in the betslip
-               void 0;
+               this.events.emit('OUTCOMES:UPDATE', response.data);
                break;
             case this.api.WIDGET_ARGS:
                // We've received a response with the arguments set in the
-               void 0;
+               this.events.emit('WIDGET:ARGS', response.data);
                break;
             case this.api.PAGE_INFO:
                // Received page info response
-               void 0;
+               this.events.emit('PAGE:INFO', response.data);
                break;
             case this.api.CLIENT_ODDS_FORMAT:
                // Received odds format response
-               void 0;
+               this.events.emit('ODDS:FORMAT', response.data);
                break;
             case this.api.CLIENT_CONFIG:
-               void 0;
+               this.events.emit('CLIENT:CONFIG', response.data);
                break;
             case this.api.USER_LOGGED_IN:
                void 0;
-               void 0;
+               this.events.emit('USER:LOGGED_IN', response.data);
                break;
             case 'Setup':
-               void 0;
+               this.events.emit('Setup response', response.data);
                break;
             default:
                // Unhandled response
-               void 0;
                void 0;
                void 0;
                break;
@@ -616,15 +650,15 @@ CoreLibrary.widgetModule = (function () {
       },
 
       requestPageInfo: function () {
-         this.api.request(api.PAGE_INFO);
+         this.api.request(this.api.PAGE_INFO);
       },
 
       requestWidgetArgs: function () {
-         this.api.request(api.WIDGET_ARGS);
+         this.api.request(this.api.WIDGET_ARGS);
       },
 
       requestClientConfig: function () {
-         this.api.request(api.CLIENT_CONFIG);
+         this.api.request(this.api.CLIENT_CONFIG);
       },
 
       requestOddsFormat: function () {
@@ -640,7 +674,7 @@ CoreLibrary.widgetModule = (function () {
       },
 
       requestOddsAsFractional: function ( odds ) {
-         return new Promise(function(resolve, reject) {
+         return new Promise(function ( resolve, reject ) {
             this.api.requestOddsAsFractional(odds, function ( fractionalOdds ) {
                resolve(fractionalOdds);
             });
