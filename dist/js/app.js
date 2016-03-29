@@ -139,6 +139,7 @@
             .then(function ( widgetArgs ) {
                this.scope.args = { // default args
                   title: 'Football - Team Performance Indicator',
+                  filter: 'event/1003123435',
                   numberMatchesPerTeam: 6 // Maximum number of matches to show per team
                };
 
@@ -148,13 +149,21 @@
 
                CoreLibrary.widgetModule.enableWidgetTransition(true);
 
-               CoreLibrary.getData('mockdata.json').then(function ( data ) {
-                  this.scope.teams = parseTeamsInfo(data.tournaments[0].teams, this.scope.numberMatchesPerTeam);
-                  this.scope.teams.forEach(function ( team ) {
-                     sightglass(team, 'detailed', this.adjustHeight.bind(this));
-                  }.bind(this));
-                  this.adjustHeight();
-               }.bind(this));
+               if (CoreLibrary.config.offering == null) {
+                  CoreLibrary.config.offering = 'ub';
+               }
+
+               CoreLibrary.statisticsModule.getStatistics('tpi', this.scope.args.filter)
+                  .then(function (data) {
+                     void 0;
+                  });
+               // CoreLibrary.getData('mockdata.json').then(function ( data ) {
+               //    this.scope.teams = parseTeamsInfo(data.tournaments[0].teams, this.scope.numberMatchesPerTeam);
+               //    this.scope.teams.forEach(function ( team ) {
+               //       sightglass(team, 'detailed', this.adjustHeight.bind(this));
+               //    }.bind(this));
+               //    this.adjustHeight();
+               // }.bind(this));
 
             }.bind(this))
             .catch(function ( error ) {
