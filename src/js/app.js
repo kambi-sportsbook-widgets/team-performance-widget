@@ -9,7 +9,7 @@
             .then(function ( widgetArgs ) {
                this.scope.args = { // default args
                   title: 'Football - Team Performance Indicator',
-                  filter: 'event/1003123435/'
+                  eventId: '1003109526'
                };
 
                Object.keys(widgetArgs).forEach(function ( key ) {
@@ -22,7 +22,7 @@
                   CoreLibrary.config.offering = 'ub';
                }
 
-               CoreLibrary.statisticsModule.getStatistics('tpi', this.scope.args.filter)
+               CoreLibrary.statisticsModule.getStatistics('tpi', 'event/' + this.scope.args.eventId + '/')
                   .then(function (data) {
                      this.scope.teams = [];
                      this.scope.teams.push({

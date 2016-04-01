@@ -12,8 +12,7 @@ __`client-widgets.js`__
     "widgetId": "Seed widget",
     "args": {
         "title": "Football - Team Performance Indicator",
-        "numberMatchesPerTeam": 6,
-        "listLimit": 3
+        "eventId": "1003123435"
     }
 },
 ...
@@ -28,13 +27,9 @@ Please visit http://widgets.kambi.com/tool/ for more info
 
  The title to show on the header of the widgets
 
- - numberMatchesPerTeam [Number]
+ - eventId [Number]
 
- Maximum number of matches to show per team
-
- - listLimit [Number]
-
- Number of teams to show per page
+ Id of the event to get data from
 
 
 # Other tools

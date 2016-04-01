@@ -16,8 +16,7 @@
       "gulp": "^3.9.0",
       "widget-core-library": "git+ssh://git@github.com/kambi-sportsbook-widgets/widget-core-library.git",
       "widget-build-tools": "git+ssh://git@github.com:kambi-sportsbook-widgets/widget-build-tools.git",
-      "require-dir": "^0.3.0",
-      "widget-aws-publish-tools": "git+ssh://git@bitbucket.org:globalmouth/widget-aws-publish-tools.git"
+      "require-dir": "^0.3.0"
    },
    "license": "MIT",
    "bugs": {
