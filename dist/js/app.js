@@ -9,7 +9,7 @@
             .then(function ( widgetArgs ) {
                this.scope.args = { // default args
                   title: 'Football - Team Performance Indicator',
-                  eventId: '1003109526'
+                  eventId: '1003134139'
                };
 
                Object.keys(widgetArgs).forEach(function ( key ) {
