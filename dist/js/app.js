@@ -9,7 +9,7 @@
             .then(function ( widgetArgs ) {
                this.scope.args = { // default args
                   title: 'Football - Team Performance Indicator',
-                  eventId: '1003134139'
+                  eventId: null
                };
 
                Object.keys(widgetArgs).forEach(function ( key ) {
@@ -18,11 +18,12 @@
 
                CoreLibrary.widgetModule.enableWidgetTransition(true);
 
-               if (CoreLibrary.config.offering == null) {
-                  CoreLibrary.config.offering = 'ub';
+               var eventId = this.scope.args.eventId;
+               if (eventId == null) {
+                  eventId = CoreLibrary.pageInfo.pageParam;
                }
 
-               CoreLibrary.statisticsModule.getStatistics('tpi', 'event/' + this.scope.args.eventId + '/')
+               CoreLibrary.statisticsModule.getStatistics('tpi', 'event/' + eventId + '/')
                   .then(function (data) {
                      this.scope.teams = [];
                      this.scope.teams.push({
