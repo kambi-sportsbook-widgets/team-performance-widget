@@ -9,7 +9,7 @@
             .then(function ( widgetArgs ) {
                this.scope.args = { // default args
                   title: 'Football - Team Performance Indicator',
-                  eventId: null
+                  eventId: '1002788407'
                };
 
                Object.keys(widgetArgs).forEach(function ( key ) {
@@ -18,9 +18,11 @@
 
                CoreLibrary.widgetModule.enableWidgetTransition(true);
 
-               var eventId = this.scope.args.eventId;
-               if (eventId == null) {
-                  eventId = CoreLibrary.pageInfo.pageParam;
+               // Setting the args.eventId as a fallback
+               var eventId = CoreLibrary.pageInfo.pageParam;
+               if (!CoreLibrary.pageInfo.pageParam) {
+                  eventId = this.scope.args.eventId;
+                  void 0;
                }
 
                CoreLibrary.statisticsModule.getStatistics('tpi', 'event/' + eventId + '/')
