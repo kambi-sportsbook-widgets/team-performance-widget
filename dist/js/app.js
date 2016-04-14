@@ -20,13 +20,15 @@
 
                // Setting the args.eventId as a fallback
                var eventId = CoreLibrary.pageInfo.pageParam;
-               if (!CoreLibrary.pageInfo.pageParam) {
+               if ( !CoreLibrary.pageInfo.pageParam ) {
                   eventId = this.scope.args.eventId;
                   void 0;
                }
 
+
                CoreLibrary.statisticsModule.getStatistics('tpi', 'event/' + eventId + '/')
-                  .then(function (data) {
+                  .then(function ( data ) {
+                     void 0;
                      this.scope.teams = [];
                      this.scope.teams.push({
                         name: data.homeParticipant.participantName,
@@ -43,7 +45,11 @@
                         sightglass(team, 'detailed', this.adjustHeight.bind(this));
                      }.bind(this));
                      this.adjustHeight();
-                  }.bind(this));
+                  }.bind(this))
+                  .catch(function ( e ) {
+                     // Error loading the statistics, remove the widget
+                     CoreLibrary.widgetModule.removeWidget();
+                  });
 
             }.bind(this))
             .catch(function ( error ) {
@@ -62,16 +68,16 @@
       parseLastEvents: function ( teamId, lastEvents ) {
          var events = [];
          lastEvents.forEach(function ( event ) {
-            if (event.homeParticipant && event.awayParticipant &&
-               event.scores && event.scores.length > 0) {
+            if ( event.homeParticipant && event.awayParticipant &&
+               event.scores && event.scores.length > 0 ) {
                var result = 'win';
-               if (event.scores[0].homeScore === event.scores[0].awayScore) {
+               if ( event.scores[0].homeScore === event.scores[0].awayScore ) {
                   result = 'draw';
-               } else if (event.homeParticipant.participantId === teamId &&
-                  event.scores[0].awayScore > event.scores[0].homeScore) {
+               } else if ( event.homeParticipant.participantId === teamId &&
+                  event.scores[0].awayScore > event.scores[0].homeScore ) {
                   result = 'lose';
-               } else if (event.awayParticipant.participantId === teamId &&
-                  event.scores[0].homeScore > event.scores[0].awayScore) {
+               } else if ( event.awayParticipant.participantId === teamId &&
+                  event.scores[0].homeScore > event.scores[0].awayScore ) {
                   result = 'lose';
                }
                events.push({
