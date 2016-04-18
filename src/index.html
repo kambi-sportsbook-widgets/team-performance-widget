@@ -2,19 +2,19 @@
 <html>
 <head>
    <title>Team Performance Widget</title>
-   <meta charset='UTF-8'>
-   <meta name='apple-mobile-web-app-title' content='Kambi'>
-   <meta name='description' content='Team Performance Widget'>
-   <meta name='HandheldFriendly' content='True'>
-   <meta name='MobileOptimized' content='320'>
-   <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui'>
+   <meta charset="UTF-8">
+   <meta name="apple-mobile-web-app-title" content="Kambi">
+   <meta name="description" content="Team Performance Widget">
+   <meta name="HandheldFriendly" content="True">
+   <meta name="MobileOptimized" content="320">
+   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
 
-   <meta name='fragment' content='!'/>
+   <meta name="fragment" content="!"/>
 
-   <meta name='mobile-web-app-capable' content='yes'>
-   <meta name='apple-mobile-web-app-capable' content='yes'>
-   <meta name='apple-mobile-web-app-status-bar-style' content='black'>
-   <meta name='apple-mobile-web-app-title' content=''>
+   <meta name="mobile-web-app-capable" content="yes">
+   <meta name="apple-mobile-web-app-capable" content="yes">
+   <meta name="apple-mobile-web-app-status-bar-style" content="black">
+   <meta name="apple-mobile-web-app-title" content="">
 
 
    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Roboto:300,400,500"/>
@@ -26,14 +26,14 @@
 
    <!-- build:css -->
    <!-- This section will be replaced in the gulp build process -->
-   <link rel='stylesheet' type='text/css' href='css/app.css'/>
+   <link rel="stylesheet" type="text/css" href="css/app.css"/>
    <!-- endbuild -->
 
    <!-- build:thirdPartyLibs -->
-   <script src='//cdnjs.cloudflare.com/ajax/libs/rivets/0.8.1/rivets.bundled.min.js'></script>
-   <script src='//cdnjs.cloudflare.com/ajax/libs/stapes/0.8.1/stapes.js'></script>
-   <script src='//cdnjs.cloudflare.com/ajax/libs/es6-promise/3.2.1/es6-promise.js'></script>
-   <script src='//cdnjs.cloudflare.com/ajax/libs/fetch/0.11.0/fetch.js'></script>
+   <script src="//cdnjs.cloudflare.com/ajax/libs/rivets/0.8.1/rivets.bundled.min.js"></script>
+   <script src="//cdnjs.cloudflare.com/ajax/libs/stapes/0.8.1/stapes.js"></script>
+   <script src="//cdnjs.cloudflare.com/ajax/libs/es6-promise/3.2.1/es6-promise.js"></script>
+   <script src="//cdnjs.cloudflare.com/ajax/libs/fetch/0.11.0/fetch.js"></script>
    <!-- endbuild -->
 
    <!-- build:corelib -->
@@ -50,49 +50,49 @@
    <script src="https://c3-static.kambi.com/sb-mobileclient/widget-api/1.0.0.10/kambi-widget-api.js"></script>
    <!-- endbuild -->
 </head>
-<body class='kw-body'>
-<div class='l-flexbox l-vertical kw-wrapper'>
-   <div id='main' style='position:relative;height:100%'>
-      <header class='KambiWidget-header kw-header l-flexbox l-pl-16 l-horizontal'>
+<body class="kw-body">
+<div class="l-flexbox l-vertical kw-wrapper">
+   <div id="main">
+      <header class="KambiWidget-header kw-header l-flexbox l-pl-16 l-horizontal">
          {args.title}
       </header>
-      <main class='l-flexbox l-vertical l-flexed l-pack-start'>
+      <main class="l-flexbox l-vertical l-flexed l-pack-start">
          <div
-            class='l-flexbox l-vertical kw-team-wrapper'
-            rv-each-team='teams'>
+               class="l-flexbox l-vertical kw-team-wrapper"
+               rv-each-team="teams">
 
-            <input class='kw-accordion' type='checkbox' rv-checked='team.detailed' />
+            <input class="kw-accordion" type="checkbox" rv-checked="team.detailed"/>
 
-            <div class='l-flexbox l-horizontal l-p-6 l-pl-16 l-pr-16 l-align-center'>
-               <div class='l-flex-1 kw-title'>{team.name}</div>
+            <div class="l-flexbox l-horizontal l-pt-16 l-pl-16 l-pr-16 l-align-center">
+               <div class="l-flex-1 kw-title">{team.name}</div>
             </div>
 
             <div class='l-flexbox l-horizontal l-mb-6'>
-               <div class='l-flexbox l-flex-1 l-horizontal l-p-16'>
+               <div class='l-flexbox l-flex-1 l-horizontal l-pr-16 l-pl-16'>
                   <div
-                     class='l-flexbox l-pack-center l-vertical l-align-center kw-match-box'
-                     rv-each-event='team.lastEvents'>
-                     <span class='l-flexbox'>{event.result | translate}</span>
-                     <div class='l-flexbox' rv-box-css-class='event.result'></div>
+                        class="l-flexbox l-pack-center l-vertical l-align-center kw-match-box"
+                        rv-each-event="team.lastEvents">
+                     <span class="l-flexbox">{event.result | translate}</span>
+                     <div class="l-flexbox" rv-box-css-class="event.result"></div>
                   </div>
                </div>
-               <i class='l-flexbox icon-angle-down kw-expand-icon'></i>
+               <i class="l-flexbox icon-angle-down kw-expand-icon"></i>
             </div>
 
             <!-- hidden part of the team information -->
-            <div class='l-flexbox l-vertical l-pack-center kw-detail'>
-               <div class='l-flexbox l-vertical kw-table'>
+            <div class="l-flexbox l-vertical l-pack-center kw-detail">
+               <div class="l-flexbox l-vertical kw-table">
                   <div
-                     class='kw-table-item l-p-6 l-pl-16 l-pr-16 l-flexbox l-horizontal l-align-center'
-                     rv-each-event='team.lastEvents'>
+                        class="kw-table-item l-p-6 l-pl-16 l-pr-16 l-flexbox l-horizontal l-align-center"
+                        rv-each-event="team.lastEvents">
 
-                     <div data-item-attr='home' class='l-flex-5'>
+                     <div data-item-attr="home" class="l-flex-5">
                         {event.homeName}
                      </div>
-                     <div data-item-attr='score' class='l-flex-2'>
+                     <div data-item-attr="score" class="l-flex-2">
                         {event.homeScore} - {event.awayScore}
                      </div>
-                     <div data-item-attr='away' class='l-flex-5'>
+                     <div data-item-attr="away" class="l-flex-5">
                         {event.awayName}
                      </div>
                   </div>
