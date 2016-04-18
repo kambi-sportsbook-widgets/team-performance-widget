@@ -9,7 +9,7 @@
             .then(function ( widgetArgs ) {
                this.scope.args = { // default args
                   title: 'Football - Team Performance Indicator',
-                  eventId: '1002788407'
+                  eventId: '1002788429'
                };
 
                Object.keys(widgetArgs).forEach(function ( key ) {
@@ -24,7 +24,6 @@
                   eventId = this.scope.args.eventId;
                   console.log('Missing pageParam, eventId set from args');
                }
-
 
                CoreLibrary.statisticsModule.getStatistics('tpi', 'event/' + eventId + '/')
                   .then(function ( data ) {

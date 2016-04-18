@@ -5,7 +5,11 @@
    bottom: 0;
    right: 0;
    overflow: auto;
-   background-color: $color-4-1-card-background;
+}
+
+#main {
+   position: relative;
+   height: 100%;
 }
 
 .kw-team-wrapper {
@@ -118,7 +122,6 @@
    height: 0;
    overflow: hidden;
    @include transition(height 0.3s ease-out);
-   background-color: $color-4-1-card-background;
 }
 
 .kw-accordion:checked ~ .kw-detail { //when the checkbox is checked, show the element
