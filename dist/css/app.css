@@ -184,10 +184,10 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
 .kw-detail {
   margin-top: -270px;
   overflow: hidden;
-  -moz-transition: margin-top 0.5s;
-  -o-transition: margin-top 0.5s;
-  -webkit-transition: margin-top 0.5s;
-  transition: margin-top 0.5s;
+  -moz-transition: margin-top 0.3s ease-out;
+  -o-transition: margin-top 0.3s ease-out;
+  -webkit-transition: margin-top 0.3s ease-out;
+  transition: margin-top 0.3s ease-out;
 }
 
 .kw-accordion:checked ~ .overflow .kw-detail {
