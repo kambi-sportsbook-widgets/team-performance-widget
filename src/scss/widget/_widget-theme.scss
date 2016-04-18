@@ -106,7 +106,7 @@
 .kw-detail {
    margin-top: -270px;
    overflow: hidden;
-   @include transition(margin-top 0.5s);
+   @include transition(margin-top 0.3s ease-out);
 }
 
 .kw-accordion:checked ~ .overflow .kw-detail { //when the checkbox is checked, show the element
