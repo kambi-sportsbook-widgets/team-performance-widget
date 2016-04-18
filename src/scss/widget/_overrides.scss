@@ -1,0 +1,13 @@
+// Temporary overrides
+// These classes will be moved to core-library
+
+.KambiWidget-card-border-color {
+   border-bottom-width: 1px;
+   border-bottom-color: $color-4-1-card-border;
+}
+
+.kw-header {
+    font-size: 16px;
+    color: #222;
+    border-bottom: none;
+}

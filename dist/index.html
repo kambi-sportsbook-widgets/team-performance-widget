@@ -68,8 +68,10 @@
                         <div data-item-attr="home" class="l-flex-5">
                            {event.homeName}
                         </div>
-                        <div data-item-attr="score" class="l-flex-2">
-                           {event.homeScore} - {event.awayScore}
+                        <div data-item-attr="score" class="l-flex-1 l-flexbox">
+                           <span class="l-flex-1">{event.homeScore}</span>
+                           <span class="l-flex-2"> - </span>
+                           <span class="l-flex-1">{event.awayScore}</span>
                         </div>
                         <div data-item-attr="away" class="l-flex-5">
                            {event.awayName}
