@@ -12,6 +12,11 @@
    height: 100%;
 }
 
+.kw-header {
+    font-size: 16px;
+    color: #222;
+}
+
 .kw-team-wrapper {
    position: relative; /*needed for the checkbox to use position absolute*/
    overflow: hidden;
@@ -21,6 +26,7 @@
 
 .kw-title {
    font-size: 14px;
+   color: #666;
 }
 
 .kw-match-box {
@@ -29,8 +35,9 @@
    margin-left: 3px;
    margin-right: 3px;
    span {
-      line-height: 14px;
-      font-size: 14px;
+      line-height: 12px;
+      font-size: 12px;
+      color: #000;
    }
    div {
       width: 100%;
@@ -55,7 +62,12 @@
    border-bottom: $border-table;
    height: 45px;
    font-size: 14px;
-   color: $color-team-name;
+   color: #666;
+   div[data-item-attr=score] {
+      font-size: 12px;
+      letter-spacing: 3px;
+      color: #000;
+   }
    &:last-child {
       border-bottom: 0;
    }

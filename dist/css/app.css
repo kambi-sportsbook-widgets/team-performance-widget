@@ -85,6 +85,11 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   height: 100%;
 }
 
+.kw-header {
+  font-size: 16px;
+  color: #222;
+}
+
 .kw-team-wrapper {
   position: relative;
   /*needed for the checkbox to use position absolute*/
@@ -95,6 +100,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
 
 .kw-title {
   font-size: 14px;
+  color: #666;
 }
 
 .kw-match-box {
@@ -104,8 +110,9 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   margin-right: 3px;
 }
 .kw-match-box span {
-  line-height: 14px;
-  font-size: 14px;
+  line-height: 12px;
+  font-size: 12px;
+  color: #000;
 }
 .kw-match-box div {
   width: 100%;
@@ -129,7 +136,12 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   border-bottom: solid 1px rgba(0, 0, 0, 0.04706);
   height: 45px;
   font-size: 14px;
-  color: #515151;
+  color: #666;
+}
+.kw-table-item div[data-item-attr=score] {
+  font-size: 12px;
+  letter-spacing: 3px;
+  color: #000;
 }
 .kw-table-item:last-child {
   border-bottom: 0;
