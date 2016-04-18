@@ -88,8 +88,8 @@
    }
 }
 
-//the magic that creates the accordion
-.kw-accordion { //inputbox, when checked the accordion opens
+// The magic that creates the accordion
+.kw-accordion { // inputbox, when checked the accordion opens
    position: absolute;
    top: 0;
    left: 0;
@@ -101,7 +101,6 @@
    opacity: 0;
    margin: 0;
    cursor: pointer;
-
    //height: 70px; //allows easier inspecting
 }
 
@@ -118,12 +117,10 @@
 }
 
 i.kw-expand-icon {
-   font-size: 30px;
+   font-size: 25px;
    @include transform(rotate(0deg));
    @include align-self(flex-end);
-   color: #878787;
-   margin-right: 22px;
-   margin-bottom: 4px;
+   color: #ddd;
 }
 
 .kw-accordion:checked ~ div i.kw-expand-icon {
