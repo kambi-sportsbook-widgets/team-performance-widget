@@ -71,6 +71,11 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   animation-fill-mode: both;
 }
 
+.KambiWidget-card-border-color {
+  border-bottom-width: 1px;
+  border-bottom-color: #EAEAEA;
+}
+
 .kw-wrapper {
   position: absolute;
   top: 0;
@@ -88,6 +93,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
 .kw-header {
   font-size: 16px;
   color: #222;
+  border-bottom: none;
 }
 
 .kw-team-wrapper {
