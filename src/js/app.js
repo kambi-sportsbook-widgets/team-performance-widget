@@ -19,12 +19,13 @@
                CoreLibrary.widgetModule.enableWidgetTransition(true);
 
                // Setting the args.eventId as a fallback
-               var eventId = CoreLibrary.pageInfo.pageParam;
-               if ( !CoreLibrary.pageInfo.pageParam ) {
+               var eventId;
+               if ( CoreLibrary.pageInfo.pageParam == null || isNaN(parseInt(CoreLibrary.pageInfo.pageParam, 10)) ) {
                   eventId = this.scope.args.eventId;
                   console.log('Missing pageParam, eventId set from args');
+               } else {
+                  eventId = CoreLibrary.pageInfo.pageParam;
                }
-
 
                CoreLibrary.statisticsModule.getStatistics('tpi', 'event/' + eventId + '/')
                   .then(function ( data ) {

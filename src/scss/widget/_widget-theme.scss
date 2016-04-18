@@ -23,18 +23,21 @@
    width: 100%;
    max-width: 50px;
    height: 30px;
-   margin-left: 3px;
-   margin-right: 3px;
+   margin-right: 5px;
    span {
-      line-height: 14px;
-      font-size: 14px;
+      line-height: 24px;
+      font-size: 12px;
    }
 
    div {
       width: 100%;
-      height: 8px;
+      height: 4px;
       margin-top: 4px;
    }
+}
+
+.kw-match-box:last-child {
+   margin-right: 0;
 }
 
 // performance bar
