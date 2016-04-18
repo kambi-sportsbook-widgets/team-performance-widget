@@ -18,37 +18,15 @@
 
 
    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Roboto:300,400,500"/>
-   <!-- build:coreLibraryCSS -->
-   <link rel="stylesheet" type="text/css" href="/lib/.compiledTemp/css/app-base-all.css"/>
-   <link rel="stylesheet" type="text/css" href="/lib/.compiledTemp/css/widgets.css"/>
-   <link rel="stylesheet" type="text/css" href="/lib/.compiledTemp/css/app-base-icons.css"/>
-   <!-- endbuild -->
+   <link rel="stylesheet" href="//s3-eu-west-1.amazonaws.com/kambi-widgets/widget-core-library/v0.1.0/css/app-base-all.min.css">
+   <link rel="stylesheet" href="//s3-eu-west-1.amazonaws.com/kambi-widgets/widget-core-library/v0.1.0/css/widgets.min.css">
 
-   <!-- build:css -->
-   <!-- This section will be replaced in the gulp build process -->
-   <link rel="stylesheet" type="text/css" href="css/app.css"/>
-   <!-- endbuild -->
+   <link rel="stylesheet" href="css/app.min.css">
 
-   <!-- build:thirdPartyLibs -->
-   <script src="//cdnjs.cloudflare.com/ajax/libs/rivets/0.8.1/rivets.bundled.min.js"></script>
-   <script src="//cdnjs.cloudflare.com/ajax/libs/stapes/0.8.1/stapes.js"></script>
-   <script src="//cdnjs.cloudflare.com/ajax/libs/es6-promise/3.2.1/es6-promise.js"></script>
-   <script src="//cdnjs.cloudflare.com/ajax/libs/fetch/0.11.0/fetch.js"></script>
-   <!-- endbuild -->
 
-   <!-- build:corelib -->
-   <!-- This section will be replaced in the gulp build process -->
-   <script src="/lib/.compiledTemp/js/coreLibrary.js"></script>
-   <script src="/lib/.compiledTemp/js/widgetModule.js"></script>
-   <script src="/lib/.compiledTemp/js/offeringModule.js"></script>
-   <script src="/lib/.compiledTemp/js/statisticsModule.js"></script>
-   <script src="/lib/.compiledTemp/js/translationModule.js"></script>
-   <!-- endbuild -->
+   <script src="//s3-eu-west-1.amazonaws.com/kambi-widgets/widget-core-library/v0.1.0/js/app.min.js"></script>
 
-   <!-- build:kambi-widget-api -->
-   <!-- This section will be replaced in the gulp build process -->
-   <script src="https://c3-static.kambi.com/sb-mobileclient/widget-api/1.0.0.10/kambi-widget-api.js"></script>
-   <!-- endbuild -->
+   <script src="https://c3-static.kambi.com/sb-mobileclient/widget-api/1.0.0.9/kambi-widget-api.js"></script>
 </head>
 <body class="kw-body">
 <div class="l-flexbox l-vertical kw-wrapper">
@@ -80,20 +58,22 @@
             </div>
 
             <!-- hidden part of the team information -->
-            <div class="l-flexbox l-vertical l-pack-center kw-detail">
-               <div class="l-flexbox l-vertical kw-table">
-                  <div
-                        class="kw-table-item l-p-6 l-pl-16 l-pr-16 l-flexbox l-horizontal l-align-center"
-                        rv-each-event="team.lastEvents">
+            <div class="overflow">
+               <div class="l-flexbox l-vertical l-pack-center kw-detail">
+                  <div class="l-flexbox l-vertical kw-table">
+                     <div
+                           class="kw-table-item l-p-6 l-pl-16 l-pr-16 l-flexbox l-horizontal l-align-center"
+                           rv-each-event="team.lastEvents">
 
-                     <div data-item-attr="home" class="l-flex-5">
-                        {event.homeName}
-                     </div>
-                     <div data-item-attr="score" class="l-flex-2">
-                        {event.homeScore} - {event.awayScore}
-                     </div>
-                     <div data-item-attr="away" class="l-flex-5">
-                        {event.awayName}
+                        <div data-item-attr="home" class="l-flex-5">
+                           {event.homeName}
+                        </div>
+                        <div data-item-attr="score" class="l-flex-2">
+                           {event.homeScore} - {event.awayScore}
+                        </div>
+                        <div data-item-attr="away" class="l-flex-5">
+                           {event.awayName}
+                        </div>
                      </div>
                   </div>
                </div>
@@ -104,10 +84,7 @@
    </div>
 </div>
 
-<!-- build:js -->
-<!-- This section will be replaced in the gulp build process -->
-<script src="js/app.js"></script>
-<!-- endbuild -->
+<script src="js/app.min.js"></script>
 
 </body>
 </html>

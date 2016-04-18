@@ -95,7 +95,6 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   /*needed for the checkbox to use position absolute*/
   overflow: hidden;
   min-height: 85px;
-  border-bottom: solid 1px rgba(0, 0, 0, 0.04706);
 }
 
 .kw-title {
@@ -136,7 +135,6 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
 }
 
 .kw-table-item {
-  border-bottom: solid 1px rgba(0, 0, 0, 0.04706);
   height: 45px;
   font-size: 14px;
   color: #666;
@@ -148,9 +146,6 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
 }
 .kw-table-item:last-child {
   border-bottom: 0;
-}
-.kw-table-item:first-child {
-  border-top: solid 1px rgba(0, 0, 0, 0.04706);
 }
 .kw-table-item div:first-child {
   text-align: left;
@@ -176,18 +171,23 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   cursor: pointer;
 }
 
-.kw-detail {
-  height: 0;
+.overflow {
   overflow: hidden;
-  -moz-transition: height 0.3s ease-out;
-  -o-transition: height 0.3s ease-out;
-  -webkit-transition: height 0.3s ease-out;
-  transition: height 0.3s ease-out;
 }
 
-.kw-accordion:checked ~ .kw-detail {
-  height: 270px;
-               /*auto doesn't work here, see:
+.kw-detail {
+  margin-top: -270px;
+  overflow: hidden;
+  -moz-transition: margin-top 0.5s;
+  -o-transition: margin-top 0.5s;
+  -webkit-transition: margin-top 0.5s;
+  transition: margin-top 0.5s;
+}
+
+.kw-accordion:checked ~ .overflow .kw-detail {
+  margin-top: 0;
+  /*height: 270px;*/
+                   /*auto doesn't work here, see:
 http://stackoverflow.com/questions/3508605/how-can-i-transition-height-0-to-height-auto-using-css
 */
 }

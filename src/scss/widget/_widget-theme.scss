@@ -21,7 +21,6 @@
    position: relative; /*needed for the checkbox to use position absolute*/
    overflow: hidden;
    min-height: 85px;
-   border-bottom: $border-table;
 }
 
 .kw-title {
@@ -62,7 +61,6 @@
 }
 
 .kw-table-item {
-   border-bottom: $border-table;
    height: 45px;
    font-size: 14px;
    color: #666;
@@ -73,9 +71,6 @@
    }
    &:last-child {
       border-bottom: 0;
-   }
-   &:first-child {
-      border-top: $border-table;
    }
    div:first-child {
       text-align: left;
