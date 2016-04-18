@@ -29,7 +29,6 @@
 
                CoreLibrary.statisticsModule.getStatistics('tpi', 'event/' + eventId + '/')
                   .then(function ( data ) {
-                     console.debug(data);
                      this.scope.teams = [];
                      this.scope.teams.push({
                         name: data.homeParticipant.participantName,
