@@ -80,20 +80,22 @@
             </div>
 
             <!-- hidden part of the team information -->
-            <div class="l-flexbox l-vertical l-pack-center kw-detail">
-               <div class="l-flexbox l-vertical kw-table">
-                  <div
-                        class="kw-table-item l-p-6 l-pl-16 l-pr-16 l-flexbox l-horizontal l-align-center"
-                        rv-each-event="team.lastEvents">
+            <div class="overflow">
+               <div class="l-flexbox l-vertical l-pack-center kw-detail">
+                  <div class="l-flexbox l-vertical kw-table">
+                     <div
+                           class="kw-table-item l-p-6 l-pl-16 l-pr-16 l-flexbox l-horizontal l-align-center"
+                           rv-each-event="team.lastEvents">
 
-                     <div data-item-attr="home" class="l-flex-5">
-                        {event.homeName}
-                     </div>
-                     <div data-item-attr="score" class="l-flex-2">
-                        {event.homeScore} - {event.awayScore}
-                     </div>
-                     <div data-item-attr="away" class="l-flex-5">
-                        {event.awayName}
+                        <div data-item-attr="home" class="l-flex-5">
+                           {event.homeName}
+                        </div>
+                        <div data-item-attr="score" class="l-flex-2">
+                           {event.homeScore} - {event.awayScore}
+                        </div>
+                        <div data-item-attr="away" class="l-flex-5">
+                           {event.awayName}
+                        </div>
                      </div>
                   </div>
                </div>

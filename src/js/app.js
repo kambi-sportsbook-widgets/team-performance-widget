@@ -8,8 +8,7 @@
          CoreLibrary.init()
             .then(function ( widgetArgs ) {
                this.scope.args = { // default args
-                  title: 'Football - Team Performance Indicator',
-                  eventId: '1002788429'
+                  title: 'Football - Team Performance Indicator'
                };
 
                Object.keys(widgetArgs).forEach(function ( key ) {
@@ -102,7 +101,7 @@
          var contentHeight = headerHeight;
 
          this.scope.teams.forEach(function ( team ) {
-            if ( team.detailed ) {
+            if ( team.detailed === true ) {
                contentHeight += compactViewTeamInfoHeight + team.lastEvents.length * tableLineHeight;
             } else {
                contentHeight += compactViewTeamInfoHeight;

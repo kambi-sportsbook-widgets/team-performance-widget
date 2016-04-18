@@ -105,14 +105,19 @@
    //height: 70px; //allows easier inspecting
 }
 
-.kw-detail {
-   height: 0;
+.overflow {
    overflow: hidden;
-   @include transition(height 0.3s ease-out);
 }
 
-.kw-accordion:checked ~ .kw-detail { //when the checkbox is checked, show the element
-   height: 270px; /*auto doesn't work here, see:
+.kw-detail {
+   margin-top: -270px;
+   overflow: hidden;
+   @include transition(margin-top 0.5s);
+}
+
+.kw-accordion:checked ~ .overflow .kw-detail { //when the checkbox is checked, show the element
+   margin-top: 0;
+   /*height: 270px;*/ /*auto doesn't work here, see:
    http://stackoverflow.com/questions/3508605/how-can-i-transition-height-0-to-height-auto-using-css
    */
 }
