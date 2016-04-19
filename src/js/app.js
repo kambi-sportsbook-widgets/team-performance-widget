@@ -4,6 +4,7 @@
    var TeamPerformance = Stapes.subclass({
       constructor: function ( name ) {
          this.scope = {};
+         var baseWidgetCSS = '//c3-static.kambi.com/sb-mobileclient/widget-api/1.0.0.10/resources/css/';
 
          CoreLibrary.init()
             .then(function ( widgetArgs ) {
@@ -11,6 +12,8 @@
                   title: 'Football - Team Performance Indicator',
                   eventId: '1002788429'
                };
+
+               this.scope.widgetCss = baseWidgetCSS + CoreLibrary.config.clientConfig.customer + '/' + CoreLibrary.config.clientConfig.offering + '/widgets.css';
 
                Object.keys(widgetArgs).forEach(function ( key ) {
                   this.scope.args[key] = widgetArgs[key];

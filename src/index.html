@@ -20,9 +20,10 @@
    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Roboto:300,400,500"/>
    <!-- build:coreLibraryCSS -->
    <link rel="stylesheet" type="text/css" href="/lib/.compiledTemp/css/app-base-all.css"/>
-   <link rel="stylesheet" type="text/css" href="/lib/.compiledTemp/css/widgets.css"/>
    <link rel="stylesheet" type="text/css" href="/lib/.compiledTemp/css/app-base-icons.css"/>
    <!-- endbuild -->
+
+   <link rel="stylesheet" type="text/css" rv-href="widgetCss"/>
 
    <!-- build:css -->
    <!-- This section will be replaced in the gulp build process -->
@@ -51,9 +52,9 @@
    <!-- endbuild -->
 </head>
 <body class="kw-body">
-<div class="l-flexbox l-vertical kw-wrapper KambiWidget-card-border-color">
+<div class="KambiWidget-card-background-color KambiWidget-card-text-color l-flexbox l-vertical kw-wrapper KambiWidget-card-border-color">
    <div id="main">
-      <header class="KambiWidget-header kw-header l-flexbox l-pl-16 l-horizontal">
+      <header class="KambiWidget-header kw-header l-flexbox l-align-center l-pt-12 l-pb-12 l-pl-16">
          {args.title}
       </header>
       <main class="l-flexbox l-vertical l-flexed l-pack-start">
