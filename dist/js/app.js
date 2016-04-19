@@ -9,8 +9,7 @@
          CoreLibrary.init()
             .then(function ( widgetArgs ) {
                this.scope.args = { // default args
-                  title: 'Football - Team Performance Indicator',
-                  eventId: '1002788429'
+                  title: 'Football - Team Performance Indicator'
                };
 
                this.scope.widgetCss = baseWidgetCSS + CoreLibrary.config.clientConfig.customer + '/' + CoreLibrary.config.clientConfig.offering + '/widgets.css';
