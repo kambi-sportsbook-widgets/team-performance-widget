@@ -8,8 +8,7 @@
          CoreLibrary.init()
             .then(function ( widgetArgs ) {
                this.scope.args = { // default args
-                  title: 'Football - Team Performance Indicator',
-                  eventId: '1002788429'
+                  title: 'Football - Team Performance Indicator'
                };
 
                Object.keys(widgetArgs).forEach(function ( key ) {
