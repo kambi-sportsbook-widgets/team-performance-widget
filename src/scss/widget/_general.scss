@@ -19,3 +19,8 @@
       animation-fill-mode: both;
    }
 }
+
+// Disable scrollbar globally
+::-webkit-scrollbar {
+   display: none;
+}
