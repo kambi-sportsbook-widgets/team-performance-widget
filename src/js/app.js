@@ -20,13 +20,14 @@
 
                CoreLibrary.widgetModule.enableWidgetTransition(true);
 
-               // Setting the args.eventId as a fallback
+               // Setting the pageParam as a fallback
                var eventId;
-               if ( CoreLibrary.pageInfo.pageParam == null || isNaN(parseInt(CoreLibrary.pageInfo.pageParam, 10)) ) {
+               if ( this.scope.args.eventId !== null ) {
                   eventId = this.scope.args.eventId;
-                  console.log('Missing pageParam, eventId set from args');
+                  console.warn('eventId set from args.eventId');
                } else {
                   eventId = CoreLibrary.pageInfo.pageParam;
+                  console.warn('eventId set from pageParam');
                }
 
                CoreLibrary.statisticsModule.getStatistics('tpi', 'event/' + eventId + '/')
@@ -96,7 +97,7 @@
 
       // sets the height of the widget, called when detailed view on teams is opened/closed
       adjustHeight: function () {
-         var headerHeight = 40;
+         var headerHeight = 48;
          var compactViewTeamInfoHeight = 85;
          var tableLineHeight = 45;
 
