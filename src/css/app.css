@@ -60,6 +60,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
 
 .KambiWidget-card-border-color {
   border-bottom-color: #ddd;
+  border-bottom-style: solid;
   border-bottom-width: 1px;
 }
 
@@ -87,6 +88,10 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   animation: fadeOut 0.1s;
   -webkit-animation-fill-mode: both;
   animation-fill-mode: both;
+}
+
+::-webkit-scrollbar {
+  display: none;
 }
 
 .kw-wrapper {
