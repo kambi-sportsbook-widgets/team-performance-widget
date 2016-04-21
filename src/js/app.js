@@ -2,7 +2,7 @@
    'use strict';
 
    var TeamPerformance = Stapes.subclass({
-      constructor: function ( name ) {
+      constructor: function () {
          this.scope = {};
          var baseWidgetCSS = '//c3-static.kambi.com/sb-mobileclient/widget-api/1.0.0.10/resources/css/';
 
@@ -48,6 +48,7 @@
                         sightglass(team, 'detailed', this.adjustHeight.bind(this));
                      }.bind(this));
                      this.adjustHeight();
+                     this.scope.onLoad = 'block';
                   }.bind(this))
                   .catch(function ( e ) {
                      // Error loading the statistics, remove the widget
@@ -60,7 +61,7 @@
                console.trace(error);
             });
 
-         this.view = rivets.bind(document.getElementById('main'), this.scope);
+         this.view = rivets.bind(document.getElementById('app'), this.scope);
 
          this.view.binders['box-css-class'] = function ( el, value ) {
             el.classList.add('kw-match-' + value);

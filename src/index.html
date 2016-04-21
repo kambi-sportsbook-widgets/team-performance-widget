@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html id="app">
 <head>
    <title>Team Performance Widget</title>
    <meta charset="UTF-8">
@@ -15,7 +15,6 @@
    <meta name="apple-mobile-web-app-capable" content="yes">
    <meta name="apple-mobile-web-app-status-bar-style" content="black">
    <meta name="apple-mobile-web-app-title" content="">
-
 
    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Roboto:300,400,500"/>
    <!-- build:coreLibraryCSS -->
@@ -51,7 +50,7 @@
    <script src="https://c3-static.kambi.com/sb-mobileclient/widget-api/1.0.0.10/kambi-widget-api.js"></script>
    <!-- endbuild -->
 </head>
-<body class="kw-body">
+<body class="kw-body" rv-style-display="onLoad">
 <div class="KambiWidget-card-background-color KambiWidget-card-text-color l-flexbox l-vertical kw-wrapper KambiWidget-card-border-color">
    <div id="main">
       <header class="KambiWidget-header kw-header l-flexbox l-align-center l-pt-16 l-pb-16 l-pl-16">
@@ -63,7 +62,7 @@
             <input class="kw-accordion" type="checkbox" rv-checked="team.detailed"/>
 
             <div class="l-flexbox l-horizontal l-pl-16 l-pr-16 l-align-center">
-               <div class="l-flex-1 kw-title">{team.name}</div>
+               <div class="l-flex-1 kw-title text-truncate">{team.name}</div>
                <i class="l-flexbox icon-angle-down kw-expand-icon"></i>
             </div>
 
@@ -86,7 +85,7 @@
                         class="kw-table-item l-pl-16 l-pr-16 l-flexbox l-horizontal l-align-center"
                         rv-each-event="team.lastEvents">
 
-                        <div data-item-attr="home" class="l-flex-5">
+                        <div data-item-attr="home" class="l-flex-5 l-pr-12 text-truncate">
                            {event.homeName}
                         </div>
                         <div data-item-attr="score" class="l-flex-1 l-flexbox">
@@ -94,7 +93,7 @@
                            <span class="l-flex-2"> - </span>
                            <span class="l-flex-1">{event.awayScore}</span>
                         </div>
-                        <div data-item-attr="away" class="l-flex-5">
+                        <div data-item-attr="away" class="l-flex-5 l-pl-12 text-truncate">
                            {event.awayName}
                         </div>
                      </div>
