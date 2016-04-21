@@ -1,67 +1,51 @@
 (function () {
    'use strict';
 
-   var TeamPerformance = Stapes.subclass({
+   var TeamPerformance = CoreLibrary.Component.subclass({
+      defaultArgs: {
+         title: 'Football - Team Performance Indicator'
+      },
+
       constructor: function () {
-         this.scope = {};
-         var baseWidgetCSS = '//c3-static.kambi.com/sb-mobileclient/widget-api/1.0.0.10/resources/css/';
+         CoreLibrary.Component.apply(this, arguments);
+      },
 
-         CoreLibrary.init()
-            .then(function ( widgetArgs ) {
-               this.scope.args = { // default args
-                  title: 'Football - Team Performance Indicator'
-               };
+      init: function () {
+         CoreLibrary.widgetModule.enableWidgetTransition(true);
 
-               this.scope.widgetCss = baseWidgetCSS + CoreLibrary.config.clientConfig.customer + '/' + CoreLibrary.config.clientConfig.offering + '/widgets.css';
+         // Setting the pageParam as a fallback
+         var eventId;
+         if ( this.scope.args.eventId != null ) {
+            eventId = this.scope.args.eventId;
+            void 0;
+         } else {
+            eventId = CoreLibrary.pageInfo.pageParam;
+            void 0;
+         }
+         CoreLibrary.statisticsModule.getStatistics('tpi', 'event/' + eventId + '/')
+            .then(function ( data ) {
+               this.scope.teams = [];
+               this.scope.teams.push({
+                  name: data.homeParticipant.participantName,
+                  detailed: false,
+                  lastEvents: this.parseLastEvents(data.homeParticipant.participantId, data.homeParticipant.lastEvents)
+               });
+               this.scope.teams.push({
+                  name: data.awayParticipant.participantName,
+                  detailed: false,
+                  lastEvents: this.parseLastEvents(data.awayParticipant.participantId, data.awayParticipant.lastEvents)
+               });
 
-               Object.keys(widgetArgs).forEach(function ( key ) {
-                  this.scope.args[key] = widgetArgs[key];
+               this.scope.teams.forEach(function ( team ) {
+                  sightglass(team, 'detailed', this.adjustHeight.bind(this));
                }.bind(this));
-
-               CoreLibrary.widgetModule.enableWidgetTransition(true);
-
-               // Setting the pageParam as a fallback
-               var eventId;
-               if ( this.scope.args.eventId != null ) {
-                  eventId = this.scope.args.eventId;
-                  void 0;
-               } else {
-                  eventId = CoreLibrary.pageInfo.pageParam;
-                  void 0;
-               }
-
-               CoreLibrary.statisticsModule.getStatistics('tpi', 'event/' + eventId + '/')
-                  .then(function ( data ) {
-                     this.scope.teams = [];
-                     this.scope.teams.push({
-                        name: data.homeParticipant.participantName,
-                        detailed: false,
-                        lastEvents: this.parseLastEvents(data.homeParticipant.participantId, data.homeParticipant.lastEvents)
-                     });
-                     this.scope.teams.push({
-                        name: data.awayParticipant.participantName,
-                        detailed: false,
-                        lastEvents: this.parseLastEvents(data.awayParticipant.participantId, data.awayParticipant.lastEvents)
-                     });
-
-                     this.scope.teams.forEach(function ( team ) {
-                        sightglass(team, 'detailed', this.adjustHeight.bind(this));
-                     }.bind(this));
-                     this.adjustHeight();
-                     this.scope.onLoad = 'block';
-                  }.bind(this))
-                  .catch(function ( e ) {
-                     // Error loading the statistics, remove the widget
-                     CoreLibrary.widgetModule.removeWidget();
-                  });
-
+               this.adjustHeight();
+               this.scope.onLoad = 'block';
             }.bind(this))
-            .catch(function ( error ) {
-               void 0;
-               void 0;
+            .catch(function ( e ) {
+               // Error loading the statistics, remove the widget
+               CoreLibrary.widgetModule.removeWidget();
             });
-
-         this.view = rivets.bind(document.getElementById('app'), this.scope);
 
          this.view.binders['box-css-class'] = function ( el, value ) {
             el.classList.add('kw-match-' + value);
@@ -116,6 +100,8 @@
       }
    });
 
-   var teamPerformance = new TeamPerformance();
+   var teamPerformance = new TeamPerformance({
+      rootElement: 'body'
+   });
 
 })();

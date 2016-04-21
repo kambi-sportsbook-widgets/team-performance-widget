@@ -14,7 +14,7 @@
    "devDependencies": {
       "changelog": "latest",
       "gulp": "^3.9.0",
-      "widget-core-library": "git+ssh://git@github.com/kambi-sportsbook-widgets/widget-core-library.git#v0.1.8",
+      "widget-core-library": "git+ssh://git@github.com/kambi-sportsbook-widgets/widget-core-library.git#v1.0.0",
       "widget-build-tools": "git+ssh://git@github.com:kambi-sportsbook-widgets/widget-build-tools.git#v0.2.0",
       "require-dir": "^0.3.0"
    },
