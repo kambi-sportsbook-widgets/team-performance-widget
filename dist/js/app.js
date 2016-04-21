@@ -101,7 +101,7 @@
    });
 
    var teamPerformance = new TeamPerformance({
-      rootElement: 'body'
+      rootElement: 'html'
    });
 
 })();

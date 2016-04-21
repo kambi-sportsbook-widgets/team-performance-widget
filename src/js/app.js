@@ -17,10 +17,10 @@
          var eventId;
          if ( this.scope.args.eventId != null ) {
             eventId = this.scope.args.eventId;
-            console.warn('eventId set from args.eventId');
+            console.log('eventId set from args.eventId');
          } else {
             eventId = CoreLibrary.pageInfo.pageParam;
-            console.warn('eventId set from pageParam');
+            console.log('eventId set from pageParam');
          }
          CoreLibrary.statisticsModule.getStatistics('tpi', 'event/' + eventId + '/')
             .then(function ( data ) {
@@ -101,7 +101,7 @@
    });
 
    var teamPerformance = new TeamPerformance({
-      rootElement: 'body'
+      rootElement: 'html'
    });
 
 })();
