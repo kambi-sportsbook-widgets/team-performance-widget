@@ -60,6 +60,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
 
 .KambiWidget-card-border-color {
   border-bottom-color: #ddd;
+  border-bottom-style: solid;
   border-bottom-width: 1px;
 }
 
@@ -89,6 +90,10 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   animation-fill-mode: both;
 }
 
+::-webkit-scrollbar {
+  display: none;
+}
+
 .kw-wrapper {
   bottom: 0;
   left: 0;
@@ -98,14 +103,16 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   top: 0;
 }
 
+.kw-body {
+  display: none;
+}
+
 #main {
   height: 100%;
   position: relative;
 }
 
 .kw-team-wrapper {
-  min-height: 85px;
-  /*needed for the checkbox to use position absolute*/
   overflow: hidden;
   position: relative;
 }
@@ -113,6 +120,8 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
 .kw-title {
   color: #666;
   font-size: 14px;
+  line-height: 24px;
+  -webkit-text-size-adjust: 100%;
 }
 
 .kw-match-box {
@@ -127,7 +136,6 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
 }
 .kw-match-box div {
   height: 4px;
-  margin-top: 4px;
   width: 100%;
 }
 
@@ -150,7 +158,8 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
 .kw-table-item {
   color: #666;
   font-size: 14px;
-  height: 45px;
+  line-height: 24px;
+  margin-bottom: 8px;
 }
 .kw-table-item div[data-item-attr=score] {
   color: #000;

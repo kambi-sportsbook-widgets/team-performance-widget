@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html id="app">
 <head>
    <title>Team Performance Widget</title>
    <meta charset="UTF-8">
@@ -16,42 +16,39 @@
    <meta name="apple-mobile-web-app-status-bar-style" content="black">
    <meta name="apple-mobile-web-app-title" content="">
 
-
    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Roboto:300,400,500"/>
-   <link rel="stylesheet" href="//d1fqgomuxh4f5p.cloudfront.net/widget-core-library/0.1.3/css/app-base-all.min.css">
+   <link rel="stylesheet" href="https://d1fqgomuxh4f5p.cloudfront.net/widget-core-library/0.1.8/css/app-base-all.min.css">
 
    <link rel="stylesheet" type="text/css" rv-href="widgetCss"/>
 
    <link rel="stylesheet" href="css/app.min.css">
 
 
-   <script src="//d1fqgomuxh4f5p.cloudfront.net/widget-core-library/0.1.3/js/app.min.js"></script>
+   <script src="https://d1fqgomuxh4f5p.cloudfront.net/widget-core-library/0.1.8/js/app.min.js"></script>
 
    <script src="https://c3-static.kambi.com/sb-mobileclient/widget-api/1.0.0.10/kambi-widget-api.js"></script>
 </head>
-<body class="kw-body">
+<body class="kw-body" rv-style-display="onLoad">
 <div class="KambiWidget-card-background-color KambiWidget-card-text-color l-flexbox l-vertical kw-wrapper KambiWidget-card-border-color">
    <div id="main">
-      <header class="KambiWidget-header kw-header l-flexbox l-align-center l-pt-12 l-pb-12 l-pl-16">
+      <header class="KambiWidget-header kw-header l-flexbox l-align-center l-pt-16 l-pb-16 l-pl-16">
          {args.title}
       </header>
-      <main class="l-flexbox l-vertical l-flexed l-pack-start">
-         <div
-               class="l-flexbox l-vertical kw-team-wrapper"
-               rv-each-team="teams">
+      <main class="l-flexbox l-vertical l-flexed l-pack-start l-mb-12">
+         <div class="l-flexbox l-vertical kw-team-wrapper" rv-each-team="teams">
 
             <input class="kw-accordion" type="checkbox" rv-checked="team.detailed"/>
 
-            <div class="l-flexbox l-horizontal l-pt-16 l-pl-16 l-pr-16 l-align-center">
-               <div class="l-flex-1 kw-title">{team.name}</div>
+            <div class="l-flexbox l-horizontal l-pl-16 l-pr-16 l-align-center">
+               <div class="l-flex-1 kw-title text-truncate">{team.name}</div>
                <i class="l-flexbox icon-angle-down kw-expand-icon"></i>
             </div>
 
-            <div class='l-flexbox l-horizontal l-mb-6'>
+            <div class='l-flexbox l-horizontal l-mb-20'>
                <div class='l-flexbox l-flex-1 l-horizontal l-pr-16 l-pl-16'>
                   <div
-                        class="l-flexbox l-pack-center l-vertical l-align-center kw-match-box"
-                        rv-each-event="team.lastEvents">
+                     class="l-flexbox l-pack-center l-vertical l-align-center kw-match-box"
+                     rv-each-event="team.lastEvents">
                      <span class="l-flexbox">{event.result | translate}</span>
                      <div class="l-flexbox" rv-box-css-class="event.result"></div>
                   </div>
@@ -63,10 +60,10 @@
                <div class="l-flexbox l-vertical l-pack-center kw-detail">
                   <div class="l-flexbox l-vertical kw-table">
                      <div
-                           class="kw-table-item l-p-6 l-pl-16 l-pr-16 l-flexbox l-horizontal l-align-center"
-                           rv-each-event="team.lastEvents">
+                        class="kw-table-item l-pl-16 l-pr-16 l-flexbox l-horizontal l-align-center"
+                        rv-each-event="team.lastEvents">
 
-                        <div data-item-attr="home" class="l-flex-5">
+                        <div data-item-attr="home" class="l-flex-5 l-pr-12 text-truncate">
                            {event.homeName}
                         </div>
                         <div data-item-attr="score" class="l-flex-1 l-flexbox">
@@ -74,7 +71,7 @@
                            <span class="l-flex-2"> - </span>
                            <span class="l-flex-1">{event.awayScore}</span>
                         </div>
-                        <div data-item-attr="away" class="l-flex-5">
+                        <div data-item-attr="away" class="l-flex-5 l-pl-12 text-truncate">
                            {event.awayName}
                         </div>
                      </div>

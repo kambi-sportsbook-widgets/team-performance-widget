@@ -2,7 +2,7 @@
    'use strict';
 
    var TeamPerformance = Stapes.subclass({
-      constructor: function ( name ) {
+      constructor: function () {
          this.scope = {};
          var baseWidgetCSS = '//c3-static.kambi.com/sb-mobileclient/widget-api/1.0.0.10/resources/css/';
 
@@ -20,13 +20,14 @@
 
                CoreLibrary.widgetModule.enableWidgetTransition(true);
 
-               // Setting the args.eventId as a fallback
+               // Setting the pageParam as a fallback
                var eventId;
-               if ( CoreLibrary.pageInfo.pageParam == null || isNaN(parseInt(CoreLibrary.pageInfo.pageParam, 10)) ) {
+               if ( this.scope.args.eventId != null ) {
                   eventId = this.scope.args.eventId;
                   void 0;
                } else {
                   eventId = CoreLibrary.pageInfo.pageParam;
+                  void 0;
                }
 
                CoreLibrary.statisticsModule.getStatistics('tpi', 'event/' + eventId + '/')
@@ -47,6 +48,7 @@
                         sightglass(team, 'detailed', this.adjustHeight.bind(this));
                      }.bind(this));
                      this.adjustHeight();
+                     this.scope.onLoad = 'block';
                   }.bind(this))
                   .catch(function ( e ) {
                      // Error loading the statistics, remove the widget
@@ -59,7 +61,7 @@
                void 0;
             });
 
-         this.view = rivets.bind(document.getElementById('main'), this.scope);
+         this.view = rivets.bind(document.getElementById('app'), this.scope);
 
          this.view.binders['box-css-class'] = function ( el, value ) {
             el.classList.add('kw-match-' + value);
@@ -96,9 +98,9 @@
 
       // sets the height of the widget, called when detailed view on teams is opened/closed
       adjustHeight: function () {
-         var headerHeight = 40;
-         var compactViewTeamInfoHeight = 85;
-         var tableLineHeight = 45;
+         var headerHeight = 56;
+         var compactViewTeamInfoHeight = 74 + 6; // collapsed item plus half bottom border
+         var tableLineHeight = 24 + 8; // line-height + margin bottom
 
          var contentHeight = headerHeight;
 
