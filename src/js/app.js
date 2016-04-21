@@ -22,7 +22,7 @@
 
                // Setting the pageParam as a fallback
                var eventId;
-               if ( this.scope.args.eventId !== null ) {
+               if ( this.scope.args.eventId != null ) {
                   eventId = this.scope.args.eventId;
                   console.warn('eventId set from args.eventId');
                } else {
@@ -97,9 +97,9 @@
 
       // sets the height of the widget, called when detailed view on teams is opened/closed
       adjustHeight: function () {
-         var headerHeight = 48;
-         var compactViewTeamInfoHeight = 85;
-         var tableLineHeight = 45;
+         var headerHeight = 56;
+         var compactViewTeamInfoHeight = 74 + 6; // collapsed item plus half bottom border
+         var tableLineHeight = 24 + 8; // line-height + margin bottom
 
          var contentHeight = headerHeight;
 

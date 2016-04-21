@@ -13,7 +13,7 @@
 }
 
 .kw-team-wrapper {
-   min-height: 85px; /*needed for the checkbox to use position absolute*/
+   //min-height: 85px; /*needed for the checkbox to use position absolute*/
    overflow: hidden;
    position: relative;
 }
@@ -21,6 +21,7 @@
 .kw-title {
    color: #666;
    font-size: 14px;
+   line-height: 24px;
 }
 
 .kw-match-box {
@@ -34,7 +35,7 @@
    }
    div {
       height: 4px;
-      margin-top: 4px;
+      //margin-top: 4px;
       width: 100%;
    }
 }
@@ -58,7 +59,9 @@
 .kw-table-item {
    color: #666;
    font-size: 14px;
-   height: 45px;
+   line-height: 24px;
+   margin-bottom: 8px;
+
    div[data-item-attr=score] {
       color: #000;
       font-size: 12px;
