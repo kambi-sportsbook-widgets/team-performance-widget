@@ -90,7 +90,7 @@
 
          this.scope.teams.forEach(function ( team ) {
             if ( team.detailed === true ) {
-               contentHeight += compactViewTeamInfoHeight + team.lastEvents.length * tableLineHeight;
+               contentHeight += compactViewTeamInfoHeight + team.lastEvents.length * tableLineHeight + 20;
             } else {
                contentHeight += compactViewTeamInfoHeight;
             }
