@@ -913,7 +913,7 @@ CoreLibrary.widgetModule = function () {
 
    var TeamPerformance = CoreLibrary.Component.subclass({
       defaultArgs: {
-         title: 'Football - Team Performance Indicator'
+         title: 'Form'
       },
 
       constructor: function constructor() {
@@ -997,8 +997,13 @@ CoreLibrary.widgetModule = function () {
 
          var contentHeight = headerHeight;
 
+<<<<<<< HEAD
          this.scope.teams.forEach(function (team) {
             if (team.detailed === true) {
+=======
+         this.scope.teams.forEach(function ( team ) {
+            if ( team.detailed === true ) {
+>>>>>>> refs/remotes/origin/master
                contentHeight += compactViewTeamInfoHeight + team.lastEvents.length * tableLineHeight + 20;
             } else {
                contentHeight += compactViewTeamInfoHeight;
