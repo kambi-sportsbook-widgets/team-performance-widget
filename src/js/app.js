@@ -6,11 +6,11 @@
          title: 'Football - Team Performance Indicator'
       },
 
-      constructor: function () {
+      constructor () {
          CoreLibrary.Component.apply(this, arguments);
       },
 
-      init: function () {
+      init () {
          CoreLibrary.widgetModule.enableWidgetTransition(true);
 
          // Setting the pageParam as a fallback
@@ -23,7 +23,7 @@
             console.log('eventId set from pageParam');
          }
          CoreLibrary.statisticsModule.getStatistics('tpi', 'event/' + eventId + '/')
-            .then(function ( data ) {
+            .then( ( data ) => {
                this.scope.teams = [];
                this.scope.teams.push({
                   name: data.homeParticipant.participantName,
@@ -36,12 +36,13 @@
                   lastEvents: this.parseLastEvents(data.awayParticipant.participantId, data.awayParticipant.lastEvents)
                });
 
-               this.scope.teams.forEach(function ( team ) {
+               this.scope.teams.forEach(( team ) => {
                   sightglass(team, 'detailed', this.adjustHeight.bind(this));
-               }.bind(this));
+               });
+
                this.adjustHeight();
                this.scope.onLoad = 'block';
-            }.bind(this))
+            })
             .catch(function ( e ) {
                // Error loading the statistics, remove the widget
                CoreLibrary.widgetModule.removeWidget();
@@ -53,7 +54,7 @@
       },
 
       // flattens lastEvents
-      parseLastEvents: function ( teamId, lastEvents ) {
+      parseLastEvents ( teamId, lastEvents ) {
          var events = [];
          lastEvents.forEach(function ( event ) {
             if ( event.homeParticipant && event.awayParticipant &&
@@ -81,7 +82,7 @@
       },
 
       // sets the height of the widget, called when detailed view on teams is opened/closed
-      adjustHeight: function () {
+      adjustHeight () {
          var headerHeight = 56;
          var compactViewTeamInfoHeight = 74 + 6; // collapsed item plus half bottom border
          var tableLineHeight = 24 + 8; // line-height + margin bottom
