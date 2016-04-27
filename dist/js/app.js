@@ -997,13 +997,8 @@ CoreLibrary.widgetModule = function () {
 
          var contentHeight = headerHeight;
 
-<<<<<<< HEAD
          this.scope.teams.forEach(function (team) {
             if (team.detailed === true) {
-=======
-         this.scope.teams.forEach(function ( team ) {
-            if ( team.detailed === true ) {
->>>>>>> refs/remotes/origin/master
                contentHeight += compactViewTeamInfoHeight + team.lastEvents.length * tableLineHeight + 20;
             } else {
                contentHeight += compactViewTeamInfoHeight;
