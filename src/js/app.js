@@ -3,7 +3,7 @@
 
    var TeamPerformance = CoreLibrary.Component.subclass({
       defaultArgs: {
-         title: 'Football - Team Performance Indicator'
+         title: 'Form'
       },
 
       constructor: function () {
