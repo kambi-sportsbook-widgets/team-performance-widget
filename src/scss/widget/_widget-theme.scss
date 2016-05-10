@@ -11,13 +11,7 @@
    display: none;
 }
 
-#main {
-   height: 100%;
-   position: relative;
-}
-
 .kw-team-wrapper {
-   //min-height: 85px; /*needed for the checkbox to use position absolute*/
    overflow: hidden;
    position: relative;
 }
@@ -40,7 +34,6 @@
    }
    div {
       height: 4px;
-      //margin-top: 4px;
       width: 100%;
    }
 }
