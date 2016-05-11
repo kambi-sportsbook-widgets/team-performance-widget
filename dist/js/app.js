@@ -50,6 +50,9 @@ window.CoreLibrary = function () {
    rivets.formatters['/'] = function (v1, v2) {
       return v1 / v2;
    };
+   rivets.formatters['?'] = function (v1, v2) {
+      return v1 ? v1 : v2;
+   };
 
    /**
     * Returns specified object at specified key for specified array index
@@ -79,6 +82,11 @@ window.CoreLibrary = function () {
       }();
    };
 
+   /**
+    * Custom style binder
+    * @param el
+    * @param value
+    */
    rivets.binders['style-*'] = function (el, value) {
       el.style.setProperty(this.args[0], value);
    };
@@ -103,12 +111,37 @@ window.CoreLibrary = function () {
     * @param index List item index
     */
    rivets.binders['anim-stagger'] = function (el, index) {
+      if (index < 0) {
+         return false;
+      }
       var speed = 70;
       el.classList.remove('anim-stagger');
       el.classList.add('anim-stagger');
       setTimeout(function () {
          el.classList.add('anim-enter-active');
+         setTimeout(function () {
+            el.classList.remove('anim-stagger');
+            el.classList.remove('anim-enter-active');
+         }, 200);
       }, speed * index);
+   };
+
+   /**
+    * Binder to toggle a custom class based on the passed property, picks up the class name form the "rv-toggle-class" attribute
+    *
+    * Used in DOM as <div rv-custom-class="myBoolean" rv-toggle-class="myCustomClass" ></div>
+    *
+    * @param el DOM element to apply class to
+    * @param property The property to check
+    */
+   rivets.binders['custom-class'] = function (el, property) {
+      var cssClass = el.getAttribute('rv-toggle-class');
+
+      if (property === true) {
+         el.classList.add(cssClass);
+      } else {
+         el.classList.remove(cssClass);
+      }
    };
 
    /**
@@ -135,18 +168,42 @@ window.CoreLibrary = function () {
    sightglass.root = '.';
 
    return {
-      expectedApiVersion: '{{expectedApiVersion}}', // this value is replaced with the API version number during the compilation step
+      expectedApiVersion: '1.0.0.10', // this value is replaced with the API version number during the compilation step
+      development: false,
+      utilModule: null,
       widgetModule: null,
       offeringModule: null,
       statisticsModule: null,
       apiReady: false, // this value is set to true once the kambi API has finished loaded
       config: {
+         apiBaseUrl: '',
+         auth: false,
+         channelId: 1,
+         currency: '',
+         customer: '',
+         device: 'desktop',
+         locale: 'en_GB',
+         market: 'GB',
          oddsFormat: 'decimal',
-         apiVersion: 'v2',
-         streamingAllowedForPlayer: false
+         offering: '',
+         routeRoot: '',
+         streamingAllowedForPlayer: true,
+         client_id: 2,
+         version: 'v2'
       },
       height: 450,
-      pageInfo: {},
+      pageInfo: {
+         leaguePaths: [],
+         pageParam: '',
+         pageTrackingPath: '',
+         pageType: ''
+      },
+      apiVersions: {
+         client: '',
+         libs: '',
+         wapi: ''
+      },
+      args: {},
       init: function init(setDefaultHeight) {
          return new Promise(function (resolve, reject) {
             if (window.KambiWidget) {
@@ -212,28 +269,54 @@ window.CoreLibrary = function () {
       },
 
       applySetupData: function applySetupData(setupData, setDefaultHeight) {
-         // Set the odds format
-         if (setupData.clientConfig.oddsFormat != null) {
-            this.setOddsFormat(setupData.clientConfig.oddsFormat);
-         }
 
-         // Set the configuration in the offering module
-         this.offeringModule.setConfig(setupData.clientConfig);
-
-         // Set the configuration in the widget api module
-         this.widgetModule.setConfig(setupData.clientConfig);
-
-         // Set the configuration in the widget api module
-         this.statisticsModule.setConfig(setupData.clientConfig);
+         // Set the configuration
+         this.setConfig(setupData.clientConfig);
 
          // Set page info
          this.setPageInfo(setupData.pageInfo);
+
+         this.setVersions(setupData.versions);
 
          if (setDefaultHeight === true) {
             this.setHeight(setupData.height);
          }
          this.apiReady = true;
-         this.config = setupData;
+      },
+
+      setConfig: function setConfig(config) {
+         for (var i in config) {
+            if (config.hasOwnProperty(i) && this.config.hasOwnProperty(i)) {
+               this.config[i] = config[i];
+            }
+         }
+         // Make sure that the routeRoot is not null or undefined
+         if (this.config.routeRoot == null) {
+            this.config.routeRoot = '';
+         } else if (this.config.routeRoot.length > 0 && this.config.routeRoot.slice(-1) !== '/') {
+            // If the routeRoot is not empty we need to make sure it has a trailing slash
+            this.config.routeRoot += '/';
+         }
+      },
+
+      setPageInfo: function setPageInfo(pageInfo) {
+         // Check if the last character in the pageParam property is a slash, if not add it so we can use this property in filter requests
+         if (pageInfo.pageType === 'filter' && pageInfo.pageParam.substr(-1) !== '/') {
+            pageInfo.pageParam += '/';
+         }
+         this.pageInfo = pageInfo;
+      },
+
+      setVersions: function setVersions(versions) {
+         for (var i in versions) {
+            if (versions.hasOwnProperty(i) && this.apiVersions.hasOwnProperty(i)) {
+               this.apiVersions[i] = versions[i];
+            }
+         }
+      },
+
+      setArgs: function setArgs(args) {
+         this.args = args;
       },
 
       requestSetup: function requestSetup(callback) {
@@ -251,14 +334,6 @@ window.CoreLibrary = function () {
       setHeight: function setHeight(height) {
          this.height = height;
          this.widgetModule.setHeight(height);
-      },
-
-      setPageInfo: function setPageInfo(pageInfo) {
-         // Check if the last character in the pageParam property is a slash, if not add it so we can use this property in filter requests
-         if (pageInfo.pageType === 'filter' && pageInfo.pageParam.substr(-1) !== '/') {
-            pageInfo.pageParam += '/';
-         }
-         this.pageInfo = pageInfo;
       },
 
       getData: function getData(url) {
@@ -302,6 +377,8 @@ window.CoreLibrary = function () {
       htmlTemplateFile: null,
 
       constructor: function constructor(options) {
+         var _this = this;
+
          /** object to be used in the HTML templates for data binding */
          this.scope = {};
 
@@ -323,9 +400,9 @@ window.CoreLibrary = function () {
          var optionsKeys = ['defaultArgs', 'rootElement'];
          optionsKeys.forEach(function (key) {
             if (typeof options[key] !== 'undefined') {
-               this[key] = options[key];
+               _this[key] = options[key];
             }
-         }.bind(this));
+         });
 
          if (typeof this.htmlTemplate === 'string' && typeof this.htmlTemplateFile === 'string') {
             throw new Error('Widget can not have htmlTemplate and htmlTemplateFile set at the same time');
@@ -341,9 +418,9 @@ window.CoreLibrary = function () {
             fetchHtmlPromise = CoreLibrary.getFile(this.htmlTemplateFile).then(function (response) {
                return response.text();
             }).then(function (html) {
-               this.htmlTemplate = html;
-               return this.htmlTemplate;
-            }.bind(this));
+               _this.htmlTemplate = html;
+               return _this.htmlTemplate;
+            });
          } else {
             // just resolve the promise
             fetchHtmlPromise = new Promise(function (resolve) {
@@ -360,44 +437,41 @@ window.CoreLibrary = function () {
             coreLibraryPromise = new Promise(function (resolve, reject) {
                CoreLibrary.init().then(function (widgetArgs) {
                   Object.keys(widgetArgs).forEach(function (key) {
-                     this.scope.args[key] = widgetArgs[key];
-                  }.bind(this));
+                     _this.scope.args[key] = widgetArgs[key];
+                  });
 
                   var apiVersion = CoreLibrary.widgetModule.api.VERSION;
                   if (apiVersion == null) {
                      var apiVersion = '1.0.0.10';
                   }
-                  this.scope.widgetCss = '//c3-static.kambi.com/sb-mobileclient/widget-api/' + apiVersion + '/resources/css/' + CoreLibrary.config.clientConfig.customer + '/' + CoreLibrary.config.clientConfig.offering + '/widgets.css';
+                  _this.scope.widgetCss = '//c3-static.kambi.com/sb-mobileclient/widget-api/' + apiVersion + '/resources/css/' + CoreLibrary.config.customer + '/' + CoreLibrary.config.offering + '/widgets.css';
                   resolve();
-               }.bind(this));
-            }.bind(this));
+               });
+            });
          }
 
          // fetches the component HTML in parallel with the Kambi API setup request
          // decreasing load time
-         Promise.all([coreLibraryPromise, fetchHtmlPromise]).then(function () {
-            if (typeof this.rootElement === 'string') {
-               this.rootElement = document.querySelector(this.rootElement);
+         return Promise.all([coreLibraryPromise, fetchHtmlPromise]).then(function () {
+            if (typeof _this.rootElement === 'string') {
+               _this.rootElement = document.querySelector(_this.rootElement);
             }
 
-            for (var i = 0; i < this.rootElement.attributes.length; ++i) {
-               var at = this.rootElement.attributes[i];
+            for (var i = 0; i < _this.rootElement.attributes.length; ++i) {
+               var at = _this.rootElement.attributes[i];
                if (at.name.indexOf('data-') === 0) {
                   var name = at.name.slice(5); // removes the 'data-' from the string
-                  this.scope[name] = at.value;
+                  _this.scope[name] = at.value;
                }
             }
 
-            if (typeof this.htmlTemplate === 'string') {
-               this.rootElement.innerHTML = this.htmlTemplate;
+            if (typeof _this.htmlTemplate === 'string') {
+               _this.rootElement.innerHTML = _this.htmlTemplate;
             }
 
-            this.view = rivets.bind(this.rootElement, this.scope);
+            _this.view = rivets.bind(_this.rootElement, _this.scope);
 
-            this.init(CoreLibrary.config.arguments);
-         }.bind(this)).catch(function (error) {
-            void 0;
-            void 0;
+            _this.init();
          });
       }
    });
@@ -410,34 +484,6 @@ CoreLibrary.offeringModule = function () {
    'use strict';
 
    return {
-      config: {
-         apiBaseUrl: null,
-         apiUrl: null,
-         channelId: null,
-         currency: null,
-         locale: null,
-         market: null,
-         offering: null,
-         customer: null,
-         clientId: 2,
-         version: null,
-         routeRoot: '',
-         auth: false,
-         device: null
-      },
-      setConfig: function setConfig(config) {
-         // Iterate over the passed object properties, if the exist in the predefined config object then we set them
-         for (var i in config) {
-            if (config.hasOwnProperty(i) && this.config.hasOwnProperty(i)) {
-               this.config[i] = config[i];
-               switch (i) {
-                  case 'locale':
-                     // TODO: deal with locale setting
-                     break;
-               }
-            }
-         }
-      },
       getGroupEvents: function getGroupEvents(groupId) {
          var requesPath = '/event/group/' + groupId + '.json';
          return this.doRequest(requesPath);
@@ -451,17 +497,57 @@ CoreLibrary.offeringModule = function () {
          var requestPath = '/event/live/open.json';
          return this.doRequest(requestPath);
       },
+      getLiveEventsByFilter: function getLiveEventsByFilter(filter) {
+         var _this = this;
+
+         // Todo: implement a filter request when the offering API supports it
+         filter = filter.replace(/\/$/, '');
+
+         var filterTerms = filter.split('/');
+         filterTerms = filterTerms.slice(0, 3);
+
+         var requestPath = '/listView/all/all/all/all/in-play/';
+
+         var liveEventsPromise = new Promise(function (resolve, reject) {
+            _this.doRequest(requestPath, null, 'v3').then(function (response) {
+               var result = {
+                  events: []
+               },
+                   i = 0,
+                   len = response.events.length;
+               for (; i < len; ++i) {
+                  var j = 0,
+                      termLen = response.events[i].event.path.length,
+                      addEvent = true;
+                  if (termLen > filterTerms.length) {
+                     termLen = filterTerms.length;
+                  }
+                  for (; j < termLen; ++j) {
+                     if (filterTerms[j] !== 'all' && response.events[i].event.path[j].termKey !== filterTerms[j]) {
+                        addEvent = false;
+                     }
+                  }
+                  if (addEvent) {
+                     result.events.push(response.events[i]);
+                  }
+               }
+               resolve(result);
+            });
+         });
+
+         return liveEventsPromise;
+      },
       doRequest: function doRequest(requestPath, params, version) {
-         if (this.config.offering == null) {
+         if (CoreLibrary.config.offering == null) {
             void 0;
          } else {
-            var apiUrl = this.config.apiBaseUrl.replace('{apiVersion}', version != null ? version : this.config.version);
-            var requestUrl = apiUrl + this.config.offering + requestPath;
+            var apiUrl = CoreLibrary.config.apiBaseUrl.replace('{apiVersion}', version != null ? version : CoreLibrary.config.version);
+            var requestUrl = apiUrl + CoreLibrary.config.offering + requestPath;
             var overrideParams = params || {};
             var requestParams = {
-               lang: overrideParams.locale || this.config.locale,
-               market: overrideParams.market || this.config.market,
-               client_id: overrideParams.clientId || this.config.clientId,
+               lang: overrideParams.locale || CoreLibrary.config.locale,
+               market: overrideParams.market || CoreLibrary.config.market,
+               client_id: overrideParams.client_id || CoreLibrary.config.client_id,
                include: overrideParams.include || '',
                betOffers: overrideParams.betOffers || 'COMBINED',
                categoryGroup: overrideParams.categoryGroup || 'COMBINED',
@@ -485,11 +571,7 @@ CoreLibrary.statisticsModule = function () {
 
    return {
       config: {
-         baseApiUrl: 'https://api.kambi.com/statistics/api/',
-         offering: null
-      },
-      setConfig: function setConfig(config) {
-         this.config.offering = config.offering;
+         baseApiUrl: 'https://api.kambi.com/statistics/api/'
       },
       getStatistics: function getStatistics(type, filter) {
          // Remove url parameters from filter
@@ -501,7 +583,7 @@ CoreLibrary.statisticsModule = function () {
          }
 
          void 0;
-         return CoreLibrary.getData(this.config.baseApiUrl + this.config.offering + '/' + type + '/' + filter + '.json');
+         return CoreLibrary.getData(this.config.baseApiUrl + CoreLibrary.config.offering + '/' + type + '/' + filter + '.json');
       }
    };
 }();
@@ -520,8 +602,12 @@ window.CoreLibrary.translationModule = function () {
             locale = 'en_GB';
          }
          var self = this;
+         var path = 'i18n/';
+         if (CoreLibrary.development === true) {
+            path = 'transpiled/i18n/';
+         }
          return new Promise(function (resolve, reject) {
-            window.CoreLibrary.getData('i18n/' + locale + '.json').then(function (response) {
+            window.CoreLibrary.getData(path + locale + '.json').then(function (response) {
                translationModule.i18nStrings = response;
                resolve();
             }).catch(function (error) {
@@ -535,14 +621,17 @@ window.CoreLibrary.translationModule = function () {
                }
             });
          });
+      },
+      getTranslation: function getTranslation(key) {
+         if (this.i18nStrings[key] != null) {
+            return this.i18nStrings[key];
+         }
+         return key;
       }
    };
 
    rivets.formatters.translate = function (value) {
-      if (translationModule.i18nStrings[value] != null) {
-         return translationModule.i18nStrings[value];
-      }
-      return value;
+      return translationModule.getTranslation(value);
    };
 
    return translationModule;
@@ -551,8 +640,101 @@ window.CoreLibrary.translationModule = function () {
 
 'use strict';
 
-CoreLibrary.widgetModule = function () {
+window.CoreLibrary.utilModule = function () {
    'use strict';
+
+   var utilModule = {
+      diffArray: function diffArray(A, B) {
+         var map = {},
+             C = [];
+
+         for (var i = B.length; i--;) {
+            map[B[i]] = null;
+         } // any other value would do
+
+         for (var i = A.length; i--;) {
+            if (!map.hasOwnProperty(A[i])) {
+               C.push(A[i]);
+            }
+         }
+
+         return C;
+      },
+      getOutcomeLabel: function getOutcomeLabel(outcome, event) {
+         switch (outcome.type) {
+            case 'OT_ONE':
+               // Outcome has label 1. Applies to Threeway bet offers.
+               return event.homeName;
+            case 'OT_CROSS':
+               // Outcome has label X. Applies to Threeway bet offers.
+               // Todo: Translation
+               return CoreLibrary.translationModule.getTranslation('draw');
+            case 'OT_TWO':
+               // Outcome has label 2. Applies to Threeway bet offers.
+               return event.awayName;
+            // Todo: Impelement these responses with translations
+
+            // case 'OT_OVER': //The “Over” outcome in Over/Under bet offer.
+            // break;
+            // case 'OT_UNDER': //The “Under” outcome in Over/Under bet offer.
+            // break;
+            // case 'OT_ODD': //The “Odd” outcome in Odd/Even bet offer.
+            // break;
+            // case 'OT_EVEN': //The “Even” outcome in Odd/Even bet offer.
+            // break;
+            // case 'OT_ONE_ONE': //1-1 outcome in Halftime/fulltime bet offer.
+            // break;
+            // case 'OT_ONE_TWO': //1-2 outcome in Halftime/fulltime bet offer.
+            // break;
+            // case 'OT_ONE_CROSS': //1-X outcome in Halftime/fulltime bet offer.
+            // break;
+            // case 'OT_TWO_ONE': //2-1 outcome in Halftime/fulltime bet offer.
+            // break;
+            // case 'OT_TWO_TWO': //2-2 outcome in Halftime/fulltime bet offer.
+            // break;
+            // case 'OT_TWO_CROSS': //2-X outcome in Halftime/fulltime bet offer.
+            // break;
+            // case 'OT_CROSS_ONE': //X-1 outcome in Halftime/fulltime bet offer.
+            // break;
+            // case 'OT_CROSS_TWO': //X-2 outcome in Halftime/fulltime bet offer.
+            // break;
+            // case 'OT_CROSS_CROSS': //X-X outcome in Halftime/fulltime bet offer.
+            // break;
+            // case 'OT_ONE_OR_TWO': //1 or 2 outcome in Double Chance bet offer.
+            // break;
+            // case 'OT_ONE_OR_CROSS': //1 or X outcome in Double Chance bet offer.
+            // break;
+            // case 'OT_CROSS_OR_TWO': //X or 2 outcome in Double Chance bet offer.
+            // break;
+            // case 'OT_YES': //“Yes” outcome in Head To Head and Yes/No bet offer.
+            // break;
+            // case 'OT_NO': //“No” outcome in Head To Head and Yes/No bet offer.
+            // break;
+            // case 'OT_OTHER': //“Other results” outcome in Result bet offer.
+            // break;
+            // case 'OT_UNTYPED': //Outcome does not have type.
+            // break;
+            // case 'OT_WC_HOME': //Outcome has label Home Win. Applies to WinCast bet offers.
+            // break;
+            // case 'OT_WC_DRAW': //Outcome has label Draw. Applies to WinCast bet offers.
+            // break;
+            // case 'OT_WC_AWAY': //Outcome has label Away Win. Applies to WinCast bet offers.
+            // break;
+
+            default:
+               void 0;
+               return outcome.label;
+         }
+      }
+   };
+
+   return utilModule;
+}();
+//# sourceMappingURL=utilModule.js.map
+
+'use strict';
+
+CoreLibrary.widgetModule = function () {
 
    var Module = Stapes.subclass();
 
@@ -565,25 +747,7 @@ CoreLibrary.widgetModule = function () {
          createUrl: function createUrl() {}
       },
       events: new Module(),
-      config: {
-         routeRoot: '',
-         auth: false,
-         device: null
-      },
-      setConfig: function setConfig(config) {
-         for (var i in config) {
-            if (config.hasOwnProperty(i) && this.config.hasOwnProperty(i)) {
-               this.config[i] = config[i];
-            }
-         }
-         // Make sure that the routeRoot is not null or undefined
-         if (this.config.routeRoot == null) {
-            this.config.routeRoot = '';
-         } else if (this.config.routeRoot.length > 0 && this.config.routeRoot.slice(-1) !== '/') {
-            // If the routeRoot is not empty we need to make sure it has a trailing slash
-            this.config.routeRoot += '/';
-         }
-      },
+      betslipIds: [],
       handleResponse: function handleResponse(response) {
          switch (response.type) {
             case this.api.WIDGET_HEIGHT:
@@ -592,21 +756,54 @@ CoreLibrary.widgetModule = function () {
                break;
             case this.api.BETSLIP_OUTCOMES:
                // We've received a response with the outcomes currently in the betslip
+
+               var i = 0,
+                   len = response.data.outcomes.length;
+               var updateIds = [];
+               // Gather all the ids in the betslip in one array
+               for (; i < len; ++i) {
+                  updateIds.push(response.data.outcomes[i].id);
+               }
+               // Diff against what the coreLibrary already has stored so we know what was added and what was removed
+               var removedIds = CoreLibrary.utilModule.diffArray(this.betslipIds, updateIds);
+               var addedIds = CoreLibrary.utilModule.diffArray(updateIds, this.betslipIds);
+               // Save the updated ids
+               this.betslipIds = updateIds;
+
+               // Emit events for each removed id
+               i = 0;
+               len = removedIds.length;
+               for (; i < len; ++i) {
+                  this.events.emit('OUTCOME:REMOVED:' + removedIds[i]);
+               }
+
+               // Emit events for each added id
+               i = 0;
+               len = addedIds.length;
+               for (; i < len; ++i) {
+                  this.events.emit('OUTCOME:ADDED:' + addedIds[i]);
+               }
+
+               // Emit a generic update in case we want to use that
                this.events.emit('OUTCOMES:UPDATE', response.data);
                break;
             case this.api.WIDGET_ARGS:
                // We've received a response with the arguments set in the
+               CoreLibrary.setArgs(response.data);
                this.events.emit('WIDGET:ARGS', response.data);
                break;
             case this.api.PAGE_INFO:
                // Received page info response
+               CoreLibrary.setPageInfo(response.data);
                this.events.emit('PAGE:INFO', response.data);
                break;
             case this.api.CLIENT_ODDS_FORMAT:
                // Received odds format response
+               CoreLibrary.setOddsFormat(response.data);
                this.events.emit('ODDS:FORMAT', response.data);
                break;
             case this.api.CLIENT_CONFIG:
+               CoreLibrary.setConfig(response.data);
                this.events.emit('CLIENT:CONFIG', response.data);
                break;
             case this.api.USER_LOGGED_IN:
@@ -629,10 +826,10 @@ CoreLibrary.widgetModule = function () {
       },
 
       getPageType: function getPageType() {
-         if (!CoreLibrary.config.pageInfo.pageType) {
+         if (!CoreLibrary.pageInfo.pageType) {
             return '';
          }
-         var pageType = CoreLibrary.config.pageInfo.pageType;
+         var pageType = CoreLibrary.pageInfo.pageType;
          switch (pageType) {
             case 'event':
                return '';
@@ -722,7 +919,7 @@ CoreLibrary.widgetModule = function () {
 
       removeOutcomeFromBetslip: function removeOutcomeFromBetslip(outcomes) {
          var arrOutcomes = [];
-         if (outcomes.isArray()) {
+         if (Array.isArray(outcomes)) {
             arrOutcomes = outcomes;
          } else {
             arrOutcomes.push(outcomes);
@@ -768,15 +965,91 @@ CoreLibrary.widgetModule = function () {
 
       navigateClient: function navigateClient(destination) {
          if (typeof destination === 'string') {
-            this.api.navigateClient('#' + this.config.routeRoot + destination);
+            this.api.navigateClient('#' + CoreLibrary.config.routeRoot + destination);
          } else if (destination.isArray()) {
-            var filter = this.api.createFilterUrl(destination, this.config.routeRoot);
+            var filter = this.api.createFilterUrl(destination, CoreLibrary.config.routeRoot);
             this.api.navigateClient(filter);
          }
       }
    };
 }();
 //# sourceMappingURL=widgetModule.js.map
+
+'use strict';
+
+(function () {
+
+   var OutcomeViewController = function OutcomeViewController(attributes) {
+      var _this = this;
+
+      this.data = attributes;
+      this.selected = false;
+      this.label = '';
+      this.coreLibraryConfig = CoreLibrary.config;
+
+      if (this.data.outcomeAttr != null) {
+         if (this.data.eventAttr != null) {
+            this.label = CoreLibrary.utilModule.getOutcomeLabel(this.data.outcomeAttr, this.data.eventAttr);
+         } else {
+            this.label = this.data.outcomeAttr.label;
+         }
+
+         if (CoreLibrary.widgetModule.betslipIds.indexOf(this.data.outcomeAttr.id) !== -1) {
+            this.selected = true;
+         }
+
+         CoreLibrary.widgetModule.events.on('OUTCOME:ADDED:' + this.data.outcomeAttr.id, function (data, event) {
+            _this.selected = true;
+         });
+
+         CoreLibrary.widgetModule.events.on('OUTCOME:REMOVED:' + this.data.outcomeAttr.id, function (data, event) {
+            _this.selected = false;
+         });
+      }
+
+      this.toggleOutcome = function (event, scope) {
+         if (scope.selected === false) {
+            CoreLibrary.widgetModule.addOutcomeToBetslip(scope.data.outcomeAttr.id);
+         } else {
+            CoreLibrary.widgetModule.removeOutcomeFromBetslip(scope.data.outcomeAttr.id);
+         }
+      };
+
+      this.getOddsFormat = function () {
+         switch (this.coreLibraryConfig.oddsFormat) {
+            case 'fractional':
+               return this.data.outcomeAttr.oddsFractional;
+            case 'american':
+               return this.data.outcomeAttr.oddsAmerican;
+            default:
+               return this.data.outcomeAttr.odds / 1000;
+         }
+      };
+   };
+
+   rivets.components['outcome-component'] = {
+      template: function template() {
+         return '<button rv-on-click="toggleOutcome" type="button" role="button" class="KambiWidget-outcome kw-link l-flex-1 l-ml-6" ' + 'rv-custom-class="selected" rv-toggle-class="KambiWidget-outcome--selected" >' + '<div class="KambiWidget-outcome__flexwrap">' + '<div class="KambiWidget-outcome__label-wrapper">' + '<span class="KambiWidget-outcome__label">{label}</span>' + '<span class="KambiWidget-outcome__line"></span>' + '</div>' + '<div class="KambiWidget-outcome__odds-wrapper">' + '<span class="KambiWidget-outcome__odds" rv-text="getOddsFormat < data.outcomeAttr.odds coreLibraryConfig.oddsFormat"></span>' + '</div>' + '</div>' + '</button>';
+      },
+
+      initialize: function initialize(el, attributes) {
+         el.classList.add('l-flexbox');
+         el.classList.add('l-flex-1');
+         return new OutcomeViewController(attributes);
+      }
+   };
+
+   rivets.components['outcome-component-no-label'] = {
+      template: function template() {
+         return '<button rv-on-click="toggleOutcome" rv-disabled="betOffer.suspended | == true"' + 'rv-custom-class="selected" rv-toggle-class="KambiWidget-outcome--selected" ' + 'type="button" role="button" class="KambiWidget-outcome kw-link l-ml-6">' + '<div class="l-flexbox l-pack-center">' + '<div class="KambiWidget-outcome__odds-wrapper">' + '<span class="KambiWidget-outcome__odds" rv-text="getOddsFormat < data.outcomeAttr.odds coreLibraryConfig.oddsFormat" ></span>' + '</div>' + '</div>' + '</button>';
+      },
+
+      initialize: function initialize(el, attributes) {
+         return new OutcomeViewController(attributes);
+      }
+   };
+})();
+//# sourceMappingURL=OutcomeComponent.js.map
 
 'use strict';
 
@@ -810,7 +1083,7 @@ CoreLibrary.widgetModule = function () {
          sightglass(mainComponentScope, scopeKey, function () {
             this.originalArray = mainComponentScope[scopeKey];
             this.setCurrentPage(0);
-            this.currentPageArray.length = 0; // empties the array
+            this.clearArray();
             this.adaptArray();
          }.bind(this));
 
@@ -818,6 +1091,10 @@ CoreLibrary.widgetModule = function () {
          this.scope.previousPage = this.previousPage.bind(this);
 
          this.adaptArray();
+      },
+
+      clearArray: function clearArray() {
+         this.currentPageArray.splice(0, this.currentPageArray.length);
       },
 
       getCurrentPage: function getCurrentPage() {
@@ -857,7 +1134,7 @@ CoreLibrary.widgetModule = function () {
        * Changes the _scopeKey array to match the current page elements
        */
       adaptArray: function adaptArray() {
-         this.currentPageArray.length = 0; // empties the array
+         this.clearArray();
          var startItem = this.getCurrentPage() * this.pageSize;
          var endItem = startItem + this.pageSize;
          if (endItem >= this.originalArray.length) {

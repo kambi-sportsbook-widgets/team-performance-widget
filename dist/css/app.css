@@ -84,7 +84,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
 }
 
 body, html, * {
-  font-family: Roboto, sans-serif;
+  font-family: 'kambi-roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 12px;
   line-height: 24px;
 }
@@ -94,6 +94,11 @@ body, html {
   margin: 0;
   padding: 0;
   width: 100%;
+}
+
+html {
+  min-width: 100%;
+  width: 1px;
 }
 
 a {
@@ -774,7 +779,6 @@ i {
   background-color: white;
   border-bottom: 0;
   color: #222;
-  font-family: 'Roboto';
   font-size: 16px;
   line-height: 24px;
 }
@@ -811,11 +815,6 @@ i {
 
 .kw-body {
   display: none;
-}
-
-#main {
-  height: 100%;
-  position: relative;
 }
 
 .kw-team-wrapper {

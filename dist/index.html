@@ -16,26 +16,26 @@
    <meta name="apple-mobile-web-app-status-bar-style" content="black">
    <meta name="apple-mobile-web-app-title" content="">
 
-   <link rel="stylesheet" type="text/css" rv-href="widgetCss"/>
-
    <link rel="stylesheet" href="css/app.min.css">
 
-   <script src="https://d1fqgomuxh4f5p.cloudfront.net/widget-third-party/v1.2.0/thirdparty.min.js"></script>
+   <link rel="stylesheet" type="text/css" rv-href="widgetCss"/>
+
+   <script src="http://kambi-cdn.globalmouth.com/widget-third-party/v1.2.0/thirdparty.min.js"></script>
 
    <script src="https://c3-static.kambi.com/sb-mobileclient/widget-api/1.0.0.10/kambi-widget-api.js"></script>
 </head>
-<body class="kw-body" rv-style-display="onLoad">
+<body class="kw-body KambiWidget-font" rv-style-display="onLoad">
 <div class="KambiWidget-card-background-color KambiWidget-card-text-color l-flexbox l-vertical kw-wrapper KambiWidget-card-border-color">
-   <header class="KambiWidget-header kw-header l-flexbox l-align-center l-pt-16 l-pb-16 l-pl-16">
+   <header class="KambiWidget-font kw-header l-flexbox l-align-center l-pt-16 l-pb-16 l-pl-16">
       {args.title}
    </header>
-   <main class="l-flexbox l-vertical l-flexed l-pack-start l-mb-12">
+   <main class="KambiWidget-font l-flexbox l-vertical l-flexed l-pack-start l-mb-12">
       <div class="l-flexbox l-vertical kw-team-wrapper" rv-each-team="teams">
 
          <input class="kw-accordion" type="checkbox" rv-checked="team.detailed"/>
 
          <div class="l-flexbox l-horizontal l-pl-16 l-pr-16 l-align-center">
-            <div class="l-flex-1 kw-title text-truncate">{team.name}</div>
+            <div class="kw-title l-flex-1 KambiWidget-card-text-color text-truncate">{team.name}</div>
             <i class="l-flexbox icon-angle-down kw-expand-icon"></i>
          </div>
 
