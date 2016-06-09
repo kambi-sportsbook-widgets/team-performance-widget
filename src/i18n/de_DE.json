@@ -1,7 +1,7 @@
 {
-   "win": "W",
-   "draw": "D",
-   "lose": "L",
+   "win": "S",
+   "draw": "U",
+   "lose": "N",
    "Home Games": "Home Games",
    "Away Games": "Away Games",
    "Form": "Form"
