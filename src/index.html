@@ -43,7 +43,7 @@
          <input class="kw-accordion" type="checkbox" rv-checked="team.detailed"/>
 
          <div class="l-flexbox l-horizontal l-pl-16 l-pr-16 l-align-center">
-            <div class="kw-title l-flex-1 KambiWidget-card-text-color text-truncate">{team.name}</div>
+            <div class="kw-title l-flex-1 KambiWidget-card-text-color text-truncate">{team.name | translate}</div>
             <i class="l-flexbox icon-angle-down kw-expand-icon"></i>
          </div>
 
@@ -67,7 +67,7 @@
                      rv-each-event="team.lastEvents">
 
                      <div data-item-attr="home" class="l-flex-5 l-pr-12 text-truncate">
-                        {event.homeName}
+                        {event.homeName | translate}
                      </div>
                      <div data-item-attr="score" class="l-flex-1 l-flexbox">
                         <span class="l-flex-1">{event.homeScore}</span>
@@ -75,7 +75,7 @@
                         <span class="l-flex-1">{event.awayScore}</span>
                      </div>
                      <div data-item-attr="away" class="l-flex-5 l-pl-12 text-truncate">
-                        {event.awayName}
+                        {event.awayName | translate}
                      </div>
                   </div>
                </div>
