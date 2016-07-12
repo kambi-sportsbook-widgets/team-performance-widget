@@ -23,7 +23,7 @@
             console.log('eventId set from pageParam');
          }
          CoreLibrary.statisticsModule.getStatistics('tpi', 'event/' + eventId + '/')
-            .then( ( data ) => {
+            .then(( data ) => {
                this.scope.teams = [];
                this.scope.teams.push({
                   name: data.homeParticipant.participantName,
@@ -55,11 +55,14 @@
 
       // flattens lastEvents
       parseLastEvents ( teamId, lastEvents ) {
-         var events = [];
+         var events = [],
+            result, homeScore, awayScore;
          lastEvents.forEach(function ( event ) {
             if ( event.homeParticipant && event.awayParticipant &&
-               event.scores && event.scores.length > 0 ) {
-               var result = 'win';
+               event.scores && event.scores.length > 0 && event.scores[0].hasOwnProperty('homeScore') ) {
+               homeScore = event.scores[0].homeScore;
+               awayScore = event.scores[0].awayScore;
+               result = 'win';
                if ( event.scores[0].homeScore === event.scores[0].awayScore ) {
                   result = 'draw';
                } else if ( event.homeParticipant.participantId === teamId &&
@@ -69,13 +72,32 @@
                   event.scores[0].homeScore > event.scores[0].awayScore ) {
                   result = 'lose';
                }
+            } else if ( event.scores[0].hasOwnProperty('winner') ) {
+               result = 'win';
+               homeScore = 'win';
+               awayScore = 'lose';
+               if ( event.scores[0].winner === 'HOME' && event.awayParticipant.participantId === teamId ) {
+                  result = 'lose';
+                  homeScore = 'win';
+                  awayScore = 'lose';
+               } else if ( event.scores[0].winner === 'AWAY' && event.awayParticipant.participantId === teamId ) {
+                  result = 'win';
+                  homeScore = 'lose';
+                  awayScore = 'win';
+               } else if ( event.scores[0].winner === 'AWAY' && event.homeParticipant.participantId === teamId ) {
+                  result = 'lose';
+                  homeScore = 'lose';
+                  awayScore = 'win';
+               }
+            }
+            if ( result ) {
                events.push({
                   homeName: event.homeParticipant.participantName,
                   awayName: event.awayParticipant.participantName,
-                  homeScore: event.scores[0].homeScore,
-                  awayScore: event.scores[0].awayScore,
+                  homeScore: homeScore,
+                  awayScore: awayScore,
                   result: result
-               });
+               })
             }
          });
          return events;
