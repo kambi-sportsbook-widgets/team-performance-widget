@@ -97,7 +97,7 @@
                   homeScore: homeScore,
                   awayScore: awayScore,
                   result: result
-               })
+               });
             }
          });
          return events;
