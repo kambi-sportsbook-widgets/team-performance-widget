@@ -1,43 +1,20 @@
 # team-performance-widget
+![](https://github.com/kambi-sportsbook-widgets/head-to-head-widget/blob/master/screenshot.png?raw=true)
 
-A widget to display the performance indicators of teams
+A widget to display the performance indicators of teams last matches
 
-## Configuration example:
+## Configuration
 
-__`client-widgets.js`__
-
+Arguments and default values:
 ```json
-{
-    "order": 1,
-    "widgetId": "Seed widget",
-    "args": {
-        "title": "Football - Team Performance Indicator",
-        "eventId": "1003123435"
-    }
-},
-...
-
+"args": {
+    "eventId": null
+}
 ```
 
-Please visit http://widgets.kambi.com/tool/ for more info
-
-### The widget accepts the following parameter/s:
-
- - title [String]
-
- The title to show on the header of the widgets
-
- - eventId [Number]
-
- Id of the event to get data from
+1. `eventId` - number - id of the event from which to get the last matches of each team from
 
 
-# Other tools
+### Build Instructions
 
-For setting up sass maps, follow this tutorial https://www.hackmonkey.com/2014/sep/configuring-css-source-maps-compass
-
-To use Scss Lint, run "gem install scss_lint"
-
-# Changelog
-
-changelog can be found [here](CHANGELOG.md)
+Please refer to the [core-library](https://github.com/kambi-sportsbook-widgets/widget-core-library)

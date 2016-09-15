@@ -3,7 +3,7 @@
 
    var TeamPerformance = CoreLibrary.Component.subclass({
       defaultArgs: {
-         title: 'Form'
+         eventId: null
       },
 
       constructor () {
