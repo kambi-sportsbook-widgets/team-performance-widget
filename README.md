@@ -1,5 +1,5 @@
 # team-performance-widget
-![](https://github.com/kambi-sportsbook-widgets/head-to-head-widget/blob/master/screenshot.png?raw=true)
+![](https://github.com/kambi-sportsbook-widgets/team-performance-widget/blob/master/screenshot.png?raw=true)
 
 A widget to display the performance indicators of teams last matches
 
