@@ -8,11 +8,13 @@ A widget to display the performance indicators of teams last matches
 Arguments and default values:
 ```json
 "args": {
-    "eventId": null
+    "eventId": null,
+    "title": ""
 }
 ```
 
 1. `eventId` - number - id of the event from which to get the last matches of each team from
+2. `title` - string - widget's title
 
 
 ### Build Instructions

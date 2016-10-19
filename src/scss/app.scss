@@ -1,7 +1,7 @@
 //Main scss file
 
 //Included variables, mixins and layout
-@import 'app-base-all';
+@import '~widget-core-library/dist/scss/core.scss';
 
 //Included widget related styles
 @import 'widget/variables';
