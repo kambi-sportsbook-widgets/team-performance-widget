@@ -104,7 +104,7 @@ class TeamPerformanceWidget extends React.Component {
             <main className="KambiWidget-font l-flexbox l-vertical l-flexed l-pack-start l-mb-12">
                {this.props.teams.map((team, i) => {
                   return (
-                     <Team key={team.id} team={team} clickHandler={this.detailsClickHandler.bind(this, i)}>
+                     <Team key={team.id} name={team.name} detailed={this.state.detailed[i]} clickHandler={this.detailsClickHandler.bind(this, i)}>
                         <Events>
                            {team.lastEvents.map(event => <Event key={event.start} event={event} />)}
                         </Events>
