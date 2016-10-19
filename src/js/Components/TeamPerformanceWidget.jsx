@@ -1,10 +1,10 @@
 import React from 'react';
 import { widgetModule, translationModule } from 'widget-core-library';
-import DetailedEvent from './DetailedEvent';
-import DetailedEvents from './DetailedEvents';
-import Event from './Event';
-import Events from './Events';
-import Team from './Team';
+import MatchResult from './MatchResult';
+import MatchResultList from './MatchResultList';
+import MatchResultIndicator from './MatchResultIndicator';
+import MatchResultIndicatorList from './MatchResultIndicatorList';
+import TeamPerformanceSummary from './TeamPerformanceSummary';
 
 /**
  *
@@ -33,6 +33,7 @@ class TeamPerformanceWidget extends React.Component {
     * Constructs.
     * @param {object} props Widget properties
     */
+
    constructor(props) {
       super(props);
 
@@ -94,26 +95,37 @@ class TeamPerformanceWidget extends React.Component {
     * @returns {XML}
     */
    render() {
+
       const t = translationModule.getTranslation.bind(translationModule);
 
       return (
-         <div className="KambiWidget-card-background-color KambiWidget-card-text-color l-flexbox l-vertical kw-wrapper KambiWidget-card-border-color">
+         <div
+            className="KambiWidget-card-background-color KambiWidget-card-text-color l-flexbox l-vertical kw-wrapper KambiWidget-card-border-color"
+         >
             <header className="KambiWidget-font kw-header l-flexbox l-align-center l-pt-16 l-pb-16 l-pl-16">
-               {t(this.props.title)}
+               { t(this.props.title) }
             </header>
             <main className="KambiWidget-font l-flexbox l-vertical l-flexed l-pack-start l-mb-12">
-               {this.props.teams.map((team, i) => {
-                  return (
-                     <Team key={team.id} name={team.name} detailed={this.state.detailed[i]} clickHandler={this.detailsClickHandler.bind(this, i)}>
-                        <Events>
-                           {team.lastEvents.map(event => <Event key={event.start} event={event} />)}
-                        </Events>
-                        <DetailedEvents>
-                           {team.lastEvents.map(event => <DetailedEvent key={event.start} event={event} />)}
-                        </DetailedEvents>
-                     </Team>
-                  );
-               })}
+               { this.props.teams.map((team, index) =>
+                  <TeamPerformanceSummary
+                     key={team.id}
+                     name={team.name}
+                     isExpanded={this.state.detailed[index]}
+                     onClick={this.detailsClickHandler}>
+                     onClickArguments={index}
+                     <MatchResultIndicatorList>
+                        {team.lastEvents.map(event => <MatchResultIndicator key={event.start} result={event.result} />)}
+                     </MatchResultIndicatorList>
+                     <MatchResultList>
+                        {team.lastEvents.map(event => <MatchResult
+                           key={event.start}
+                           homeName={event.homeName}
+                           homeScore={event.homeScore}
+                           awayName={event.awayName}
+                           awayScore={event.awayScore}
+                        />)}
+                     </MatchResultList>
+                  </TeamPerformanceSummary>) }
             </main>
          </div>
       );

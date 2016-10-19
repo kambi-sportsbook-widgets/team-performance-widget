@@ -1,26 +1,26 @@
 import React from 'react';
 import { translationModule } from 'widget-core-library';
 
-const Team = ({ children, name, detailed, clickHandler }) => {
+const TeamPerformanceSummary = (props) => {
    const t = translationModule.getTranslation.bind(translationModule);
 
    return (
       <div className="l-flexbox l-vertical kw-team-wrapper">
-         <input className="kw-accordion" type="checkbox" defaultChecked={detailed} onChange={clickHandler} />
+         <input className="kw-accordion" type="checkbox" defaultChecked={props.isExpanded} onChange={props.onClick(props.onClickArguments)} />
          <div className="l-flexbox l-horizontal l-pl-16 l-pr-16 l-align-center">
-            <div className="kw-title l-flex-1 KambiWidget-card-text-color text-truncate">{t(name)}</div>
+            <div className="kw-title l-flex-1 KambiWidget-card-text-color text-truncate">{t(props.name)}</div>
             <i className="l-flexbox icon-angle-down kw-expand-icon" />
          </div>
-         {children}
+         { props.children }
       </div>
    );
 };
 
-Team.defaultProps = {
-   detailed: false
+TeamPerformanceSummary.defaultProps = {
+   isExpanded: false
 };
 
-Team.propTypes = {
+TeamPerformanceSummary.propTypes = {
    /**
     * Name of team
     */
@@ -29,12 +29,17 @@ Team.propTypes = {
    /**
     * Show teams last matches
     */
-   detailed: React.PropTypes.bool,
+   isExpanded: React.PropTypes.bool,
 
    /**
     * Called on toggling detailed mode
     */
-   clickHandler: React.PropTypes.func.isRequired,
+   onClick: React.PropTypes.func.isRequired,
+
+   /**
+    *  Index on the list
+    */
+   onClickArguments: React.PropTypes.any,
 
    /**
     * Array of Events/DetailedEvents components
@@ -42,4 +47,4 @@ Team.propTypes = {
    children: React.PropTypes.arrayOf(React.PropTypes.element).isRequired
 };
 
-export default Team;
+export default TeamPerformanceSummary;
