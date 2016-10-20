@@ -111,8 +111,7 @@ class TeamPerformanceWidget extends React.Component {
                      key={team.id}
                      name={team.name}
                      isExpanded={this.state.detailed[index]}
-                     onClick={this.detailsClickHandler.bind(this,index)}
-                  >
+                     onClick={this.detailsClickHandler.bind(this, index)}>
                      <MatchResultIndicatorList>
                         {team.lastEvents.map(event => <MatchResultIndicator key={event.start} result={event.result} />)}
                      </MatchResultIndicatorList>
