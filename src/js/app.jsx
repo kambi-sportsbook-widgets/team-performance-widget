@@ -5,11 +5,12 @@ import TeamPerformanceWidget from './Components/TeamPerformanceWidget';
 import store from './Store/store';
 
 coreLibrary.init({
-   eventId: 1003508329,
+   eventId: 1003589914,
    title: ''
 })
 .then(() => store.getTeams(coreLibrary.args.eventId))
 .then((teams) => {
+   console.log(teams);
    ReactDOM.render(
       <TeamPerformanceWidget
          teams={teams}
