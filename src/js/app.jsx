@@ -5,21 +5,20 @@ import TeamPerformanceWidget from './Components/TeamPerformanceWidget';
 import store from './Store/store';
 
 coreLibrary.init({
-   eventId: 1003589914,
-   title: ''
+   eventId: null,
+   title: 'Form'
 })
-.then(() => store.getTeams(coreLibrary.args.eventId))
-.then((teams) => {
-   console.log(teams);
+.then(() => store.getParticipants(coreLibrary.args.eventId))
+.then((participants) => {
    ReactDOM.render(
       <TeamPerformanceWidget
-         teams={teams}
+         participants={participants}
          title={coreLibrary.args.title}
       />,
       document.getElementById('root')
    );
 })
 .catch((error) => {
-   console.error(error);
    widgetModule.removeWidget();
+   throw error;
 });

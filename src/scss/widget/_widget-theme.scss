@@ -1,82 +1,19 @@
-.kw-wrapper {
-   bottom: 0;
-   left: 0;
-   overflow: auto;
-   position: absolute;
-   right: 0;
-   top: 0;
-}
-
 .kw-body {
    display: none;
 }
 
-.kw-team-wrapper {
-   overflow: hidden;
+.kw-header {
+   font-weight: bold;
+   font-size: 16px;
+   text-align: center;
+   color: #666;
+   margin: 16px 16px 10px 16px;
+}
+
+.kw-main {
    position: relative;
 }
 
-.kw-title {
-   color: #666;
-   font-size: 14px;
-   line-height: 24px;
-   -webkit-text-size-adjust: 100%;
-}
-
-.kw-match-box {
-   height: 30px;
-   margin-right: 5px;
-   width: 100%;
-   span {
-      color: #000;
-      font-size: 12px;
-      line-height: 24px;
-   }
-   div {
-      height: 4px;
-      width: 100%;
-   }
-}
-
-.kw-match-box:last-child {
-   margin-right: 0;
-}
-
-.kw-match-win {
-   background-color: $color-win;
-}
-
-.kw-match-lose {
-   background-color: $color-lose;
-}
-
-.kw-match-draw {
-   background-color: $color-draw;
-}
-
-.kw-table-item {
-   color: #666;
-   font-size: 14px;
-   line-height: 24px;
-   margin-bottom: 8px;
-
-   div[data-item-attr=score] {
-      color: #000;
-      font-size: 12px;
-      letter-spacing: 3px;
-   }
-   div:first-child {
-      text-align: left;
-   }
-   div:nth-child(2) {
-      text-align: center;
-   }
-   div:last-child {
-      text-align: right;
-   }
-}
-
-// The magic that creates the accordion
 .kw-accordion { // inputbox, when checked the accordion opens
    bottom: 0;
    cursor: pointer;
@@ -89,34 +26,138 @@
    top: 0;
    width: 100%;
    z-index: 1;
-   //height: 70px; //allows easier inspecting
 }
 
-.overflow {
+.kw-summary {
+   @include flexbox;
+   @include justify-content(center);
+   position: relative;
+   margin-top: 10px;
+}
+
+.kw-participantsummary {
+   @include flexbox;
+   flex: 1;
+
+   &:first-child {
+      @include align-items(flex-end);
+      @include flex-direction(row-reverse);
+   }
+}
+
+.kw-eventresultindicator {
+   @include align-items(start);
+   font-size: 16px;
+   line-height: 28px;
+   width: 32px;
+   text-align: center;
+   border-radius: 2px;
+   padding: 6px 0;
+   font-weight: bold;
+   margin: 0 4px;
+   display: none;
+
+   @media (max-width: $screen-xs) {
+      &:nth-child(-n + 3) {
+         display: block;
+      }
+   }
+
+   @media (min-width: $screen-xs) and (max-width: $screen-ss) {
+      &:nth-child(-n + 5) {
+         display: block;
+      }
+   }
+
+   @media (min-width: $screen-ss) and (max-width: $screen-sm) {
+      &:nth-child(-n + 6) {
+         display: block;
+      }
+   }
+
+   @media (min-width: $screen-sm) and (max-width: $screen-ss) {
+      display: block;
+   }
+}
+
+.kw-eventresultindicator--win {
+   background-color: #B8E986;
+   color: rgba(96, 138, 54, .8);
+}
+
+.kw-eventresultindicator--draw {
+   background-color: #98D5F4;
+   color: rgba(57, 116, 146, .8);
+}
+
+.kw-eventresultindicator--lose {
+   background-color: #E98686;
+   color: rgba(172, 0, 0, .8);
+}
+
+.kw-versusicon {
+   border-radius: 50%;
+   background: #F5F5F5 url('../img/lightening.png') center center no-repeat;
+   background-size: 50%;
+   width: 40px;
+   height: 40px;
+   margin: 0 16px;
+   flex: 0 0 40px;
+}
+
+.kw-detailed {
+   margin-top: 31px;
    overflow: hidden;
 }
 
-.kw-detail {
-   margin-top: -270px;
-   overflow: hidden;
-   @include transition(margin-top 0.3s ease-out);
-}
-
-.kw-accordion:checked ~ .overflow .kw-detail { //when the checkbox is checked, show the element
+.kw-accordion:checked ~ .kw-detailed .kw-participantresults {
    margin-top: 0;
-   /*height: 270px;*/
-   /*auto doesn't work here, see:
-     http://stackoverflow.com/questions/3508605/how-can-i-transition-height-0-to-height-auto-using-css
-     */
 }
 
-i.kw-expand-icon {
-   color: #ddd;
-   @include transform(rotate(0deg));
-   @include align-self(flex-end);
-   font-size: 25px;
+.kw-participantresults {
+   @include transition(margin-top 0.3s ease-out);
+   margin-top: -464px;
 }
 
-.kw-accordion:checked ~ div i.kw-expand-icon {
-   @include transform(rotate(180deg));
+.kw-participantresults__header {
+   background-color: #F5F5F5;
+   color: rgba(102, 102, 102, .87);
+   font-size: 14px;
+   line-height: 48px;
+   border-top: 1px solid rgba(0, 0, 0, .06);
+   border-bottom: 1px solid rgba(0, 0, 0, .06);
+   padding: 0 16px;
+}
+
+.kw-eventresult {
+   padding: 12px 16px;
+   border-bottom: 1px solid rgba(0, 0, 0, .06);
+}
+
+.kw-eventresult__participant {
+   @include flexbox;
+}
+
+.kw-eventresult__participant__name {
+   @include flex(1);
+   color: rgba(102, 102, 102, .87);
+   font-size: 16px;
+   line-height: 22px;
+   font-weight: 300;
+}
+
+.kw-eventresult__participant__score {
+   @include flex(0 0 50px);
+   font-size: 16px;
+   font-weight: bold;
+   line-height: 22px;
+   text-align: right;
+}
+
+.kw-eventresult__participant--home {
+   color: rgba(0, 0, 0, .87);
+}
+
+.kw-eventresult__participant--away {
+   color: rgba(153, 153, 153, .87);
 }

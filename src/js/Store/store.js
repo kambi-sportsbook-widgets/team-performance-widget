@@ -7,65 +7,66 @@ import { coreLibrary, statisticsModule } from 'widget-core-library';
  * @returns {object[]}
  */
 const parseLastEvents = function(teamId, lastEvents) {
-   const events = [];
+   return lastEvents
+      .reduce((events, event) => {
+         let result,
+            homeScore,
+            awayScore;
 
-   lastEvents.forEach(function ( event ) {
-      let result,
-         homeScore,
-         awayScore;
-
-      if ( event.homeParticipant && event.awayParticipant &&
-         event.scores && event.scores.length > 0 && event.scores[0].hasOwnProperty('homeScore') ) {
-         homeScore = event.scores[0].homeScore;
-         awayScore = event.scores[0].awayScore;
-         result = 'win';
-         if ( event.scores[0].homeScore === event.scores[0].awayScore ) {
-            result = 'draw';
-         } else if ( event.homeParticipant.participantId === teamId &&
-            event.scores[0].awayScore > event.scores[0].homeScore ) {
-            result = 'lose';
-         } else if ( event.awayParticipant.participantId === teamId &&
-            event.scores[0].homeScore > event.scores[0].awayScore ) {
-            result = 'lose';
-         }
-      } else if ( event.scores[0].hasOwnProperty('winner') ) {
-         result = 'win';
-         homeScore = 'win';
-         awayScore = 'lose';
-         if ( event.scores[0].winner === 'HOME' && event.awayParticipant.participantId === teamId ) {
-            result = 'lose';
+         if ( event.homeParticipant && event.awayParticipant &&
+            event.scores && event.scores.length > 0 && event.scores[0].hasOwnProperty('homeScore') ) {
+            homeScore = event.scores[0].homeScore;
+            awayScore = event.scores[0].awayScore;
+            result = 'win';
+            if ( event.scores[0].homeScore === event.scores[0].awayScore ) {
+               result = 'draw';
+            } else if ( event.homeParticipant.participantId === teamId &&
+               event.scores[0].awayScore > event.scores[0].homeScore ) {
+               result = 'lose';
+            } else if ( event.awayParticipant.participantId === teamId &&
+               event.scores[0].homeScore > event.scores[0].awayScore ) {
+               result = 'lose';
+            }
+         } else if ( event.scores[0].hasOwnProperty('winner') ) {
+            result = 'win';
             homeScore = 'win';
             awayScore = 'lose';
-         } else if ( event.scores[0].winner === 'AWAY' && event.awayParticipant.participantId === teamId ) {
-            result = 'win';
-            homeScore = 'lose';
-            awayScore = 'win';
-         } else if ( event.scores[0].winner === 'AWAY' && event.homeParticipant.participantId === teamId ) {
-            result = 'lose';
-            homeScore = 'lose';
-            awayScore = 'win';
+            if ( event.scores[0].winner === 'HOME' && event.awayParticipant.participantId === teamId ) {
+               result = 'lose';
+               homeScore = 'win';
+               awayScore = 'lose';
+            } else if ( event.scores[0].winner === 'AWAY' && event.awayParticipant.participantId === teamId ) {
+               result = 'win';
+               homeScore = 'lose';
+               awayScore = 'win';
+            } else if ( event.scores[0].winner === 'AWAY' && event.homeParticipant.participantId === teamId ) {
+               result = 'lose';
+               homeScore = 'lose';
+               awayScore = 'win';
+            }
          }
-      }
-      if (result) {
-         events.push({
-            homeName: event.homeParticipant.participantName,
-            awayName: event.awayParticipant.participantName,
-            homeScore: homeScore,
-            awayScore: awayScore,
-            result: result,
-            start: event.start
-         });
-      }
-   });
-   return events;
+
+         if (result) {
+            events.push({
+               homeName: event.homeParticipant.participantName,
+               awayName: event.awayParticipant.participantName,
+               homeScore: homeScore,
+               awayScore: awayScore,
+               result: result,
+               start: event.start
+            });
+         }
+
+         return events;
+      }, []);
 };
 
 /**
- * Fetches teams information from external service.
+ * Fetches participants information from external service.
  * @param {number} eventId Event identifier
  * @returns {Promise.<object[]>}
  */
-const getTeams = function(eventId) {
+const getParticipants = function(eventId) {
    if (!eventId) {
       console.warn('eventId set from pageParam');
       eventId = coreLibrary.pageInfo.pageParam;
@@ -90,4 +91,4 @@ const getTeams = function(eventId) {
       });
 };
 
-export default { getTeams };
+export default { getParticipants };

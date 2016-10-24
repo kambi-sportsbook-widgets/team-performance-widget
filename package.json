@@ -23,11 +23,14 @@
     "widget-core-library": "git+ssh://git@github.com/kambi-sportsbook-widgets/widget-core-library.git#v3.1.0"
   },
   "devDependencies": {
-    "widget-build-tools": "git+ssh://git@github.com:kambi-sportsbook-widgets/widget-build-tools.git"
+    "widget-build-tools": "git+ssh://git@github.com:kambi-sportsbook-widgets/widget-build-tools.git#v2.2.0"
   },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/kambi-sportsbook-widgets/team-performance-widget/issues"
   },
-  "homepage": "https://github.com/kambi-sportsbook-widgets/team-performance-widget#readme"
+  "homepage": "https://github.com/kambi-sportsbook-widgets/team-performance-widget#readme",
+   "useRealReact": {
+      "development": false
+   }
 }
