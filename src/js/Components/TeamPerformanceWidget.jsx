@@ -74,7 +74,7 @@ class TeamPerformanceWidget extends React.Component {
     */
    render() {
       return (
-         <div className="KambiWidget-font">
+         <div className="KambiWidget-font KambiWidget-card-background-color">
             <Header title={this.props.title} />
             <Main defaultExpanded={this.state.expanded} expandHandler={this.expandHandler.bind(this)}>
                <Summary>

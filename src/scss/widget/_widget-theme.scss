@@ -7,7 +7,7 @@
    font-size: 16px;
    text-align: center;
    color: #666;
-   margin: 16px 16px 10px 16px;
+   padding: 16px 16px 10px 16px;
 }
 
 .kw-main {
@@ -32,7 +32,6 @@
    @include flexbox;
    @include justify-content(center);
    position: relative;
-   margin-top: 10px;
 }
 
 .kw-participantsummary {
