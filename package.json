@@ -1,6 +1,6 @@
 {
   "name": "team-performance-widget",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "A widget to display team performance indicators from the last matches",
   "main": "dist/index.html",
   "scripts": {
@@ -30,7 +30,7 @@
     "url": "https://github.com/kambi-sportsbook-widgets/team-performance-widget/issues"
   },
   "homepage": "https://github.com/kambi-sportsbook-widgets/team-performance-widget#readme",
-   "useRealReact": {
-      "development": false
-   }
+  "useRealReact": {
+    "development": false
+  }
 }
