@@ -1,4 +1,4 @@
-import { coreLibrary, statisticsModule } from 'widget-core-library';
+import { coreLibrary, statisticsModule } from 'kambi-widget-core-library';
 
 /**
  * Transforms lastEvents into form suitable for template.

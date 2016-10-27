@@ -139,7 +139,6 @@
 
 .kw-eventresult__participant__name {
    @include flex(1);
-   color: rgba(102, 102, 102, .87);
    font-size: 16px;
    line-height: 22px;
    font-weight: 300;
@@ -151,12 +150,4 @@
    font-weight: bold;
    line-height: 22px;
    text-align: right;
-}
-
-.kw-eventresult__participant--home {
-   color: rgba(0, 0, 0, .87);
-}
-
-.kw-eventresult__participant--away {
-   color: rgba(153, 153, 153, .87);
 }

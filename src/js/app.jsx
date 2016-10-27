@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { coreLibrary, widgetModule } from 'widget-core-library';
+import { coreLibrary, widgetModule } from 'kambi-widget-core-library';
 import TeamPerformanceWidget from './Components/TeamPerformanceWidget';
 import store from './Store/store';
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { widgetModule } from 'widget-core-library';
+import { widgetModule } from 'kambi-widget-core-library';
 import Header from './Header';
 import Main from './Main';
 import Summary from './Summary';
