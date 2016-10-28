@@ -17,13 +17,13 @@
     "url": "git+ssh://git@github.com:kambi-sportsbook-widgets/team-performance-widget.git"
   },
   "dependencies": {
-    "kambi-widget-core-library": "^3.1.0",
+    "kambi-widget-core-library": "^3.2.1",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
     "react-lite": "^0.15.26"
   },
   "devDependencies": {
-    "widget-build-tools": "git+ssh://git@github.com:kambi-sportsbook-widgets/widget-build-tools.git#v2.2.0"
+    "kambi-widget-build-tools": "^2.2.7"
   },
   "license": "MIT",
   "bugs": {
