@@ -1,6 +1,7 @@
 import React from 'react';
+import Header from './Header';
 
-const Main = ({ children, defaultExpanded, expandHandler }) => {
+const Main = ({ title, children, defaultExpanded, expandHandler }) => {
    const onChangeHandler = (event) => {
       if (expandHandler) {
          expandHandler(event.target.checked);
@@ -9,6 +10,7 @@ const Main = ({ children, defaultExpanded, expandHandler }) => {
 
    return (
       <main className="kw-main">
+         <Header title={title} />
          <input className="kw-accordion" type="checkbox" defaultChecked={defaultExpanded} onChange={onChangeHandler} />
          {children}
       </main>
@@ -16,6 +18,11 @@ const Main = ({ children, defaultExpanded, expandHandler }) => {
 };
 
 Main.propTypes = {
+   /**
+    * Widget's title
+    */
+   title: React.PropTypes.string.isRequired,
+
    /**
     * Inner components
     */

@@ -75,8 +75,11 @@ class TeamPerformanceWidget extends React.Component {
    render() {
       return (
          <div className="KambiWidget-font KambiWidget-card-background-color">
-            <Header title={this.props.title} />
-            <Main defaultExpanded={this.state.expanded} expandHandler={this.expandHandler.bind(this)}>
+            <Main
+               title={this.props.title}
+               defaultExpanded={this.state.expanded}
+               expandHandler={this.expandHandler.bind(this)}
+            >
                <Summary>
                   { this.props.participants.map((participant, i) => {
                      const nodes = i > 0 ? [<VersusIcon />]
