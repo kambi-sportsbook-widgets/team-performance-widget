@@ -9,9 +9,9 @@ const Main = ({ title, children, defaultExpanded, expandHandler }) => {
    };
 
    return (
-      <main className="kw-main">
+      <main className='kw-main'>
          <Header title={title} />
-         <input className="kw-accordion" type="checkbox" defaultChecked={defaultExpanded} onChange={onChangeHandler} />
+         <input className='kw-accordion' type='checkbox' defaultChecked={defaultExpanded} onChange={onChangeHandler} />
          {children}
       </main>
    );

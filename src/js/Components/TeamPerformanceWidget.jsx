@@ -3,9 +3,6 @@ import { widgetModule } from 'kambi-widget-core-library';
 import Header from './Header';
 import Main from './Main';
 import Summary from './Summary';
-import VersusIcon from './VersusIcon';
-import ParticipantSummary from './ParticipantSummary';
-import EventResultIndicator from './EventResultIndicator';
 import Detailed from './Detailed';
 import ParticipantResults from './ParticipantResults';
 import EventResult from './EventResult';
@@ -15,15 +12,8 @@ import EventResult from './EventResult';
  */
 class TeamPerformanceWidget extends React.Component {
 
-   /**
-    * Constructs.
-    * @param {object} props Widget properties
-    */
-
    constructor(props) {
       super(props);
-
-      widgetModule.enableWidgetTransition(true);
 
       this.state = {
          expanded: false
@@ -33,16 +23,16 @@ class TeamPerformanceWidget extends React.Component {
    /**
     * Called before mounting the widget.
     */
-   componentWillMount() {
+   componentDidMount() {
       document.getElementsByTagName('body')[0].style.display = 'block';
-      this.adjustWidgetHeight();
+      widgetModule.adaptWidgetHeight();
    }
 
    /**
     * Called after updating component's DOM.
     */
    componentDidUpdate() {
-      this.adjustWidgetHeight();
+      widgetModule.adaptWidgetHeight();
    }
 
    /**
@@ -54,59 +44,19 @@ class TeamPerformanceWidget extends React.Component {
    }
 
    /**
-    * Recalculates widget height.
-    */
-   adjustWidgetHeight() {
-      let height = Header.HEIGHT + Summary.HEIGHT;
-
-      if (this.state.expanded) {
-         height += this.props.participants.reduce((participantResultsHeight, participant) => {
-            return participantResultsHeight + ParticipantResults.HEADER_HEIGHT + participant.lastEvents.length * EventResult.HEIGHT;
-         }, 0);
-      }
-
-      widgetModule.setWidgetHeight(height);
-   }
-
-   /**
     * Creates widget template.
     * @returns {XML}
     */
    render() {
       return (
-         <div className="KambiWidget-font KambiWidget-card-background-color">
+         <div className='KambiWidget-card-background-color'>
             <Main
                title={this.props.title}
                defaultExpanded={this.state.expanded}
                expandHandler={this.expandHandler.bind(this)}
             >
-               <Summary>
-                  { this.props.participants.map((participant, i) => {
-                     const nodes = i > 0 ? [<VersusIcon />]
-                        : [];
-
-                     return nodes.concat([<ParticipantSummary key={participant.id}>
-                        { participant.lastEvents.map(event =>
-                           <EventResultIndicator key={event.start} result={event.result} />
-                        ) }
-                     </ParticipantSummary>]);
-                  }) }
-               </Summary>
-               <Detailed>
-                  { this.props.participants.map(participant =>
-                     <ParticipantResults key={participant.id} name={participant.name}>
-                        { participant.lastEvents.map(event =>
-                           <EventResult
-                              key={event.start}
-                              homeName={event.homeName}
-                              homeScore={event.homeScore}
-                              awayName={event.awayName}
-                              awayScore={event.awayScore}
-                           />
-                        ) }
-                     </ParticipantResults>
-                  ) }
-               </Detailed>
+               <Summary participants={this.props.participants} />
+               <Detailed participants={this.props.participants} />
             </Main>
          </div>
       );

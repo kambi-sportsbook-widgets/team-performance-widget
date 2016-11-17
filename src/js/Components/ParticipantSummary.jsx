@@ -2,7 +2,7 @@ import React from 'react';
 
 const ParticipantSummary = ({ children }) => {
    return (
-      <div className="kw-participantsummary">
+      <div className='kw-participantsummary'>
          { children }
       </div>
    );

@@ -28,23 +28,23 @@
 }
 
 .kw-summary {
-   @include flexbox;
-   @include justify-content(center);
+   display: flex;
+   justify-content: center;
    position: relative;
 }
 
 .kw-participantsummary {
-   @include flexbox;
+   display: flex;
    flex: 1;
 
    &:first-child {
-      @include align-items(flex-end);
-      @include flex-direction(row-reverse);
+      align-items: flex-end;
+      flex-direction: row-reverse;
    }
 }
 
 .kw-eventresultindicator {
-   @include align-items(start);
+   align-items: start;
    font-size: 16px;
    line-height: 28px;
    width: 32px;
@@ -113,7 +113,6 @@
 }
 
 .kw-participantresults {
-   @include transition(margin-top 0.3s ease-out);
    margin-top: -464px;
 }
 
@@ -130,22 +129,44 @@
 .kw-eventresult {
    padding: 12px 16px;
    border-bottom: 1px solid rgba(0, 0, 0, .06);
+   display: none;
+
+   @media (max-width: $screen-xs) {
+      &:nth-child(-n + 4) {
+         display: block;
+      }
+   }
+
+   @media (min-width: $screen-xs) and (max-width: $screen-ss) {
+      &:nth-child(-n + 6) {
+         display: block;
+      }
+   }
+
+   @media (min-width: $screen-ss) and (max-width: $screen-sm) {
+      &:nth-child(-n + 7) {
+         display: block;
+      }
+   }
+
+   @media (min-width: $screen-sm) {
+      display: block;
+   }
 }
 
 .kw-eventresult__participant {
-   @include flexbox;
+   display: flex;
 }
 
 .kw-eventresult__participant__name {
-   @include flex(1);
+   flex: 1;
    font-size: 16px;
    line-height: 22px;
 }
 
 .kw-eventresult__participant__score {
-   @include flex(0 0 50px);
+   flex: 0 0 50px;
    font-size: 16px;
-   font-weight: bold;
    line-height: 22px;
    text-align: right;
 }

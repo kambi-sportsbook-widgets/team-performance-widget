@@ -1,18 +1,36 @@
 import React from 'react';
+import ParticipantResults from './ParticipantResults';
+import EventResult from './EventResult';
 
-const Detailed = ({ children }) => {
+const Detailed = ({ participants }) => {
    return (
-      <div className="kw-detailed">
-         {children}
+      <div className='kw-detailed'>
+         {
+            participants.map(participant =>
+               <ParticipantResults key={participant.id} name={participant.name}>
+                  {
+                     participant.lastEvents.map(event =>
+                        <EventResult
+                           key={event.start}
+                           homeName={event.homeName}
+                           homeScore={event.homeScore}
+                           awayName={event.awayName}
+                           awayScore={event.awayScore}
+                        />
+                     )
+                  }
+               </ParticipantResults>
+            )
+         }
       </div>
    );
 };
 
 Detailed.propTypes = {
    /**
-    * Inner components
+    * The participants
     */
-   children: React.PropTypes.arrayOf(React.PropTypes.element).isRequired
+   participants: React.PropTypes.arrayOf(React.PropTypes.object).isRequired
 };
 
 export default Detailed;
