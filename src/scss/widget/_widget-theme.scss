@@ -1,5 +1,6 @@
 .kw-body {
    display: none;
+   cursor: pointer;
 }
 
 .kw-header {
@@ -13,24 +14,11 @@
    position: relative;
 }
 
-.kw-accordion { // inputbox, when checked the accordion opens
-   bottom: 0;
-   cursor: pointer;
-   height: 100%;
-   left: 0;
-   margin: 0;
-   opacity: 0;
-   position: absolute;
-   right: 0;
-   top: 0;
-   width: 100%;
-   z-index: 1;
-}
-
 .kw-summary {
    display: flex;
    justify-content: center;
    position: relative;
+   margin-bottom: 31px;
 }
 
 .kw-participantsummary {
@@ -101,19 +89,6 @@
    height: 40px;
    margin: 0 16px;
    flex: 0 0 40px;
-}
-
-.kw-detailed {
-   margin-top: 31px;
-   overflow: hidden;
-}
-
-.kw-accordion:checked ~ .kw-detailed .kw-participantresults {
-   margin-top: 0;
-}
-
-.kw-participantresults {
-   margin-top: -464px;
 }
 
 .kw-participantresults__header {

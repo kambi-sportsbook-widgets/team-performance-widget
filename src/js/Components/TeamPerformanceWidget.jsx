@@ -40,7 +40,7 @@ class TeamPerformanceWidget extends React.Component {
     * @param {bool} state Expanded state
     */
    expandHandler(state) {
-      this.setState({ expanded: state });
+      this.setState({ expanded: !this.state.expanded });
    }
 
    /**
@@ -49,14 +49,17 @@ class TeamPerformanceWidget extends React.Component {
     */
    render() {
       return (
-         <div className='KambiWidget-card-background-color'>
+         <div className='KambiWidget-card-background-color' onClick={this.expandHandler.bind(this)}>
             <Main
                title={this.props.title}
-               defaultExpanded={this.state.expanded}
-               expandHandler={this.expandHandler.bind(this)}
             >
                <Summary participants={this.props.participants} />
-               <Detailed participants={this.props.participants} />
+               {
+                  this.state.expanded ?
+                     <Detailed participants={this.props.participants} />
+                  :
+                     null
+               }
             </Main>
          </div>
       );

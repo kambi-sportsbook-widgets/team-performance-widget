@@ -23,7 +23,7 @@
     "react-lite": "^0.15.26"
   },
   "devDependencies": {
-    "kambi-widget-build-tools": "^2.4.2"
+    "kambi-widget-build-tools": "^2.4.3"
   },
   "license": "MIT",
   "bugs": {
