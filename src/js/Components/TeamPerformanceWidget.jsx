@@ -33,6 +33,9 @@ class TeamPerformanceWidget extends React.Component {
     */
    componentDidUpdate() {
       widgetModule.adaptWidgetHeight();
+      setTimeout(() => {
+         widgetModule.adaptWidgetHeight();
+      }, 500);
    }
 
    /**
