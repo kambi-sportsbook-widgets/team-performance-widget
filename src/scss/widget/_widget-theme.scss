@@ -38,7 +38,13 @@
    margin: 0 4px;
    display: none;
 
-   @media (max-width: $screen-xs) {
+   @media (max-width: $screen-xss) {
+      &:nth-child(-n + 2) {
+         display: block;
+      }
+   }
+
+   @media (min-width: $screen-xss) and (max-width: $screen-xs) {
       &:nth-child(-n + 3) {
          display: block;
       }
@@ -101,7 +107,13 @@
    border-bottom: 1px solid rgba(0, 0, 0, .06);
    display: none;
 
-   @media (max-width: $screen-xs) {
+   @media (max-width: $screen-xss) {
+      &:nth-child(-n + 3) {
+         display: block;
+      }
+   }
+
+   @media (min-width: $screen-xss) and (max-width: $screen-xs) {
       &:nth-child(-n + 4) {
          display: block;
       }
