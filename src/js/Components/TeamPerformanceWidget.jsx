@@ -14,7 +14,7 @@ class TeamPerformanceWidget extends React.Component {
 
    constructor(props) {
       super(props);
-
+      this.resizeTimeout = null;
       this.state = {
          expanded: false
       };
@@ -25,7 +25,19 @@ class TeamPerformanceWidget extends React.Component {
     */
    componentDidMount() {
       document.getElementsByTagName('body')[0].style.display = 'block';
-      widgetModule.adaptWidgetHeight();
+      const adaptHeight = () => {
+         widgetModule.adaptWidgetHeight();
+      };
+      adaptHeight();
+      window.addEventListener('resize', () => {
+         /*
+         preventing this code from being called dozens of time due to the
+         user changing the screen size by dragging the edges of the browser
+         window
+         */
+         clearTimeout(this.resizeTimeout);
+         this.resizeTimeout = setTimeout(adaptHeight, 350);
+      });
    }
 
    /**
@@ -35,7 +47,11 @@ class TeamPerformanceWidget extends React.Component {
       widgetModule.adaptWidgetHeight();
       setTimeout(() => {
          widgetModule.adaptWidgetHeight();
-      }, 500);
+      }, 300);
+   }
+
+   componentWillUnmount() {
+      clearTimeout(this.resizeTimeout);
    }
 
    /**
