@@ -9,7 +9,7 @@ Arguments and default values:
 ```json
 "args": {
     "eventId": null,
-    "title": ""
+    "title": "Form"
 }
 ```
 
