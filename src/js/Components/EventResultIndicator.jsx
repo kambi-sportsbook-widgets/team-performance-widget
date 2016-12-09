@@ -4,7 +4,7 @@ import { translationModule } from 'kambi-widget-core-library';
 const EventResultIndicator = ({ result }) => {
    const t = translationModule.getTranslation.bind(translationModule);
 
-   return <div className={`kw-eventresultindicator kw-eventresultindicator--${result}`}>{t(result)}</div>;
+   return <div className={`kw-eventresultindicator KambiWidget-box--${result}`}>{t(result)}</div>;
 };
 
 EventResultIndicator.propTypes = {
