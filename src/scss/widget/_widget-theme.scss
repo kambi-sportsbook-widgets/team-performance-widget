@@ -13,7 +13,7 @@
 .kw-summary {
    display: flex;
    justify-content: center;
-   margin-bottom: 31px;
+   padding-bottom: 31px;
 }
 
 .kw-participantsummary {
@@ -95,8 +95,6 @@
 .kw-participantresults__header {
    font-size: 14px;
    line-height: 48px;
-   border-top: 1px solid rgba(0, 0, 0, .06);
-   border-bottom: 1px solid rgba(0, 0, 0, .06);
    padding: 0 16px;
 }
 

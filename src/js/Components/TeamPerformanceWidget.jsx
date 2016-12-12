@@ -72,7 +72,7 @@ class TeamPerformanceWidget extends React.Component {
             <Main
                title={this.props.title}
             >
-               <Summary participants={this.props.participants} />
+               <Summary participants={this.props.participants} border={this.state.expanded} />
                {
                   this.state.expanded ?
                      <Detailed participants={this.props.participants} />

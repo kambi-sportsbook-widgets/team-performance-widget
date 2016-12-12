@@ -3,9 +3,10 @@ import EventResultIndicator from './EventResultIndicator';
 import ParticipantSummary from './ParticipantSummary';
 import VersusIcon from './VersusIcon';
 
-const Summary = ({ participants }) => {
+const Summary = ({ participants, border }) => {
+   const classes = border ? ' KambiWidget-card-inner-border' : '';
    return (
-      <div className='kw-summary'>
+      <div className={'kw-summary' + classes}>
          {
             participants.map((participant, i) => {
                const nodes = i > 0 ? [<VersusIcon />]
@@ -28,7 +29,12 @@ Summary.propTypes = {
    /**
     * The participants
     */
-   participants: React.PropTypes.arrayOf(React.PropTypes.object).isRequired
+   participants: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
+
+   /**
+    * Border bool flag
+    */
+   border: React.PropTypes.booleanValue
 };
 
 export default Summary;
