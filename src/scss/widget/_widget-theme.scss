@@ -1,3 +1,10 @@
+@mixin flex-mixin($display, $flex-direction, $alignment, $val) {
+   display: $display;
+   flex-direction: $flex-direction;
+   align-items: $alignment;
+   flex-grow: $val;
+}
+
 .kw-body {
    display: none;
    cursor: pointer;
@@ -100,35 +107,34 @@
 
 .kw-eventresult {
    padding: 12px 16px;
-   border-bottom: 1px solid rgba(0, 0, 0, .06);
    display: none;
 
    @media (max-width: $screen-xss) {
       &:nth-child(-n + 3) {
-         display: block;
+         @include flex-mixin(flex, column, stretch, 2);
       }
    }
 
    @media (min-width: $screen-xss) and (max-width: $screen-xs) {
       &:nth-child(-n + 4) {
-         display: block;
+         @include flex-mixin(flex, column, stretch, 2);
       }
    }
 
    @media (min-width: $screen-xs) and (max-width: $screen-ss) {
       &:nth-child(-n + 6) {
-         display: block;
+         @include flex-mixin(flex, column, stretch, 2);
       }
    }
 
    @media (min-width: $screen-ss) and (max-width: $screen-sm) {
       &:nth-child(-n + 7) {
-         display: block;
+         @include flex-mixin(flex, column, stretch, 2);
       }
    }
 
    @media (min-width: $screen-sm) {
-      display: block;
+      @include flex-mixin(flex, column, stretch, 2);
    }
 }
 
@@ -147,4 +153,12 @@
    font-size: 16px;
    line-height: 22px;
    text-align: right;
+}
+
+.kw-eventresult-container {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   margin-left: 12px;
+   border-bottom: 1px solid rgba(0, 0, 0, .06);
 }
