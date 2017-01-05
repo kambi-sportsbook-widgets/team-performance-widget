@@ -11,8 +11,8 @@ const Detailed = ({ participants }) => {
                <ParticipantResults key={participant.id} name={participant.name}>
                   {
                      participant.lastEvents.map((event, idx) =>
-                        <div className='kw-eventresult-container'>
-                           <EventResultIndicator key={idx} result={event.result} />
+                        <div key={idx} className='kw-eventresult-container'>
+                           <EventResultIndicator result={event.result} />
                            <EventResult
                               key={event.start}
                               homeName={event.homeName}

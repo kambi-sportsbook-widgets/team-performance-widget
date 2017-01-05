@@ -34,7 +34,7 @@ Summary.propTypes = {
    /**
     * Border bool flag
     */
-   border: React.PropTypes.booleanValue
+   border: React.PropTypes.bool
 };
 
 export default Summary;
