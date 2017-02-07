@@ -1,7 +1,7 @@
 {
-   "win": "Seier",
-   "draw": "Uavgjort",
-   "lose": "Tap",
+   "win": "Se",
+   "draw": "Ua",
+   "lose": "Ta",
    "Home Games": "Home Games",
    "Away Games": "Away Games",
    "Form": "Form",
