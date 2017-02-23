@@ -27,5 +27,5 @@ coreLibrary.init({
 })
 .catch((error) => {
    widgetModule.removeWidget();
-   throw error;
+   console.error(error);
 });
