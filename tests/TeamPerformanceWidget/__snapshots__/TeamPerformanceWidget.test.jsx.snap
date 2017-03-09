@@ -1,0 +1,623 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TeamPerformanceWidget DOM rendering renders correctly 1`] = `
+<div
+  className="KambiWidget-card-background-color"
+  onClick={[Function]}
+>
+  <Main
+    title="theTitle"
+  >
+    <Summary
+      border={false}
+      participants={
+        Array [
+          Object {
+            "id": 1000053608,
+            "lastEvents": Array [
+              Object {
+                "awayName": "FC Augsburg",
+                "awayScore": 0,
+                "homeName": "1 FSV Mainz 05",
+                "homeScore": 2,
+                "result": "lose",
+                "start": "2017-02-10T19:30:00Z",
+              },
+              Object {
+                "awayName": "Werder Bremen",
+                "awayScore": 2,
+                "homeName": "FC Augsburg",
+                "homeScore": 3,
+                "result": "win",
+                "start": "2017-02-05T14:30:00Z",
+              },
+              Object {
+                "awayName": "FC Augsburg",
+                "awayScore": 2,
+                "homeName": "VfL Wolfsburg",
+                "homeScore": 1,
+                "result": "win",
+                "start": "2017-01-28T14:30:00Z",
+              },
+              Object {
+                "awayName": "1899 Hoffenheim",
+                "awayScore": 2,
+                "homeName": "FC Augsburg",
+                "homeScore": 0,
+                "result": "lose",
+                "start": "2017-01-21T14:30:00Z",
+              },
+              Object {
+                "awayName": "FC Augsburg",
+                "awayScore": 1,
+                "homeName": "Hannover 96",
+                "homeScore": 1,
+                "result": "draw",
+                "start": "2017-01-12T15:00:00Z",
+              },
+              Object {
+                "awayName": "AZ Alkmaar",
+                "awayScore": 1,
+                "homeName": "FC Augsburg",
+                "homeScore": 1,
+                "result": "draw",
+                "start": "2017-01-07T14:00:00Z",
+              },
+            ],
+            "name": "FC Augsburg",
+          },
+          Object {
+            "id": 1000000113,
+            "lastEvents": Array [
+              Object {
+                "awayName": "Eintracht Frankfurt",
+                "awayScore": 0,
+                "homeName": "Bayer Leverkusen",
+                "homeScore": 3,
+                "result": "win",
+                "start": "2017-02-11T14:30:00Z",
+              },
+              Object {
+                "awayName": "Bayer Leverkusen",
+                "awayScore": 0,
+                "homeName": "Hamburger SV",
+                "homeScore": 1,
+                "result": "lose",
+                "start": "2017-02-03T19:30:00Z",
+              },
+              Object {
+                "awayName": "Monchengladbach",
+                "awayScore": 3,
+                "homeName": "Bayer Leverkusen",
+                "homeScore": 2,
+                "result": "lose",
+                "start": "2017-01-28T17:30:00Z",
+              },
+              Object {
+                "awayName": "Hertha BSC",
+                "awayScore": 1,
+                "homeName": "Bayer Leverkusen",
+                "homeScore": 3,
+                "result": "win",
+                "start": "2017-01-22T14:30:00Z",
+              },
+              Object {
+                "awayName": "VfL Bochum",
+                "awayScore": 1,
+                "homeName": "Bayer Leverkusen",
+                "homeScore": 2,
+                "result": "win",
+                "start": "2017-01-17T13:00:00Z",
+              },
+              Object {
+                "awayName": "Atletico Mineiro MG",
+                "awayScore": 0,
+                "homeName": "Bayer Leverkusen",
+                "homeScore": 1,
+                "result": "win",
+                "start": "2017-01-12T00:00:00Z",
+              },
+            ],
+            "name": "Bayer Leverkusen",
+          },
+        ]
+      }
+    />
+  </Main>
+</div>
+`;
+
+exports[`TeamPerformanceWidget interaction handles switching to detailed view and back 1`] = `
+<div
+  className="KambiWidget-card-background-color"
+  onClick={[Function]}
+>
+  <Main
+    title="theTitle"
+  >
+    <Summary
+      border={false}
+      participants={
+        Array [
+          Object {
+            "id": 1000053608,
+            "lastEvents": Array [
+              Object {
+                "awayName": "FC Augsburg",
+                "awayScore": 0,
+                "homeName": "1 FSV Mainz 05",
+                "homeScore": 2,
+                "result": "lose",
+                "start": "2017-02-10T19:30:00Z",
+              },
+              Object {
+                "awayName": "Werder Bremen",
+                "awayScore": 2,
+                "homeName": "FC Augsburg",
+                "homeScore": 3,
+                "result": "win",
+                "start": "2017-02-05T14:30:00Z",
+              },
+              Object {
+                "awayName": "FC Augsburg",
+                "awayScore": 2,
+                "homeName": "VfL Wolfsburg",
+                "homeScore": 1,
+                "result": "win",
+                "start": "2017-01-28T14:30:00Z",
+              },
+              Object {
+                "awayName": "1899 Hoffenheim",
+                "awayScore": 2,
+                "homeName": "FC Augsburg",
+                "homeScore": 0,
+                "result": "lose",
+                "start": "2017-01-21T14:30:00Z",
+              },
+              Object {
+                "awayName": "FC Augsburg",
+                "awayScore": 1,
+                "homeName": "Hannover 96",
+                "homeScore": 1,
+                "result": "draw",
+                "start": "2017-01-12T15:00:00Z",
+              },
+              Object {
+                "awayName": "AZ Alkmaar",
+                "awayScore": 1,
+                "homeName": "FC Augsburg",
+                "homeScore": 1,
+                "result": "draw",
+                "start": "2017-01-07T14:00:00Z",
+              },
+            ],
+            "name": "FC Augsburg",
+          },
+          Object {
+            "id": 1000000113,
+            "lastEvents": Array [
+              Object {
+                "awayName": "Eintracht Frankfurt",
+                "awayScore": 0,
+                "homeName": "Bayer Leverkusen",
+                "homeScore": 3,
+                "result": "win",
+                "start": "2017-02-11T14:30:00Z",
+              },
+              Object {
+                "awayName": "Bayer Leverkusen",
+                "awayScore": 0,
+                "homeName": "Hamburger SV",
+                "homeScore": 1,
+                "result": "lose",
+                "start": "2017-02-03T19:30:00Z",
+              },
+              Object {
+                "awayName": "Monchengladbach",
+                "awayScore": 3,
+                "homeName": "Bayer Leverkusen",
+                "homeScore": 2,
+                "result": "lose",
+                "start": "2017-01-28T17:30:00Z",
+              },
+              Object {
+                "awayName": "Hertha BSC",
+                "awayScore": 1,
+                "homeName": "Bayer Leverkusen",
+                "homeScore": 3,
+                "result": "win",
+                "start": "2017-01-22T14:30:00Z",
+              },
+              Object {
+                "awayName": "VfL Bochum",
+                "awayScore": 1,
+                "homeName": "Bayer Leverkusen",
+                "homeScore": 2,
+                "result": "win",
+                "start": "2017-01-17T13:00:00Z",
+              },
+              Object {
+                "awayName": "Atletico Mineiro MG",
+                "awayScore": 0,
+                "homeName": "Bayer Leverkusen",
+                "homeScore": 1,
+                "result": "win",
+                "start": "2017-01-12T00:00:00Z",
+              },
+            ],
+            "name": "Bayer Leverkusen",
+          },
+        ]
+      }
+    />
+  </Main>
+</div>
+`;
+
+exports[`TeamPerformanceWidget interaction handles switching to detailed view and back 2`] = `
+<div
+  className="KambiWidget-card-background-color"
+  onClick={[Function]}
+>
+  <Main
+    title="theTitle"
+  >
+    <Summary
+      border={true}
+      participants={
+        Array [
+          Object {
+            "id": 1000053608,
+            "lastEvents": Array [
+              Object {
+                "awayName": "FC Augsburg",
+                "awayScore": 0,
+                "homeName": "1 FSV Mainz 05",
+                "homeScore": 2,
+                "result": "lose",
+                "start": "2017-02-10T19:30:00Z",
+              },
+              Object {
+                "awayName": "Werder Bremen",
+                "awayScore": 2,
+                "homeName": "FC Augsburg",
+                "homeScore": 3,
+                "result": "win",
+                "start": "2017-02-05T14:30:00Z",
+              },
+              Object {
+                "awayName": "FC Augsburg",
+                "awayScore": 2,
+                "homeName": "VfL Wolfsburg",
+                "homeScore": 1,
+                "result": "win",
+                "start": "2017-01-28T14:30:00Z",
+              },
+              Object {
+                "awayName": "1899 Hoffenheim",
+                "awayScore": 2,
+                "homeName": "FC Augsburg",
+                "homeScore": 0,
+                "result": "lose",
+                "start": "2017-01-21T14:30:00Z",
+              },
+              Object {
+                "awayName": "FC Augsburg",
+                "awayScore": 1,
+                "homeName": "Hannover 96",
+                "homeScore": 1,
+                "result": "draw",
+                "start": "2017-01-12T15:00:00Z",
+              },
+              Object {
+                "awayName": "AZ Alkmaar",
+                "awayScore": 1,
+                "homeName": "FC Augsburg",
+                "homeScore": 1,
+                "result": "draw",
+                "start": "2017-01-07T14:00:00Z",
+              },
+            ],
+            "name": "FC Augsburg",
+          },
+          Object {
+            "id": 1000000113,
+            "lastEvents": Array [
+              Object {
+                "awayName": "Eintracht Frankfurt",
+                "awayScore": 0,
+                "homeName": "Bayer Leverkusen",
+                "homeScore": 3,
+                "result": "win",
+                "start": "2017-02-11T14:30:00Z",
+              },
+              Object {
+                "awayName": "Bayer Leverkusen",
+                "awayScore": 0,
+                "homeName": "Hamburger SV",
+                "homeScore": 1,
+                "result": "lose",
+                "start": "2017-02-03T19:30:00Z",
+              },
+              Object {
+                "awayName": "Monchengladbach",
+                "awayScore": 3,
+                "homeName": "Bayer Leverkusen",
+                "homeScore": 2,
+                "result": "lose",
+                "start": "2017-01-28T17:30:00Z",
+              },
+              Object {
+                "awayName": "Hertha BSC",
+                "awayScore": 1,
+                "homeName": "Bayer Leverkusen",
+                "homeScore": 3,
+                "result": "win",
+                "start": "2017-01-22T14:30:00Z",
+              },
+              Object {
+                "awayName": "VfL Bochum",
+                "awayScore": 1,
+                "homeName": "Bayer Leverkusen",
+                "homeScore": 2,
+                "result": "win",
+                "start": "2017-01-17T13:00:00Z",
+              },
+              Object {
+                "awayName": "Atletico Mineiro MG",
+                "awayScore": 0,
+                "homeName": "Bayer Leverkusen",
+                "homeScore": 1,
+                "result": "win",
+                "start": "2017-01-12T00:00:00Z",
+              },
+            ],
+            "name": "Bayer Leverkusen",
+          },
+        ]
+      }
+    />
+    <Detailed
+      participants={
+        Array [
+          Object {
+            "id": 1000053608,
+            "lastEvents": Array [
+              Object {
+                "awayName": "FC Augsburg",
+                "awayScore": 0,
+                "homeName": "1 FSV Mainz 05",
+                "homeScore": 2,
+                "result": "lose",
+                "start": "2017-02-10T19:30:00Z",
+              },
+              Object {
+                "awayName": "Werder Bremen",
+                "awayScore": 2,
+                "homeName": "FC Augsburg",
+                "homeScore": 3,
+                "result": "win",
+                "start": "2017-02-05T14:30:00Z",
+              },
+              Object {
+                "awayName": "FC Augsburg",
+                "awayScore": 2,
+                "homeName": "VfL Wolfsburg",
+                "homeScore": 1,
+                "result": "win",
+                "start": "2017-01-28T14:30:00Z",
+              },
+              Object {
+                "awayName": "1899 Hoffenheim",
+                "awayScore": 2,
+                "homeName": "FC Augsburg",
+                "homeScore": 0,
+                "result": "lose",
+                "start": "2017-01-21T14:30:00Z",
+              },
+              Object {
+                "awayName": "FC Augsburg",
+                "awayScore": 1,
+                "homeName": "Hannover 96",
+                "homeScore": 1,
+                "result": "draw",
+                "start": "2017-01-12T15:00:00Z",
+              },
+              Object {
+                "awayName": "AZ Alkmaar",
+                "awayScore": 1,
+                "homeName": "FC Augsburg",
+                "homeScore": 1,
+                "result": "draw",
+                "start": "2017-01-07T14:00:00Z",
+              },
+            ],
+            "name": "FC Augsburg",
+          },
+          Object {
+            "id": 1000000113,
+            "lastEvents": Array [
+              Object {
+                "awayName": "Eintracht Frankfurt",
+                "awayScore": 0,
+                "homeName": "Bayer Leverkusen",
+                "homeScore": 3,
+                "result": "win",
+                "start": "2017-02-11T14:30:00Z",
+              },
+              Object {
+                "awayName": "Bayer Leverkusen",
+                "awayScore": 0,
+                "homeName": "Hamburger SV",
+                "homeScore": 1,
+                "result": "lose",
+                "start": "2017-02-03T19:30:00Z",
+              },
+              Object {
+                "awayName": "Monchengladbach",
+                "awayScore": 3,
+                "homeName": "Bayer Leverkusen",
+                "homeScore": 2,
+                "result": "lose",
+                "start": "2017-01-28T17:30:00Z",
+              },
+              Object {
+                "awayName": "Hertha BSC",
+                "awayScore": 1,
+                "homeName": "Bayer Leverkusen",
+                "homeScore": 3,
+                "result": "win",
+                "start": "2017-01-22T14:30:00Z",
+              },
+              Object {
+                "awayName": "VfL Bochum",
+                "awayScore": 1,
+                "homeName": "Bayer Leverkusen",
+                "homeScore": 2,
+                "result": "win",
+                "start": "2017-01-17T13:00:00Z",
+              },
+              Object {
+                "awayName": "Atletico Mineiro MG",
+                "awayScore": 0,
+                "homeName": "Bayer Leverkusen",
+                "homeScore": 1,
+                "result": "win",
+                "start": "2017-01-12T00:00:00Z",
+              },
+            ],
+            "name": "Bayer Leverkusen",
+          },
+        ]
+      }
+    />
+  </Main>
+</div>
+`;
+
+exports[`TeamPerformanceWidget interaction handles switching to detailed view and back 3`] = `
+<div
+  className="KambiWidget-card-background-color"
+  onClick={[Function]}
+>
+  <Main
+    title="theTitle"
+  >
+    <Summary
+      border={false}
+      participants={
+        Array [
+          Object {
+            "id": 1000053608,
+            "lastEvents": Array [
+              Object {
+                "awayName": "FC Augsburg",
+                "awayScore": 0,
+                "homeName": "1 FSV Mainz 05",
+                "homeScore": 2,
+                "result": "lose",
+                "start": "2017-02-10T19:30:00Z",
+              },
+              Object {
+                "awayName": "Werder Bremen",
+                "awayScore": 2,
+                "homeName": "FC Augsburg",
+                "homeScore": 3,
+                "result": "win",
+                "start": "2017-02-05T14:30:00Z",
+              },
+              Object {
+                "awayName": "FC Augsburg",
+                "awayScore": 2,
+                "homeName": "VfL Wolfsburg",
+                "homeScore": 1,
+                "result": "win",
+                "start": "2017-01-28T14:30:00Z",
+              },
+              Object {
+                "awayName": "1899 Hoffenheim",
+                "awayScore": 2,
+                "homeName": "FC Augsburg",
+                "homeScore": 0,
+                "result": "lose",
+                "start": "2017-01-21T14:30:00Z",
+              },
+              Object {
+                "awayName": "FC Augsburg",
+                "awayScore": 1,
+                "homeName": "Hannover 96",
+                "homeScore": 1,
+                "result": "draw",
+                "start": "2017-01-12T15:00:00Z",
+              },
+              Object {
+                "awayName": "AZ Alkmaar",
+                "awayScore": 1,
+                "homeName": "FC Augsburg",
+                "homeScore": 1,
+                "result": "draw",
+                "start": "2017-01-07T14:00:00Z",
+              },
+            ],
+            "name": "FC Augsburg",
+          },
+          Object {
+            "id": 1000000113,
+            "lastEvents": Array [
+              Object {
+                "awayName": "Eintracht Frankfurt",
+                "awayScore": 0,
+                "homeName": "Bayer Leverkusen",
+                "homeScore": 3,
+                "result": "win",
+                "start": "2017-02-11T14:30:00Z",
+              },
+              Object {
+                "awayName": "Bayer Leverkusen",
+                "awayScore": 0,
+                "homeName": "Hamburger SV",
+                "homeScore": 1,
+                "result": "lose",
+                "start": "2017-02-03T19:30:00Z",
+              },
+              Object {
+                "awayName": "Monchengladbach",
+                "awayScore": 3,
+                "homeName": "Bayer Leverkusen",
+                "homeScore": 2,
+                "result": "lose",
+                "start": "2017-01-28T17:30:00Z",
+              },
+              Object {
+                "awayName": "Hertha BSC",
+                "awayScore": 1,
+                "homeName": "Bayer Leverkusen",
+                "homeScore": 3,
+                "result": "win",
+                "start": "2017-01-22T14:30:00Z",
+              },
+              Object {
+                "awayName": "VfL Bochum",
+                "awayScore": 1,
+                "homeName": "Bayer Leverkusen",
+                "homeScore": 2,
+                "result": "win",
+                "start": "2017-01-17T13:00:00Z",
+              },
+              Object {
+                "awayName": "Atletico Mineiro MG",
+                "awayScore": 0,
+                "homeName": "Bayer Leverkusen",
+                "homeScore": 1,
+                "result": "win",
+                "start": "2017-01-12T00:00:00Z",
+              },
+            ],
+            "name": "Bayer Leverkusen",
+          },
+        ]
+      }
+    />
+  </Main>
+</div>
+`;

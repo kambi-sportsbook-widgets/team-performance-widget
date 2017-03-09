@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ParticipantSummary DOM rendering renders correctly 1`] = `
+<div
+  className="kw-participantsummary"
+>
+  <span>
+    content
+  </span>
+</div>
+`;

@@ -12,13 +12,20 @@ const Summary = ({ participants, border }) => {
                const nodes = i > 0 ? [<VersusIcon />]
                   : [];
 
-               return nodes.concat([<ParticipantSummary key={participant.id}>
-                  {
-                     participant.lastEvents.map(event =>
-                        <EventResultIndicator key={event.start} result={event.result} />
-                     )
-                  }
-               </ParticipantSummary>]);
+               return nodes.concat([
+                  <ParticipantSummary
+                     key={participant.id}
+                  >
+                     {
+                        participant.lastEvents.map(event =>
+                           <EventResultIndicator
+                              key={event.start}
+                              result={event.result}
+                           />
+                        )
+                     }
+                  </ParticipantSummary>
+               ]);
             })
          }
       </div>

@@ -24,7 +24,8 @@
     "react-lite": "^0.15.26"
   },
   "devDependencies": {
-    "kambi-widget-build-tools": "^2.8.1"
+    "enzyme-to-json": "^1.5.0",
+    "kambi-widget-build-tools": "^2.9.2"
   },
   "license": "MIT",
   "bugs": {

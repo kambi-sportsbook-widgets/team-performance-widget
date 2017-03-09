@@ -13,7 +13,7 @@ ParticipantResults.propTypes = {
    /**
     * Inner components
     */
-   children: React.PropTypes.arrayOf(React.PropTypes.element).isRequired,
+   children: React.PropTypes.node.isRequired,
 
    /**
     * Participant name

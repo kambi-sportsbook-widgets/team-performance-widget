@@ -12,7 +12,7 @@ ParticipantSummary.propTypes = {
    /**
     * Inner components
     */
-   children: React.PropTypes.arrayOf(React.PropTypes.element).isRequired,
+   children: React.PropTypes.node.isRequired,
 };
 
 export default ParticipantSummary;

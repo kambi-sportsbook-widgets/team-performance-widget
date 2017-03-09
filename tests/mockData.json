@@ -1,0 +1,110 @@
+[
+   {
+      "id": 1000053608,
+      "name": "FC Augsburg",
+      "lastEvents": [
+         {
+            "homeName": "1 FSV Mainz 05",
+            "awayName": "FC Augsburg",
+            "homeScore": 2,
+            "awayScore": 0,
+            "result": "lose",
+            "start": "2017-02-10T19:30:00Z"
+         },
+         {
+            "homeName": "FC Augsburg",
+            "awayName": "Werder Bremen",
+            "homeScore": 3,
+            "awayScore": 2,
+            "result": "win",
+            "start": "2017-02-05T14:30:00Z"
+         },
+         {
+            "homeName": "VfL Wolfsburg",
+            "awayName": "FC Augsburg",
+            "homeScore": 1,
+            "awayScore": 2,
+            "result": "win",
+            "start": "2017-01-28T14:30:00Z"
+         },
+         {
+            "homeName": "FC Augsburg",
+            "awayName": "1899 Hoffenheim",
+            "homeScore": 0,
+            "awayScore": 2,
+            "result": "lose",
+            "start": "2017-01-21T14:30:00Z"
+         },
+         {
+            "homeName": "Hannover 96",
+            "awayName": "FC Augsburg",
+            "homeScore": 1,
+            "awayScore": 1,
+            "result": "draw",
+            "start": "2017-01-12T15:00:00Z"
+         },
+         {
+            "homeName": "FC Augsburg",
+            "awayName": "AZ Alkmaar",
+            "homeScore": 1,
+            "awayScore": 1,
+            "result": "draw",
+            "start": "2017-01-07T14:00:00Z"
+         }
+      ]
+   },
+   {
+      "id": 1000000113,
+      "name": "Bayer Leverkusen",
+      "lastEvents": [
+         {
+            "homeName": "Bayer Leverkusen",
+            "awayName": "Eintracht Frankfurt",
+            "homeScore": 3,
+            "awayScore": 0,
+            "result": "win",
+            "start": "2017-02-11T14:30:00Z"
+         },
+         {
+            "homeName": "Hamburger SV",
+            "awayName": "Bayer Leverkusen",
+            "homeScore": 1,
+            "awayScore": 0,
+            "result": "lose",
+            "start": "2017-02-03T19:30:00Z"
+         },
+         {
+            "homeName": "Bayer Leverkusen",
+            "awayName": "Monchengladbach",
+            "homeScore": 2,
+            "awayScore": 3,
+            "result": "lose",
+            "start": "2017-01-28T17:30:00Z"
+         },
+         {
+            "homeName": "Bayer Leverkusen",
+            "awayName": "Hertha BSC",
+            "homeScore": 3,
+            "awayScore": 1,
+            "result": "win",
+            "start": "2017-01-22T14:30:00Z"
+         },
+         {
+            "homeName": "Bayer Leverkusen",
+            "awayName": "VfL Bochum",
+            "homeScore": 2,
+            "awayScore": 1,
+            "result": "win",
+            "start": "2017-01-17T13:00:00Z"
+         },
+         {
+            "homeName": "Bayer Leverkusen",
+            "awayName": "Atletico Mineiro MG",
+            "homeScore": 1,
+            "awayScore": 0,
+            "result": "win",
+            "start": "2017-01-12T00:00:00Z"
+         }
+      ]
+   }
+]

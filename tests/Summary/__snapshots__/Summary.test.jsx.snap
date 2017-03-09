@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Summary DOM rendering renders correctly for mock data 1`] = `
+<div
+  className="kw-summary"
+>
+  <ParticipantSummary>
+    <EventResultIndicator
+      result="lose"
+    />
+    <EventResultIndicator
+      result="win"
+    />
+    <EventResultIndicator
+      result="win"
+    />
+    <EventResultIndicator
+      result="lose"
+    />
+    <EventResultIndicator
+      result="draw"
+    />
+    <EventResultIndicator
+      result="draw"
+    />
+  </ParticipantSummary>
+  <VersusIcon />
+  <ParticipantSummary>
+    <EventResultIndicator
+      result="win"
+    />
+    <EventResultIndicator
+      result="lose"
+    />
+    <EventResultIndicator
+      result="lose"
+    />
+    <EventResultIndicator
+      result="win"
+    />
+    <EventResultIndicator
+      result="win"
+    />
+    <EventResultIndicator
+      result="win"
+    />
+  </ParticipantSummary>
+</div>
+`;

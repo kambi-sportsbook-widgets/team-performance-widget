@@ -45,9 +45,6 @@ class TeamPerformanceWidget extends React.Component {
     */
    componentDidUpdate() {
       widgetModule.adaptWidgetHeight();
-      setTimeout(() => {
-         widgetModule.adaptWidgetHeight();
-      }, 300);
    }
 
    componentWillUnmount() {
@@ -58,7 +55,7 @@ class TeamPerformanceWidget extends React.Component {
     * Handles details expanding.
     * @param {bool} state Expanded state
     */
-   expandHandler(state) {
+   expandHandler() {
       this.setState({ expanded: !this.state.expanded });
    }
 
@@ -89,7 +86,7 @@ TeamPerformanceWidget.propTypes = {
    /**
     * Array of participants entities
     */
-   participants: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
+   participants:  React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
 
    /**
     * Widget's title

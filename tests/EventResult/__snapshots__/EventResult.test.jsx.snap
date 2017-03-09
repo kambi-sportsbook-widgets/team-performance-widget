@@ -1,0 +1,106 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EventResult DOM rendering renders correctly homeScore < awayScore 1`] = `
+<div
+  className="kw-eventresult"
+>
+  <div
+    className="kw-eventresult__participant KambiWidget-card-text-color"
+  >
+    <div
+      className="kw-eventresult__participant__name"
+    >
+      Sweden
+    </div>
+    <div
+      className="kw-eventresult__participant__score"
+    >
+      4
+    </div>
+  </div>
+  <div
+    className="kw-eventresult__participant KambiWidget-card-support-text-color"
+  >
+    <div
+      className="kw-eventresult__participant__name"
+    >
+      Italy
+    </div>
+    <div
+      className="kw-eventresult__participant__score"
+    >
+      1
+    </div>
+  </div>
+</div>
+`;
+
+exports[`EventResult DOM rendering renders correctly homeScore == awayScore 1`] = `
+<div
+  className="kw-eventresult"
+>
+  <div
+    className="kw-eventresult__participant KambiWidget-card-support-text-color"
+  >
+    <div
+      className="kw-eventresult__participant__name"
+    >
+      France
+    </div>
+    <div
+      className="kw-eventresult__participant__score"
+    >
+      2
+    </div>
+  </div>
+  <div
+    className="kw-eventresult__participant KambiWidget-card-support-text-color"
+  >
+    <div
+      className="kw-eventresult__participant__name"
+    >
+      England
+    </div>
+    <div
+      className="kw-eventresult__participant__score"
+    >
+      2
+    </div>
+  </div>
+</div>
+`;
+
+exports[`EventResult DOM rendering renders correctly homeScore > awayScore 1`] = `
+<div
+  className="kw-eventresult"
+>
+  <div
+    className="kw-eventresult__participant KambiWidget-card-support-text-color"
+  >
+    <div
+      className="kw-eventresult__participant__name"
+    >
+      Brazil
+    </div>
+    <div
+      className="kw-eventresult__participant__score"
+    >
+      1
+    </div>
+  </div>
+  <div
+    className="kw-eventresult__participant KambiWidget-card-text-color"
+  >
+    <div
+      className="kw-eventresult__participant__name"
+    >
+      Germany
+    </div>
+    <div
+      className="kw-eventresult__participant__score"
+    >
+      7
+    </div>
+  </div>
+</div>
+`;

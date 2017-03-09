@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ParticipantResults DOM rendering renders correctly 1`] = `
+<div
+  className="kw-participantresults"
+>
+  <div
+    className="kw-participantresults__header KambiWidget-secondary-header KambiWidget-card-inner-border"
+  >
+    TheName
+  </div>
+  <span>
+    content
+  </span>
+</div>
+`;
