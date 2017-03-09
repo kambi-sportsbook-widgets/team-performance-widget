@@ -86,7 +86,7 @@ TeamPerformanceWidget.propTypes = {
    /**
     * Array of participants entities
     */
-   participants:  React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
+   participants: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
 
    /**
     * Widget's title
