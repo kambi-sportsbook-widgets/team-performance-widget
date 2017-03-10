@@ -30,7 +30,7 @@ describe('TeamPerformanceWidget DOM rendering', () => {
    });
 
    afterEach(() => {
-      jest.useFakeTimers();
+      jest.useRealTimers();
    });
 
    it('renders correctly', () => {
