@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Header from './Header';
 
 const Main = ({ title, children }) => {
@@ -13,10 +14,10 @@ Main.propTypes = {
    /**
     * Widget's title
     */
-   title: React.PropTypes.string.isRequired,
+   title: PropTypes.string.isRequired,
    /**
     * Inner components
     */
-   children: React.PropTypes.node.isRequired
+   children: PropTypes.node.isRequired
 };
 export default Main;

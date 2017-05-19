@@ -1,6 +1,6 @@
 /* eslint-env jest */
 import React from 'react';
-import ReactTestUtils from 'react-addons-test-utils';
+import ReactShallowRenderer from 'react-test-renderer/shallow';
 import ReactTestRenderer from 'react-test-renderer';
 import { widgetModule } from 'kambi-widget-core-library';
 import { mount, shallow } from 'enzyme';
@@ -25,7 +25,7 @@ describe('TeamPerformanceWidget DOM rendering', () => {
       // enabling fake setTimeout/setInterval etc
       jest.useFakeTimers();
 
-      renderer = ReactTestUtils.createRenderer();
+      renderer = new ReactShallowRenderer();
       window.innerWidth = 1024;
    });
 
@@ -67,8 +67,9 @@ describe('TeamPerformanceWidget DOM rendering', () => {
 
 
 describe('TeamPerformanceWidget interaction', () => {
+
    beforeEach(() => {
-      renderer = ReactTestUtils.createRenderer();
+      renderer = new ReactShallowRenderer();
       window.innerWidth = 1024;
    });
 

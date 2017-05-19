@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const ParticipantSummary = ({ children }) => {
    return (
@@ -12,7 +13,7 @@ ParticipantSummary.propTypes = {
    /**
     * Inner components
     */
-   children: React.PropTypes.node.isRequired,
+   children: PropTypes.node.isRequired,
 };
 
 export default ParticipantSummary;

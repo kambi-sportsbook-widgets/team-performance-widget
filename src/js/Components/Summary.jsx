@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import EventResultIndicator from './EventResultIndicator';
 import ParticipantSummary from './ParticipantSummary';
 import VersusIcon from './VersusIcon';
@@ -36,12 +37,12 @@ Summary.propTypes = {
    /**
     * The participants
     */
-   participants: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
+   participants: PropTypes.arrayOf(PropTypes.object).isRequired,
 
    /**
     * Border bool flag
     */
-   border: React.PropTypes.bool
+   border: PropTypes.bool
 };
 
 export default Summary;

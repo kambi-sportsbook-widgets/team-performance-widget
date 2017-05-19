@@ -1,7 +1,6 @@
 /* eslint-env jest */
 import React from 'react';
-import ReactTestUtils from 'react-addons-test-utils';
-import { shallow } from 'enzyme';
+import ReactShallowRenderer from 'react-test-renderer/shallow';
 import EventResultIndicator from '../../src/js/Components/EventResultIndicator';
 
 let renderer;
@@ -18,12 +17,15 @@ jest.mock('kambi-widget-core-library', () => ({
 }));
 
 describe('EventResultIndicator DOM rendering', () => {
+
    beforeEach(() => {
-      renderer = ReactTestUtils.createRenderer();
+      renderer = new ReactShallowRenderer();
    });
+
    it('renders correctly', () => {
       expect(renderer.render(
          <EventResultIndicator result='D' />
       )).toMatchSnapshot();
    });
+
 });

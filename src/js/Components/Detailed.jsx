@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ParticipantResults from './ParticipantResults';
 import EventResult from './EventResult';
 import EventResultIndicator from './EventResultIndicator';
@@ -34,7 +35,7 @@ Detailed.propTypes = {
    /**
     * The participants
     */
-   participants: React.PropTypes.arrayOf(React.PropTypes.object).isRequired
+   participants: PropTypes.arrayOf(PropTypes.object).isRequired
 };
 
 export default Detailed;

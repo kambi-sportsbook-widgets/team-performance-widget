@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const ParticipantResults = ({ children, name }) => {
    return (
@@ -13,12 +14,12 @@ ParticipantResults.propTypes = {
    /**
     * Inner components
     */
-   children: React.PropTypes.node.isRequired,
+   children: PropTypes.node.isRequired,
 
    /**
     * Participant name
     */
-   name: React.PropTypes.string.isRequired
+   name: PropTypes.string.isRequired
 };
 
 export default ParticipantResults;

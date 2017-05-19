@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const EventResult = ({ homeName, homeScore, awayName, awayScore }) => {
    let homeClasses = 'kw-eventresult__participant';
@@ -31,22 +32,22 @@ EventResult.propTypes = {
    /**
     * Home participant name
     */
-   homeName: React.PropTypes.string.isRequired,
+   homeName: PropTypes.string.isRequired,
 
    /**
     * Home participant score
     */
-   homeScore: React.PropTypes.number.isRequired,
+   homeScore: PropTypes.number.isRequired,
 
    /**
     * Away participant name
     */
-   awayName: React.PropTypes.string.isRequired,
+   awayName: PropTypes.string.isRequired,
 
    /**
     * Away participant score
     */
-   awayScore: React.PropTypes.number.isRequired
+   awayScore: PropTypes.number.isRequired
 };
 
 export default EventResult;

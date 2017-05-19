@@ -1,11 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { widgetModule } from 'kambi-widget-core-library';
-import Header from './Header';
 import Main from './Main';
 import Summary from './Summary';
 import Detailed from './Detailed';
-import ParticipantResults from './ParticipantResults';
-import EventResult from './EventResult';
 
 /**
  * A widget to display the performance indicators of teams last matches.
@@ -86,12 +84,12 @@ TeamPerformanceWidget.propTypes = {
    /**
     * Array of participants entities
     */
-   participants: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
+   participants: PropTypes.arrayOf(PropTypes.object).isRequired,
 
    /**
     * Widget's title
     */
-   title: React.PropTypes.string.isRequired
+   title: PropTypes.string.isRequired
 };
 
 export default TeamPerformanceWidget;

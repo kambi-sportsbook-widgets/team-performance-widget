@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { translationModule } from 'kambi-widget-core-library';
 
 const EventResultIndicator = ({ result }) => {
@@ -11,7 +12,7 @@ EventResultIndicator.propTypes = {
    /**
     * Result of the event
     */
-   result: React.PropTypes.string.isRequired
+   result: PropTypes.string.isRequired
 };
 
 export default EventResultIndicator;

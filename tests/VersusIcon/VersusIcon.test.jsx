@@ -1,17 +1,20 @@
 /* eslint-env jest */
 import React from 'react';
-import ReactTestUtils from 'react-addons-test-utils';
+import ReactShallowRenderer from 'react-test-renderer/shallow';
 import VersusIcon from '../../src/js/Components/VersusIcon';
 
 let renderer;
 
 describe('VersusIcon DOM rendering', () => {
+
    beforeEach(() => {
-      renderer = ReactTestUtils.createRenderer();
+      renderer = new ReactShallowRenderer();
    });
+
    it('renders correctly', () => {
       expect(renderer.render(
          <VersusIcon />
       )).toMatchSnapshot();
    });
+
 });

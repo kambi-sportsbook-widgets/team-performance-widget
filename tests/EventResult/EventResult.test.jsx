@@ -1,14 +1,16 @@
 /* eslint-env jest */
 import React from 'react';
+import ReactShallowRenderer from 'react-test-renderer/shallow';
 import EventResult from '../../src/js/Components/EventResult';
-import ReactTestUtils from 'react-addons-test-utils';
 
 let renderer;
 
 describe('EventResult DOM rendering', () => {
+
    beforeEach(() => {
-      renderer = ReactTestUtils.createRenderer();
+      renderer = new ReactShallowRenderer();
    });
+
    it('renders correctly homeScore > awayScore', () => {
       expect(renderer.render(
          // never forget
@@ -42,4 +44,5 @@ describe('EventResult DOM rendering', () => {
          />
       )).toMatchSnapshot();
    });
+
 });
