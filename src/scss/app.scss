@@ -1,9 +1,159 @@
-//Main scss file
-
 //Included variables, mixins and layout
 @import '~kambi-widget-core-library/src/scss/core.scss';
 
-//Included widget related styles
-@import 'widget/variables';
-@import 'widget/general';
-@import 'widget/widget-theme';
+.kw-body {
+   display: none;
+   cursor: pointer;
+}
+
+.kw-header {
+   font-weight: bold;
+   font-size: 16px;
+   text-align: center;
+   padding: 16px 16px 10px 16px;
+}
+
+.kw-summary {
+   display: flex;
+   justify-content: center;
+   padding-bottom: 31px;
+}
+
+.kw-participantsummary {
+   display: flex;
+   flex: 1;
+
+   &:first-child {
+      align-items: flex-end;
+      flex-direction: row-reverse;
+   }
+}
+
+.kw-eventresultindicator {
+   background-color: currentColor;
+   align-items: start;
+   width: 32px;
+   text-align: center;
+   border-radius: 2px;
+   padding: 6px 0;
+   font-weight: bold;
+   margin: 0 4px;
+   display: none;
+   span {
+      font-size: 16px;
+      line-height: 28px;
+   }
+
+   @media (max-width: $screen-xss) {
+      &:nth-child(-n + 2) {
+         display: block;
+      }
+   }
+
+   @media (min-width: $screen-xss) and (max-width: $screen-xs) {
+      &:nth-child(-n + 3) {
+         display: block;
+      }
+   }
+
+   @media (min-width: $screen-xs) and (max-width: $screen-ss) {
+      &:nth-child(-n + 5) {
+         display: block;
+      }
+   }
+
+   @media (min-width: $screen-ss) and (max-width: $screen-sm) {
+      &:nth-child(-n + 6) {
+         display: block;
+      }
+   }
+
+   @media (min-width: $screen-sm) {
+      display: block;
+   }
+}
+
+.kw-versusicon {
+   border-radius: 50%;
+   background: #F5F5F5 url('../img/lightening.png') center center no-repeat;
+   background-size: 50%;
+   width: 40px;
+   height: 40px;
+   margin: 0 16px;
+   flex: 0 0 40px;
+}
+
+.kw-participantresults__header {
+   font-size: 14px;
+   line-height: 48px;
+   padding: 0 16px;
+}
+
+@mixin flex-mixin($display, $flex-direction, $alignment, $val) {
+   display: $display;
+   flex-direction: $flex-direction;
+   align-items: $alignment;
+   flex-grow: $val;
+}
+
+.kw-eventresult {
+   padding: 12px 6px;
+   display: flex;
+   flex-direction: column;
+   align-items: stretch;
+   flex-grow: 2;
+}
+
+.kw-eventresult__participant {
+   display: flex;
+}
+
+.kw-eventresult__participant__name {
+   flex: 1;
+   font-size: 16px;
+   line-height: 22px;
+}
+
+.kw-eventresult__participant__score {
+   flex: 0 0 50px;
+   font-size: 16px;
+   line-height: 22px;
+   text-align: right;
+}
+
+.kw-eventresult-container {
+   display: none;
+   justify-content: space-between;
+   align-items: center;
+   margin: 0 12px;
+   border-bottom: 1px solid rgba(0, 0, 0, .06);
+
+   @media (max-width: $screen-xss) {
+      &:nth-child(-n + 3) {
+         display: flex;
+      }
+   }
+
+   @media (min-width: $screen-xss) and (max-width: $screen-xs) {
+      &:nth-child(-n + 4) {
+         display: flex;
+      }
+   }
+
+   @media (min-width: $screen-xs) and (max-width: $screen-ss) {
+      &:nth-child(-n + 6) {
+         display: flex;
+      }
+   }
+
+   @media (min-width: $screen-ss) and (max-width: $screen-sm) {
+      &:nth-child(-n + 7) {
+         display: flex;
+      }
+   }
+
+   @media (min-width: $screen-sm) {
+      display: flex;
+   }
+
+}
