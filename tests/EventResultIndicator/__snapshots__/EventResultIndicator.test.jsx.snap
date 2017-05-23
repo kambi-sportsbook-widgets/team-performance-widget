@@ -2,8 +2,12 @@
 
 exports[`EventResultIndicator DOM rendering renders correctly 1`] = `
 <div
-  className="kw-eventresultindicator KambiWidget-box--D"
+  className="kw-eventresultindicator KambiWidget-DPrimaryColor"
 >
-  Defeat
+  <span
+    className="KambiWidget-DSecondaryColor"
+  >
+    Defeat
+  </span>
 </div>
 `;
