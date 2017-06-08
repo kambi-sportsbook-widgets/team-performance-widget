@@ -5,9 +5,11 @@ import { translationModule } from 'kambi-widget-core-library';
 const EventResultIndicator = ({ result }) => {
    const t = translationModule.getTranslation.bind(translationModule);
 
-   return <div className={`kw-eventresultindicator KambiWidget-${result}PrimaryColor`}>
-      <span className={`KambiWidget-${result}SecondaryColor`}>{t(result)}</span>
-   </div>;
+   return (
+      <div className={`kw-eventresultindicator KambiWidget-${result}PrimaryColor`}>
+         <span className={`KambiWidget-${result}SecondaryColor`}>{t(result)}</span>
+      </div>
+   );
 };
 
 EventResultIndicator.propTypes = {
