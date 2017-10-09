@@ -3,6 +3,7 @@
   "version": "2.3.11",
   "description": "A widget to display team performance indicators from the last matches",
   "main": "dist/index.html",
+  "useHttps": true,
   "scripts": {
     "clean": "kambi-widgets-cli clean",
     "prestart": "npm run clean",
@@ -11,14 +12,15 @@
     "build": "kambi-widgets-cli build",
     "preversion": "kambi-widgets-cli preversion",
     "postversion": "kambi-widgets-cli postversion",
-    "test": "kambi-widgets-cli test"
+    "test": "kambi-widgets-cli test",
+    "deploy": "npm run build && wdt deploy kambi -if"
   },
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com:kambi-sportsbook-widgets/team-performance-widget.git"
   },
   "dependencies": {
-    "kambi-widget-core-library": "^3.8.4",
+    "kambi-widget-core-library": "^3.9.1",
     "prop-types": "^15.3.2",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
@@ -26,7 +28,7 @@
   },
   "devDependencies": {
     "enzyme-to-json": "^1.5.0",
-    "kambi-widget-build-tools": "^3.0.1"
+    "kambi-widget-build-tools": "^4.0.0"
   },
   "license": "MIT",
   "bugs": {
