@@ -20,7 +20,7 @@
     "url": "git+ssh://git@github.com:kambi-sportsbook-widgets/team-performance-widget.git"
   },
   "dependencies": {
-    "kambi-widget-core-library": "^3.9.1",
+    "kambi-widget-core-library": "^3.9.5",
     "prop-types": "^15.3.2",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
