@@ -1,7 +1,8 @@
 {
   "name": "team-performance-widget",
-  "version": "2.4.0",
-  "description": "A widget to display team performance indicators from the last matches",
+  "version": "2.3.14",
+  "description":
+    "A widget to display team performance indicators from the last matches",
   "main": "dist/index.html",
   "useHttps": true,
   "scripts": {
@@ -14,7 +15,8 @@
     "postversion": "kambi-widgets-cli postversion",
     "test": "kambi-widgets-cli test",
     "deploy": "npm run build && wdt deploy kambi -f",
-    "prettier-all": "find ./src -name \"*.jsx\" -o -name \"*.js\" | xargs prettier --write",
+    "prettier-all":
+      "find ./src -name \"*.jsx\" -o -name \"*.js\" | xargs prettier --write",
     "precommit": "lint-staged"
   },
   "prettier": {
@@ -25,14 +27,12 @@
     "trailingComma": "es5"
   },
   "lint-staged": {
-    "*.{js,json,css}": [
-      "prettier --write",
-      "git add"
-    ]
+    "*.{js,json,css}": ["prettier --write", "git add"]
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com:kambi-sportsbook-widgets/team-performance-widget.git"
+    "url":
+      "git+ssh://git@github.com:kambi-sportsbook-widgets/team-performance-widget.git"
   },
   "dependencies": {
     "kambi-widget-core-library": "^3.11.1",
@@ -48,7 +48,9 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/kambi-sportsbook-widgets/team-performance-widget/issues"
+    "url":
+      "https://github.com/kambi-sportsbook-widgets/team-performance-widget/issues"
   },
-  "homepage": "https://github.com/kambi-sportsbook-widgets/team-performance-widget#readme"
+  "homepage":
+    "https://github.com/kambi-sportsbook-widgets/team-performance-widget#readme"
 }
