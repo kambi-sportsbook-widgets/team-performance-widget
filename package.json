@@ -13,22 +13,38 @@
     "preversion": "kambi-widgets-cli preversion",
     "postversion": "kambi-widgets-cli postversion",
     "test": "kambi-widgets-cli test",
-    "deploy": "npm run build && wdt deploy kambi -f"
+    "deploy": "npm run build && wdt deploy kambi -f",
+    "prettier-all": "find ./src -name \"*.jsx\" -o -name \"*.js\" | xargs prettier --write",
+    "precommit": "lint-staged"
+  },
+  "prettier": {
+    "tabWidth": 2,
+    "printWidth": 80,
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "es5"
+  },
+  "lint-staged": {
+    "*.{js,json,css}": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com:kambi-sportsbook-widgets/team-performance-widget.git"
   },
   "dependencies": {
-    "kambi-widget-core-library": "^3.9.8",
+    "kambi-widget-core-library": "^3.11.1",
     "prop-types": "^15.3.2",
     "react": "^15.3.2",
-    "react-dom": "^15.3.2",
-    "react-lite": "^0.15.26"
+    "react-dom": "^15.3.2"
   },
   "devDependencies": {
     "enzyme-to-json": "^1.5.0",
-    "kambi-widget-build-tools": "^4.0.0"
+    "kambi-widget-build-tools": "^4.2.1",
+    "lint-staged": "^6.1.0",
+    "prettier": "^1.10.2"
   },
   "license": "MIT",
   "bugs": {

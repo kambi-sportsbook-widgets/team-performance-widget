@@ -1,19 +1,15 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
 
 const ParticipantSummary = ({ children }) => {
-   return (
-      <div className='kw-participantsummary'>
-         { children }
-      </div>
-   );
-};
+  return <div className="kw-participantsummary">{children}</div>
+}
 
 ParticipantSummary.propTypes = {
-   /**
-    * Inner components
-    */
-   children: PropTypes.node.isRequired,
-};
+  /**
+   * Inner components
+   */
+  children: PropTypes.node.isRequired,
+}
 
-export default ParticipantSummary;
+export default ParticipantSummary
