@@ -3,9 +3,6 @@
   "version": "2.3.18",
   "description": "A widget to display team performance indicators from the last matches",
   "main": "dist/index.html",
-  "devServer": {
-    "https": true
-  },
   "scripts": {
     "clean": "kambi-widgets-cli clean",
     "prestart": "npm run clean",
@@ -15,7 +12,6 @@
     "preversion": "kambi-widgets-cli preversion",
     "postversion": "kambi-widgets-cli postversion",
     "test": "kambi-widgets-cli test",
-    "deploy": "npm run build && wdt deploy kambi -f",
     "prettier-all": "find ./src -name \"*.jsx\" -o -name \"*.js\" | xargs prettier --write",
     "precommit": "lint-staged"
   },
@@ -32,9 +28,8 @@
       "git add"
     ]
   },
-  "repository": {
-    "type": "git",
-    "url": "git+ssh://git@github.com:kambi-sportsbook-widgets/team-performance-widget.git"
+  "devServer": {
+    "https": true
   },
   "dependencies": {
     "kambi-widget-core-library": "^4.2.0"
@@ -48,6 +43,10 @@
     "enzyme-to-json": "^1.5.0",
     "lint-staged": "^6.1.0",
     "prettier": "^1.10.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com:kambi-sportsbook-widgets/team-performance-widget.git"
   },
   "license": "MIT",
   "bugs": {
