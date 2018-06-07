@@ -3,7 +3,7 @@
   "version": "2.4.0",
   "description": "A widget to display team performance indicators from the last matches",
   "main": "dist/index.html",
-  "widgetCssversion": "1.0.0.64",
+  "widgetCssVersion": "1.0.0.65",
   "scripts": {
     "clean": "kambi-widgets-cli clean",
     "prestart": "npm run clean",
