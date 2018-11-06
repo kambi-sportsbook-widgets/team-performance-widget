@@ -22,10 +22,8 @@ class TeamPerformanceWidget extends React.Component {
    */
   componentDidMount() {
     document.getElementsByTagName('body')[0].style.display = 'block'
-    const adaptHeight = () => {
-      widgetModule.adaptWidgetHeight()
-    }
-    adaptHeight()
+
+    this.adaptHeight()
     window.addEventListener('resize', () => {
       /*
          preventing this code from being called dozens of time due to the
@@ -33,7 +31,7 @@ class TeamPerformanceWidget extends React.Component {
          window
          */
       clearTimeout(this.resizeTimeout)
-      this.resizeTimeout = setTimeout(adaptHeight, 350)
+      this.resizeTimeout = setTimeout(this.adaptHeight, 350)
     })
   }
 
@@ -41,11 +39,16 @@ class TeamPerformanceWidget extends React.Component {
    * Called after updating component's DOM.
    */
   componentDidUpdate() {
-    widgetModule.adaptWidgetHeight()
+    this.adaptHeight()
   }
 
   componentWillUnmount() {
     clearTimeout(this.resizeTimeout)
+  }
+
+  adaptHeight = () => {
+    const { height } = document.body.getBoundingClientRect()
+    widgetModule.setWidgetHeight(height)
   }
 
   /**
