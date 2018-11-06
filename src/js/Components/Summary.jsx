@@ -9,7 +9,7 @@ const Summary = ({ participants, border }) => {
   return (
     <div className={'kw-summary' + classes}>
       {participants.map((participant, i) => {
-        const nodes = i > 0 ? [<VersusIcon />] : []
+        const nodes = i > 0 ? [<VersusIcon key={i} />] : []
 
         return nodes.concat([
           <ParticipantSummary key={participant.id}>

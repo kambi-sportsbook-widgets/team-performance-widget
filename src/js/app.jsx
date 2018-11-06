@@ -13,14 +13,6 @@ coreLibrary
     eventId: null,
     title: null,
   })
-  /**
-   * FOR TESTING
-   */
-  // .then(
-  //   () =>
-  //     (coreLibrary.config.apiStatisticsBaseUrl =
-  //       'https://e1-api.kambi.com/statistics/api/')
-  // )
   .then(() => store.getParticipants(coreLibrary.args.eventId))
   .then(participants => {
     if (
