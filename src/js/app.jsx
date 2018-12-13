@@ -10,7 +10,7 @@ import store from './Store/store'
 
 coreLibrary
   .init({
-    eventId: null,
+    eventId: 1005044437,
     title: null,
   })
   .then(() => store.getParticipants(coreLibrary.args.eventId))
