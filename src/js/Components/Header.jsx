@@ -3,9 +3,7 @@ import PropTypes from 'prop-types'
 
 const Header = ({ title }) => {
   return (
-    <header className="kw-header KambiWidget-card-support-text-color">
-      {title}
-    </header>
+    <header className="kw-header KambiWidget-card-text-color">{title}</header>
   )
 }
 
