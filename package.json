@@ -3,7 +3,7 @@
   "version": "2.4.16",
   "description": "A widget to display team performance indicators from the last matches",
   "main": "dist/index.html",
-  "widgetCssVersion": "1.0.0.97",
+  "widgetCssVersion": "1.0.0.98",
   "scripts": {
     "clean": "kambi-widgets-cli clean",
     "prestart": "npm run clean",
@@ -17,7 +17,8 @@
     "postversion": "kambi-widgets-cli postversion",
     "test": "kambi-widgets-cli test",
     "prettier-all": "find ./src -name \"*.jsx\" -o -name \"*.js\" | xargs prettier --write",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "production-deployment": "aws s3 sync ./dist s3://extwidgets/team-performance-widget/v2.4 --profile kambi"
   },
   "prettier": {
     "tabWidth": 2,
