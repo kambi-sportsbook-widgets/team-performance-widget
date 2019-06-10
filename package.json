@@ -41,7 +41,7 @@
     "production": true
   },
   "dependencies": {
-    "kambi-widget-core-library": "^4.11.4"
+    "kambi-widget-core-library": "^4.11.7"
   },
   "peerDependencies": {
     "prop-types": "x",
@@ -50,8 +50,8 @@
   },
   "devDependencies": {
     "enzyme-to-json": "^1.5.0",
-    "lint-staged": "^6.1.0",
-    "prettier": "^1.10.2"
+    "lint-staged": "^8.2.0",
+    "prettier": "^1.18.2"
   },
   "repository": {
     "type": "git",
